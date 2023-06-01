@@ -1,1 +1,45 @@
-﻿<h1>Category List</h1>
+﻿@model List<Category>
+@* https://docs.google.com/document/d/1qA21uaIaECJ85gwzuqHElqS4Hx442GtMIO0l8K_tSsE/edit *@
+<div class="container">
+    <div class="row pt-4">
+        <div class="col-6">
+
+            <h2 class="text-primary">
+                Category List
+
+            </h2>
+            </div>
+          
+            
+        
+
+
+    </div>
+
+</div>
+<table class="table table-bordered table-striped">
+    <thead>
+        <tr>
+            <th>
+                Name Category
+            </th>
+
+            <th>
+                Display Order
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach(var obj in Model.OrderBy(u=>u.DisplayOrder))
+        {
+            <tr>
+                <td>@obj.Name</td>
+                <td>@obj.DisplayOrder</td>
+            </tr>
+        }
+       
+        
+    </tbody>
+
+
+</table>

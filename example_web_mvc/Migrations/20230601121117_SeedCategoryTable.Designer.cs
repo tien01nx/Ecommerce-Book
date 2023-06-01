@@ -11,8 +11,8 @@ using example_web_mvc.Data;
 namespace example_web_mvc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230601102455_AddcategoryTableToDb")]
-    partial class AddcategoryTableToDb
+    [Migration("20230601121117_SeedCategoryTable")]
+    partial class SeedCategoryTable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -42,6 +42,26 @@ namespace example_web_mvc.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DisplayOrder = 2,
+                            Name = "Tien"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DisplayOrder = 5,
+                            Name = "Tien"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DisplayOrder = 5,
+                            Name = "Tien"
+                        });
                 });
 #pragma warning restore 612, 618
         }

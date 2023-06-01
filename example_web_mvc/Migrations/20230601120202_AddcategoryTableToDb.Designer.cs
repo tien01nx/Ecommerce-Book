@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using example_web_mvc.Data;
 
@@ -10,9 +11,11 @@ using example_web_mvc.Data;
 namespace example_web_mvc.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230601120202_AddcategoryTableToDb")]
+    partial class AddcategoryTableToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,26 +42,6 @@ namespace example_web_mvc.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            DisplayOrder = 2,
-                            Name = "Tien"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            DisplayOrder = 5,
-                            Name = "Tien"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            DisplayOrder = 5,
-                            Name = "Tien"
-                        });
                 });
 #pragma warning restore 612, 618
         }
