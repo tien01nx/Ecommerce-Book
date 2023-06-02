@@ -25,13 +25,13 @@ namespace example_web_mvc.Data
                 new Category
                 {
                     Id = 2,
-                    Name = "Tien",
-                    DisplayOrder = 5
+                    Name = "Diu",
+                    DisplayOrder = 9
                 },
                 new Category
                 {
                     Id = 3,
-                    Name = "Tien",
+                    Name = "Manh",
                     DisplayOrder = 5
                 });
         }

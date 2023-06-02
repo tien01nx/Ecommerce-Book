@@ -18,8 +18,8 @@ namespace example_web_mvc.Migrations
                 values: new object[,]
                 {
                     { 1, 2, "Tien" },
-                    { 2, 5, "Tien" },
-                    { 3, 5, "Tien" }
+                    { 2, 9, "Diu" },
+                    { 3, 5, "Manh" }
                 });
         }
 
