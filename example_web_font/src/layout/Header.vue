@@ -16,13 +16,14 @@
         >
           <span class="navbar-toggler-icon"></span>
         </button>
-
         <div
           class="navbar-collapse collapse d-sm-inline-flex justify-content-between"
         >
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <router-link class="nav-link text-dark" to="/">Home</router-link>
+              <router-link class="nav-link text-dark" to="/"
+                >Home<span class="visually-hidden">(current)</span></router-link
+              >
             </li>
             <li class="nav-item">
               <router-link class="nav-link text-dark" to="/category"
@@ -30,8 +31,8 @@
               >
             </li>
             <li class="nav-item">
-              <router-link class="nav-link text-dark" to="/about"
-                >About</router-link
+              <router-link class="nav-link text-dark" to="/privacy"
+                >Privacy</router-link
               >
             </li>
             <li class="nav-item dropdown">
@@ -71,31 +72,6 @@
 
 <script>
 export default {
-  name: "NavBar",
+  name: "AppHeader",
 };
 </script>
-
-<style scoped>
-nav {
-  background: #333;
-  color: #fff;
-  text-align: center;
-  padding: 10px;
-}
-
-nav ul.nav-link {
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  list-style: none;
-  padding: 0;
-}
-
-nav ul.nav-link a {
-  text-decoration: none;
-  color: white;
-}
-nav ul.nav-link a:hover {
-  color: rgb(83, 203, 250);
-}
-</style>
