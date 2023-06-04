@@ -1,4 +1,4 @@
-﻿using example_web_mvc.Models;
+﻿using example.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 

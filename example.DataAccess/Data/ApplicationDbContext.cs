@@ -1,7 +1,7 @@
-﻿using example_web_mvc.Models;
+﻿using example.Models;
 using Microsoft.EntityFrameworkCore;
 
-namespace example_web_mvc.Data
+namespace example_web_mvc.DataAccess.Data
 {
     public class ApplicationDbContext : DbContext
 

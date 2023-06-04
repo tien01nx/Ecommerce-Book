@@ -1,13 +1,15 @@
 <template>
   <div class="border p-3 mt-4">
-    <h2 class="text-dark">Create Category</h2>
-    <hr />
+    <div class="row pb-2">
+      <h2 class="text-dark">Create Category</h2>
+      <hr />
+    </div>
 
     <form @submit.prevent="createCategory">
       <div class="mb-3 row p-1">
         <label for="Name" class="p-0">Name</label>
         <input v-model="category.name" id="Name" class="form-control" />
-        <p class="text-danger" v-if="errors.name">{{ errors.name }}</p>
+        <span class="text-danger" v-if="errors.name">{{ errors.name }}</span>
       </div>
 
       <div class="mb-3 row p-1">
@@ -18,20 +20,23 @@
           type="number"
           class="form-control"
         />
-        <p class="text-danger" v-if="errors.displayOrder">
+        <span class="text-danger" v-if="errors.displayOrder">
           {{ errors.displayOrder }}
-        </p>
+        </span>
       </div>
 
       <div class="row">
-        <button type="submit" class="btn btn-dark form-control">Create</button>
-        <button
-          @click="goBack"
-          type="button"
-          class="btn btn-outline-secondary form-control"
-        >
-          Go Back
-        </button>
+        <div class="col-6 col-md-3">
+          <button type="submit" class="btn btn-dark form-control">Create</button>
+        </div>
+        <div class="col-6 col-md-3">
+          <router-link
+            to="/category"
+            class="btn btn-outline-secondary form-control"
+          >
+            Go Back
+          </router-link>
+        </div>
       </div>
     </form>
   </div>
@@ -65,7 +70,7 @@ export default {
           "Display Order is required and must be between 0 and 1100.";
       }
 
-      if (!this.errors.name && !this.errors.displayOrder) {
+      if (Object.keys(this.errors).length === 0) {
         try {
           await axios.post(
             "https://localhost:7139/api/Category",
@@ -76,9 +81,6 @@ export default {
           console.error(error);
         }
       }
-    },
-    goBack() {
-      this.$router.push("/category");
     },
   },
 };

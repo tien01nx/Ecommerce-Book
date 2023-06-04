@@ -2,20 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using example_web_mvc.Data;
+using example_web_mvc.DataAccess.Data;
 
 #nullable disable
 
-namespace example_web_mvc.Migrations
+namespace example.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230601120202_AddcategoryTableToDb")]
-    partial class AddcategoryTableToDb
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -24,7 +21,7 @@ namespace example_web_mvc.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("example_web_mvc.Models.Category", b =>
+            modelBuilder.Entity("example.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -37,11 +34,32 @@ namespace example_web_mvc.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DisplayOrder = 2,
+                            Name = "Tien"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            DisplayOrder = 9,
+                            Name = "Diu"
+                        },
+                        new
+                        {
+                            Id = 3,
+                            DisplayOrder = 5,
+                            Name = "Manh"
+                        });
                 });
 #pragma warning restore 612, 618
         }

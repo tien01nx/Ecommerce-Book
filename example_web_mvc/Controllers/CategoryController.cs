@@ -1,6 +1,7 @@
-﻿using example_web_mvc.Data;
-using example_web_mvc.Models;
+﻿using example.Models;
+using example_web_mvc.DataAccess.Data;
 using Microsoft.AspNetCore.Mvc;
+
 
 namespace example_web_mvc.Controllers
 {

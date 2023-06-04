@@ -45,7 +45,7 @@
 //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 //app.Run();
-using example_web_mvc.Data;
+using example_web_mvc.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -90,6 +90,6 @@ app.UseCors("VueCorsPolicy");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Product}/{action=Index}/{id?}");
 
 app.Run();
