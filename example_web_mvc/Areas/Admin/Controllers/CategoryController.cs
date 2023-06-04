@@ -2,18 +2,19 @@
 using example.Models;
 using Microsoft.AspNetCore.Mvc;
 
-namespace example_web_mvc.Controllers
+namespace example_web_mvc.Areas.Admin.Controllers
 {
-    public class ProductController : Controller
+    [Area("Admin")]
+    public class CategoryController : Controller
     {
-        private readonly ICategoryRepositoty _categoryRepo;
-        public ProductController(ICategoryRepositoty db)
+        private readonly IUnitOfWork _unitOfWork;
+        public CategoryController(IUnitOfWork unitOfWork)
         {
-            _categoryRepo = db;
+            _unitOfWork = unitOfWork;
         }
         public IActionResult Index()
         {
-            List<Category> obj = _categoryRepo.GetAll().ToList();
+            List<Category> obj = _unitOfWork.Category.GetAll().ToList();
             return View(obj);
         }
 
@@ -33,10 +34,10 @@ namespace example_web_mvc.Controllers
             if (ModelState.IsValid)
             {
                 // thêm dữ liệu vào database
-                _categoryRepo.Add(obj);
+                _unitOfWork.Category.Add(obj);
 
                 // lưu dữ liệu khi thêm
-                _categoryRepo.Save();
+                _unitOfWork.Save();
 
                 TempData["success"] = "Category created successfully";
                 return RedirectToAction("Index");
@@ -53,7 +54,7 @@ namespace example_web_mvc.Controllers
             }
 
 
-            Category? category = _categoryRepo.Get(u => u.Id == id);
+            Category? category = _unitOfWork.Category.Get(u => u.Id == id);
             //Category? category1 = _db.Categories.FirstOrDefault(u => u.Id == id);
             //Category? category2 = _db.Categories.Where(u => u.Id == id).FirstOrDefault();
             if (category == null)
@@ -73,10 +74,10 @@ namespace example_web_mvc.Controllers
             if (ModelState.IsValid)
             {
                 // thêm dữ liệu vào database
-                _categoryRepo.Update(obj);
+                _unitOfWork.Category.Update(obj);
 
                 // lưu dữ liệu khi thêm
-                _categoryRepo.Save();
+                _unitOfWork.Save();
                 TempData["success"] = "Category update successfully";
                 return RedirectToAction("Index");
             }
@@ -95,7 +96,7 @@ namespace example_web_mvc.Controllers
             }
 
 
-            Category? category = _categoryRepo.Get(u => u.Id == id);
+            Category? category = _unitOfWork.Category.Get(u => u.Id == id);
             //Category? category1 = _db.Categories.FirstOrDefault(u => u.Id == id);
             //Category? category2 = _db.Categories.Where(u => u.Id == id).FirstOrDefault();
             if (category == null)
@@ -110,14 +111,14 @@ namespace example_web_mvc.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeletePost(int? id)
         {
-            Category? category = _categoryRepo.Get(u => u.Id == id);
+            Category? category = _unitOfWork.Category.Get(u => u.Id == id);
             if (category == null)
             {
                 return NotFound();
             }
-            _categoryRepo.Remove(category);
+            _unitOfWork.Category.Remove(category);
 
-            _categoryRepo.Save();
+            _unitOfWork.Save();
             TempData["success"] = "Delete category successfully";
 
             return RedirectToAction("Index");

@@ -7,11 +7,11 @@ namespace example_web_mvc.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoryController : ControllerBase
+    public class DemoController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
 
-        public CategoryController(ApplicationDbContext db)
+        public DemoController(ApplicationDbContext db)
         {
             _db = db;
         }

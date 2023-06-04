@@ -70,7 +70,7 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddScoped<ICategoryRepositoty, CategoryRepository>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
@@ -94,6 +94,6 @@ app.UseCors("VueCorsPolicy");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Product}/{action=Index}/{id?}");
+    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
 
 app.Run();
