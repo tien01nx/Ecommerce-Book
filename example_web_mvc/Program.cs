@@ -45,6 +45,8 @@
 //    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 //app.Run();
+using example.DataAccess.Repository;
+using example.DataAccess.Repository.IRepository;
 using example_web_mvc.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
@@ -67,6 +69,8 @@ builder.Services.AddCors(options =>
             .AllowCredentials();
     });
 });
+
+builder.Services.AddScoped<ICategoryRepositoty, CategoryRepository>();
 
 var app = builder.Build();
 
