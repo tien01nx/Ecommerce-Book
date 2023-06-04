@@ -31,12 +31,19 @@
               >
                 <i class="bi bi-pen"></i> Edit
               </router-link>
-              <button
+
+              <router-link
+                :to="`/category/delete/${category.id}`"
+                class="btn btn-danger"
+              >
+                <i class="bi bi-trash3"></i> Delete
+              </router-link>
+              <!-- <button
                 class="btn btn-danger"
                 @click="deleteCategory(category.id)"
               >
                 <i class="bi bi-trash3"></i> Delete
-              </button>
+              </button> -->
             </div>
           </td>
         </tr>

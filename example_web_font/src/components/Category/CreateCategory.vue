@@ -3,37 +3,37 @@
     <h2 class="text-dark">Create Category</h2>
     <hr />
 
-    <div class="mb-3 row p-1">
-      <label for="Name" class="p-0">Name</label>
-      <input v-model="category.name" id="Name" class="form-control" />
-    </div>
+    <form @submit.prevent="createCategory">
+      <div class="mb-3 row p-1">
+        <label for="Name" class="p-0">Name</label>
+        <input v-model="category.name" id="Name" class="form-control" />
+        <p class="text-danger" v-if="errors.name">{{ errors.name }}</p>
+      </div>
 
-    <div class="mb-3 row p-1">
-      <label for="DisplayOrder" class="p-0">Display Order</label>
-      <input
-        v-model="category.displayOrder"
-        id="DisplayOrder"
-        type="number"
-        class="form-control"
-      />
-    </div>
+      <div class="mb-3 row p-1">
+        <label for="DisplayOrder" class="p-0">Display Order</label>
+        <input
+          v-model="category.displayOrder"
+          id="DisplayOrder"
+          type="number"
+          class="form-control"
+        />
+        <p class="text-danger" v-if="errors.displayOrder">
+          {{ errors.displayOrder }}
+        </p>
+      </div>
 
-    <div class="row">
-      <button
-        @click="createCategory"
-        type="button"
-        class="btn btn-dark form-control"
-      >
-        Create
-      </button>
-      <button
-        @click="goBack"
-        type="button"
-        class="btn btn-outline-secondary form-control"
-      >
-        Go Back
-      </button>
-    </div>
+      <div class="row">
+        <button type="submit" class="btn btn-dark form-control">Create</button>
+        <button
+          @click="goBack"
+          type="button"
+          class="btn btn-outline-secondary form-control"
+        >
+          Go Back
+        </button>
+      </div>
+    </form>
   </div>
 </template>
 
@@ -47,19 +47,38 @@ export default {
         name: "",
         displayOrder: 0,
       },
+      errors: {},
     };
   },
   methods: {
     async createCategory() {
-      try {
-        await axios.post("https://localhost:7139/api/Category", this.category);
-        this.$router.push("/category"); // redirect to the list
-      } catch (error) {
-        console.error(error);
+      this.errors = {}; // Clear errors before each validation
+      if (!this.category.name) {
+        this.errors.name = "Name is required.";
+      }
+      if (
+        !this.category.displayOrder ||
+        this.category.displayOrder < 0 ||
+        this.category.displayOrder > 1100
+      ) {
+        this.errors.displayOrder =
+          "Display Order is required and must be between 0 and 1100.";
+      }
+
+      if (!this.errors.name && !this.errors.displayOrder) {
+        try {
+          await axios.post(
+            "https://localhost:7139/api/Category",
+            this.category
+          );
+          this.$router.push("/category"); // redirect to the list
+        } catch (error) {
+          console.error(error);
+        }
       }
     },
     goBack() {
-      this.$router.push("/");
+      this.$router.push("/category");
     },
   },
 };
