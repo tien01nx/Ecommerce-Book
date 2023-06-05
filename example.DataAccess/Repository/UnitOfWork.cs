@@ -9,10 +9,12 @@ namespace example.DataAccess.Repository
 
         private ApplicationDbContext _db;
         public ICategoryRepositoty Category { get; private set; }
+        public IProductRepositoty Product { get; private set; }
         public UnitOfWork(ApplicationDbContext db)
         {
             _db = db;
             Category = new CategoryRepository(_db);
+            Product = new ProductRepositoty(_db);
         }
 
 
