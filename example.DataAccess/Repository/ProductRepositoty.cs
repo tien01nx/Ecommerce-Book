@@ -16,7 +16,26 @@ namespace example.DataAccess.Repository
 
         public void Update(Product obj)
         {
-            _db.Products.Update(obj);
+            var objFormdb = _db.Products.FirstOrDefault(u => u.Id == obj.Id);
+            if (objFormdb != null)
+            {
+
+                objFormdb.Title = obj.Title;
+                objFormdb.Description = obj.Description;
+                objFormdb.Price = obj.Price;
+                objFormdb.Price50 = obj.Price50;
+
+                objFormdb.ListPrice = obj.ListPrice;
+                objFormdb.Price100 = obj.Price100;
+                objFormdb.ISBN = obj.ISBN;
+                objFormdb.CategoryId = obj.CategoryId;
+                objFormdb.ImageUrl = obj.ImageUrl;
+                if (obj.ImageUrl != null)
+                {
+                    objFormdb.ImageUrl = obj.ImageUrl;
+                }
+
+            }
         }
     }
 }
