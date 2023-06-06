@@ -1,8 +1,9 @@
-﻿
+
 using example.DataAccess.Repository;
 using example.DataAccess.Repository.IRepository;
 using example_web_mvc.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 // Tạo mơi một đối tượng WebapplicationBuider và cấu hình ứng dụng
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Add CORS services cho vueJS
 builder.Services.AddCors(options =>
