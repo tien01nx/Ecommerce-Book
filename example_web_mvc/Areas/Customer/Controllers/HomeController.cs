@@ -15,7 +15,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
-        }
+       }
 
         public IActionResult Index()
         {

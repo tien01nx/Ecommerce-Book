@@ -1,9 +1,11 @@
 
 using example.DataAccess.Repository;
 using example.DataAccess.Repository.IRepository;
+using example.Utility;
 using example_web_mvc.DataAccess.Data;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.EntityFrameworkCore;
 // Tạo mơi một đối tượng WebapplicationBuider và cấu hình ứng dụng
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,8 +14,22 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+//ứng dụng sẽ chuyển hướng người dùng đến khi họ cần đăng nhập, đăng xuất hoặc khi họ bị từ chối truy cập.
+builder.Services.ConfigureApplicationCookie(options =>
+{
+    options.LoginPath = $"/Identity/Account/Login";
+    options.LogoutPath = $"/Identity/Account/Logout";
+    options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+});
 
+
+// (options => options.SignIn.RequireConfirmedAccount = true yêu cầu tài khoản của họ phải xác nhận qua email trc
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); ;
+
+// Khai báo add Razor khi dùng identity
+builder.Services.AddRazorPages();
 // Add CORS services cho vueJS
 builder.Services.AddCors(options =>
 {
@@ -28,7 +44,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-// Tạo mới đối tượng Webappcation từ WebApplicationBuider
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 var app = builder.Build();
 
 // Cấu hình pipelinne xử lý cấu hình HTTP
@@ -48,8 +64,14 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+// xác định danh tính người dùng 
+app.UseAuthentication();
+
+// ủy quyền cho người dùng 
 app.UseAuthorization();
 
+// sử dụng Map cho Razor khi dùng identity
+app.MapRazorPages();
 // Use CORS policy
 app.UseCors("VueCorsPolicy");
 
