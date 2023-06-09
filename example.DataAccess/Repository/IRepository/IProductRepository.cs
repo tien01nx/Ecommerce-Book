@@ -2,7 +2,7 @@
 
 namespace example.DataAccess.Repository.IRepository
 {
-    public interface IProductRepositoty : IRepository<Product>
+    public interface IProductRepository : IRepository<Product>
     {
 
         void Update(Product obj);

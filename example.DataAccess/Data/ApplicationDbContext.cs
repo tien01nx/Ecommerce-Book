@@ -18,6 +18,8 @@ namespace example_web_mvc.DataAccess.Data
 
         public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
+        public DbSet<Company> Companies { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
@@ -40,6 +42,38 @@ namespace example_web_mvc.DataAccess.Data
                     Name = "Manh",
                     DisplayOrder = 5
                 });
+
+            modelBuilder.Entity<Company>().HasData(
+               new Company
+               {
+                   Id = 1,
+                   Name = "Tien Nguyen",
+                   StreetAddress = "96 định công",
+                   City = "Hà Nội",
+                   PostalCode = "100000",
+                   State = "VN",
+                   PhoneNumber = "0987654321"
+               },
+               new Company
+               {
+                   Id = 2,
+                   Name = "Diu Thanh",
+                   StreetAddress = "111 nguyễn đức cảnh",
+                   City = "Hà Nội",
+                   PostalCode = "100000",
+                   State = "VN",
+                   PhoneNumber = "0987654345"
+               },
+               new Company
+               {
+                   Id = 3,
+                   Name = "Hứa Quốc Đảng",
+                   StreetAddress = "Số 27 Trần bình",
+                   City = "Hà Nội",
+                   PostalCode = "100000",
+                   State = "VN",
+                   PhoneNumber = "0987654974"
+               });
 
             modelBuilder.Entity<Product>().HasData(
                 new Product

@@ -1,8 +1,6 @@
 ﻿using example.DataAccess.Repository.IRepository;
 using example.Models;
 using example.Models.ViewModel;
-using example.Utility;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
@@ -12,7 +10,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
     [Area("Admin")]
 
     // cũng có thể cho từng hàm nhỏ 
-    [Authorize(Roles = SD.Role_Admin)]
+    //[Authorize(Roles = SD.Role_Admin)]
 
     public class ProductController : Controller
     {

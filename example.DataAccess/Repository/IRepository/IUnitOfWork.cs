@@ -2,8 +2,9 @@
 {
     public interface IUnitOfWork
     {
-        ICategoryRepositoty Category { get; }
-        IProductRepositoty Product { get; }
+        ICategoryRepository Category { get; }
+        IProductRepository Product { get; }
+        ICompanyRepository Company { get; }
         void Save();
     }
 }
