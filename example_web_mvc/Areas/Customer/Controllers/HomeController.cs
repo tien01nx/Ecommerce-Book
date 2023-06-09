@@ -1,7 +1,9 @@
 ﻿using example.DataAccess.Repository.IRepository;
 using example.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
+using System.Security.Claims;
 
 namespace example_web_mvc.Areas.Customer.Controllers
 {
@@ -15,7 +17,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
-       }
+        }
 
         public IActionResult Index()
         {
@@ -25,8 +27,43 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
         public IActionResult Details(int productId)
         {
-            Product product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category");
-            return View(product);
+            ShoppingCart cart = new ShoppingCart()
+            {
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category"),
+                Count = 1,
+                ProductId = productId
+            };
+
+
+            return View(cart);
+        }
+
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ShoppingCart shoppingCart)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            shoppingCart.ApplicationUserId = userId;
+            // vào giỏ hàng lấy dữ liệu từ giỏ hàng từ cơ sở dữ liệu theo id người dùng hiện tại và id sản phẩm giống nhau
+            // 
+            ShoppingCart cartFormDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId && u.ProductId == shoppingCart.ProductId);
+            if (cartFormDb != null)
+            {
+                // giỏ hàng tồn tại 
+                // cập nhật số lượng sản phẩm trong giỏ hàng 
+                cartFormDb.Count += shoppingCart.Count;
+                _unitOfWork.ShoppingCart.Update(cartFormDb);
+            }
+            else
+            {
+                // thêm giỏ hàng 
+                _unitOfWork.ShoppingCart.Add(shoppingCart);
+
+            }
+            TempData["success"] = "Cart updated successfully";
+            _unitOfWork.Save();
+            return RedirectToAction(nameof(Index));
         }
 
 
