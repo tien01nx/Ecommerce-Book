@@ -14,6 +14,12 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+
+// (options => options.SignIn.RequireConfirmedAccount = true yêu cầu tài khoản của họ phải xác nhận qua email trc
+//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
+
+// add quyen nguoi dung 
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 //ứng dụng sẽ chuyển hướng người dùng đến khi họ cần đăng nhập, đăng xuất hoặc khi họ bị từ chối truy cập.
 builder.Services.ConfigureApplicationCookie(options =>
 {
@@ -22,11 +28,6 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 
-
-// (options => options.SignIn.RequireConfirmedAccount = true yêu cầu tài khoản của họ phải xác nhận qua email trc
-//builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ApplicationDbContext>();
-
-builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders(); ;
 
 // Khai báo add Razor khi dùng identity
 builder.Services.AddRazorPages();
