@@ -1,11 +1,26 @@
 ﻿namespace example.Utility
 {
-    public static class SD
-    {
+	public static class SD
+	{
 
-        public const string Role_Customer = "Customer";
-        public const string Role_Company = "Company";
-        public const string Role_Admin = "Admin";
-        public const string Role_Employee = "Employee";
-    }
+		// Vai trò người dùng
+		public const string Role_Customer = "Customer"; // Vai trò "Khách hàng"
+		public const string Role_Company = "Company"; // Vai trò "Công ty"
+		public const string Role_Admin = "Admin"; // Vai trò "Quản trị viên"
+		public const string Role_Employee = "Employee"; // Vai trò "Nhân viên"
+
+		// Trạng thái đơn hàng
+		public const string StatusPending = "Pending"; // Đơn hàng "Đang chờ xử lý"
+		public const string StatusApproved = "Approved"; // Đơn hàng "Đã được chấp nhận"
+		public const string StatusProcessing = "Processing"; // Đơn hàng "Đang xử lý"
+		public const string StatusShipped = "Shipped"; // Đơn hàng "Đã gửi hàng"
+		public const string StatusCancelled = "Cancelled"; // Đơn hàng "Đã hủy"
+		public const string StatusRefunded = "Refunded"; // Đơn hàng "Đã hoàn tiền"
+
+		// Trạng thái thanh toán
+		public const string PaymentStatusPending = "Pending"; // Thanh toán "Chờ xử lý"
+		public const string PaymentStatusApproved = "Approved"; // Thanh toán "Đã chấp nhận"
+		public const string PaymentsStatusDelayedPayment = "ApprovedForDelayedPayment"; // Thanh toán "Được chấp nhận cho thanh toán trễ hẹn"
+		public const string PaymentStatusRejected = "Rejected"; // Thanh toán "Bị từ chối"
+	}
 }
