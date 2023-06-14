@@ -29,13 +29,5 @@ namespace example.Models
 
 		public double Price { get; set; }
 
-
-
-
-
-
-
-
-
 	}
 }
