@@ -30,6 +30,21 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
 
+// lưu trữ dữ liệu cache trong bộ nhớ 
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession(options =>
+{
+    // Đặt thời gian chờ trước khi phiên bị hủy sau khi không có hoạt động nào. Trong ví dụ này, thời gian chờ là 30 phút.
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+
+    //Đặt cờ HttpOnly trên cookie phiên. Khi được đặt thành true, cookie chỉ có thể được truy cập
+    //qua giao thức HTTP và không thể bị truy cập từ mã JavaScript, giúp bảo vệ khỏi các tấn công XSS (Cross-Site Scripting).
+    options.Cookie.HttpOnly = true;
+
+    // cookie này được coi là thiết yếu cho hoạt động cơ bản của
+    // ứng dụng và sẽ không bị xóa khi người dùng chọn không chấp nhận các cookie khác
+    options.Cookie.IsEssential = true;
+});
 
 // Khai báo add Razor khi dùng identity
 builder.Services.AddRazorPages();
@@ -72,6 +87,7 @@ app.UseAuthentication();
 
 // ủy quyền cho người dùng 
 app.UseAuthorization();
+app.UseSession();
 
 // sử dụng Map cho Razor khi dùng identity
 app.MapRazorPages();

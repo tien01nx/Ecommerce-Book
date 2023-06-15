@@ -22,5 +22,10 @@
         public const string PaymentStatusApproved = "Approved"; // Thanh toán "Đã chấp nhận"
         public const string PaymentsStatusDelayedPayment = "ApprovedForDelayedPayment"; // Thanh toán "Được chấp nhận cho thanh toán trễ hẹn"
         public const string PaymentStatusRejected = "Rejected"; // Thanh toán "Bị từ chối"
+
+
+        public const string SessionCart = "SessionShoppingCart";
     }
+
+
 }

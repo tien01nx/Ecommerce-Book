@@ -602,6 +602,8 @@ namespace example.DataAccess.Migrations
                     b.ToTable("ShoppingCarts");
                 });
 
+           
+
             modelBuilder.Entity("example.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");

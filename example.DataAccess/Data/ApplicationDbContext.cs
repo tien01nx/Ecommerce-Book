@@ -25,6 +25,7 @@ namespace example_web_mvc.DataAccess.Data
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
 
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

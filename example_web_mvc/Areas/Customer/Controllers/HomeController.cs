@@ -1,5 +1,6 @@
 ﻿using example.DataAccess.Repository.IRepository;
 using example.Models;
+using example.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
@@ -21,7 +22,10 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+
             IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
+
+
             return View(productList);
         }
 
@@ -54,15 +58,19 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 // cập nhật số lượng sản phẩm trong giỏ hàng 
                 cartFormDb.Count += shoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(cartFormDb);
+                _unitOfWork.Save();
             }
             else
             {
                 // thêm giỏ hàng 
                 _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.Save();
+                HttpContext.Session.SetInt32(SD.SessionCart,
+                    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
 
             }
             TempData["success"] = "Cart updated successfully";
-            _unitOfWork.Save();
+
             return RedirectToAction(nameof(Index));
         }
 
