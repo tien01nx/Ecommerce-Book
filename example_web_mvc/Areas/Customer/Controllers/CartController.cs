@@ -188,7 +188,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
                     _unitOfWork.Save();
 
                 }
-
+                HttpContext.Session.Clear();
 
             }
             //  _emailSender.SendEmailAsync(orderHeader.ApplicationUser.Email, "New order - Bulky book", $"<p> New Order Created -{orderHeader.Id}</p>");

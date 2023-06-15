@@ -29,6 +29,13 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.LogoutPath = $"/Identity/Account/Logout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
+builder.Services.AddAuthentication().AddFacebook(options =>
+{
+    // id ứng dụng tạo trên fb
+    options.AppId = "806697017485020";
+    // khóa bí mật
+    options.AppSecret = "4f1bfb991d5b9149f6e3ec61dbfed167";
+});
 
 // lưu trữ dữ liệu cache trong bộ nhớ 
 builder.Services.AddDistributedMemoryCache();

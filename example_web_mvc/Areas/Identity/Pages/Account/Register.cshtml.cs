@@ -217,8 +217,16 @@ namespace example_web_mvc.Areas.Identity.Pages.Account
                     }
                     else
                     {
+                        if (User.IsInRole(SD.Role_Admin))
+                        {
+                            TempData["success"] = "New User Create Successfully";
+                        }
+                        else
+                        {
+                            await _signInManager.SignInAsync(user, isPersistent: false);
+                        }
                         // tự động đăng nhập khi đã đăng nhập rồi 
-                        await _signInManager.SignInAsync(user, isPersistent: false);
+
                         return LocalRedirect(returnUrl);
                     }
                 }
