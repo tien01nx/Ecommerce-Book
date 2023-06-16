@@ -1,4 +1,6 @@
 
+using Bulky.DataAccess.DbInitializer;
+using example.DataAccess.DbInitializer;
 using example.DataAccess.Repository;
 using example.DataAccess.Repository.IRepository;
 using example.Utility;
@@ -52,7 +54,9 @@ builder.Services.AddSession(options =>
     // ứng dụng và sẽ không bị xóa khi người dùng chọn không chấp nhận các cookie khác
     options.Cookie.IsEssential = true;
 });
+// them quyen va tai khoan admin
 
+builder.Services.AddScoped<IDbInitializer, DbInitializer>();
 // Khai báo add Razor khi dùng identity
 builder.Services.AddRazorPages();
 // Add CORS services cho vueJS
@@ -96,6 +100,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.UseSession();
 
+SeedDatabase();
+
 // sử dụng Map cho Razor khi dùng identity
 app.MapRazorPages();
 // Use CORS policy
@@ -108,3 +114,12 @@ app.MapControllerRoute(
 app.Run();
 
 
+void SeedDatabase()
+{
+    using (var scope = app.Services.CreateScope())
+    {
+        var dbInitializer = scope.ServiceProvider.GetRequiredService<IDbInitializer>();
+        dbInitializer.Initialize();
+
+    }
+}
