@@ -86,8 +86,9 @@ namespace example_web_mvc.Areas.Admin.Controllers
                 return RedirectToAction("Index");
             }
 
-            return View();
-
+            // return View();
+            // Nếu dữ liệu không hợp lệ, quay lại modal chỉnh sửa
+            return PartialView("Edit", obj);
         }
 
 
