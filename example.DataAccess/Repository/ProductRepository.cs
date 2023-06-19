@@ -21,19 +21,21 @@ namespace example.DataAccess.Repository
             {
 
                 objFormdb.Title = obj.Title;
-                objFormdb.Description = obj.Description;
+                objFormdb.ISBN = obj.ISBN;
                 objFormdb.Price = obj.Price;
                 objFormdb.Price50 = obj.Price50;
 
                 objFormdb.ListPrice = obj.ListPrice;
                 objFormdb.Price100 = obj.Price100;
-                objFormdb.ISBN = obj.ISBN;
+                objFormdb.Description = obj.Description;
                 objFormdb.CategoryId = obj.CategoryId;
-                objFormdb.ImageUrl = obj.ImageUrl;
-                if (obj.ImageUrl != null)
-                {
-                    objFormdb.ImageUrl = obj.ImageUrl;
-                }
+                objFormdb.Author = obj.Author;
+                objFormdb.ProductImages = obj.ProductImages;
+                //objFormdb.ImageUrl = obj.ImageUrl;
+                //if (obj.ImageUrl != null)
+                //{
+                //    objFormdb.ImageUrl = obj.ImageUrl;
+                //}
 
             }
         }

@@ -3,8 +3,10 @@ using example.Models;
 using example.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+
 using System.Diagnostics;
 using System.Security.Claims;
+using X.PagedList;
 
 namespace example_web_mvc.Areas.Customer.Controllers
 {
@@ -20,20 +22,59 @@ namespace example_web_mvc.Areas.Customer.Controllers
             _unitOfWork = unitOfWork;
         }
 
-        public IActionResult Index()
+        //public IActionResult Index()
+        //{
+
+        //    IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+
+
+        //    return View(productList);
+        //}
+        //public IActionResult Index(string keyword)
+        //{
+        //    IEnumerable<Product> productList;
+
+        //    if (!string.IsNullOrEmpty(keyword))
+        //    {
+        //        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages")
+        //            .Where(p => p.Title.Contains(keyword));
+        //    }
+        //    else
+        //    {
+        //        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+        //    }
+
+        //    return View(productList);
+        //}
+
+        public IActionResult Index(string keyword, int? page)
         {
+            int pageNumber = page ?? 1;
+            int pageSize = 8;
 
-            IEnumerable<Product> productList = _unitOfWork.Product.GetAll(includeProperties: "Category");
+            IEnumerable<Product> productList;
 
+            if (!string.IsNullOrEmpty(keyword))
+            {
+                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages")
+                    .Where(p => p.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+            }
+            else
+            {
+                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+            }
 
-            return View(productList);
+            var pagedProductList = productList.ToPagedList(pageNumber, pageSize);
+
+            return View(pagedProductList);
         }
+
 
         public IActionResult Details(int productId)
         {
             ShoppingCart cart = new ShoppingCart()
             {
-                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category"),
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"),
                 Count = 1,
                 ProductId = productId
             };

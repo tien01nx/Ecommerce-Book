@@ -16,7 +16,7 @@
 
     <link rel="stylesheet" href="//cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css" />
     <link rel="stylesheet" href="~/css/all.min.css" />
-
+    
 
 </head>
 <body>
@@ -48,8 +48,8 @@
 
                         @if (User.IsInRole(SD.Role_Admin))
                         {
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
+                            <li class="nav-item dropdown ">
+                                <a class="nav-link dropdown-toggle text-dark" data-bs-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Dropdown</a>
                                 <div class="dropdown-menu">
 
                                     <a class="dropdown-item" asp-area="Admin" asp-controller="Category" asp-action="Index">Category</a>
@@ -75,11 +75,12 @@
                         
 
                     </ul>
-                   
-                    <form class="d-flex">
-                        <input class="form-control me-sm-2" type="search" placeholder="Search">
+
+                    <form class="d-flex" method="get" asp-controller="Home" asp-action="Index">
+                        <input class="form-control me-sm-2" type="search" placeholder="Search" name="keyword">
                         <button class="btn btn-secondary my-2 my-sm-0" type="submit">Search</button>
                     </form>
+
                     <partial name="_LoginPartial" />
                 </div>
             </div>

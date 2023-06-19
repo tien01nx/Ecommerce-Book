@@ -1,16 +1,28 @@
-﻿@model IEnumerable<Product>
+﻿@model X.PagedList.IPagedList<Product>
+@addTagHelper *, X.PagedList.Mvc.Core
+@using X.PagedList
+@using X.PagedList.Mvc.Core
+@using X.PagedList.Web.Common;
 
 <div class="row  pb-3">
+  
     @foreach(var product in Model)
     {
-        <div class="col-lg-3 col-sm-6">
+        <div class="col-lg-3 col-sm-6 " >
             <div class="row p-2">
-                <div class="col-12 p-1">
+                <div class="col-12 p-1 " >
 
                     <div class="card border-0 p-3 shadow border-top border-5 rounded">
-                        <img src="@product.ImageUrl" alt="Hình ảnh không tồn tại" width="300" height="200"
-                        class="card-img-top rounded"
-                        />
+                        @if(product.ProductImages!= null && product.ProductImages.Count() > 0)
+                        {
+                            <img src="@product.ProductImages.FirstOrDefault().ImageUrl" class="card-img-top rounded" width="300" height="200" />
+                        }
+                        else{
+                              <img src="https://placehold.co/500x600/png" alt="Hình ảnh không tồn tại" width="300" height="200"
+                                 class="card-img-top rounded"
+                    />
+                        }
+                   
                         <div class="card-body pb-0">
                             <p class="card-title h5 text-dark  opacity-75 text-uppercase text-center">
                                 @product.Title
@@ -47,4 +59,21 @@
             </div>
         </div>
     }
+  
 </div>
+
+@if (Model.PageCount > 1)
+{
+    <div class="d-flex justify-content-center">
+        <h4>
+            @Html.PagedListPager(
+        Model,
+        page => Url.Action("Index", new { page, keyword = Context.Request.Query["keyword"] }),
+        new PagedListRenderOptions { MaximumPageNumbersToDisplay = 5 }
+        )
+      
+
+        </h4>
+     
+    </div>
+}
