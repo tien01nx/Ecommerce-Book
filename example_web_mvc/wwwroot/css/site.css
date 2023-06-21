@@ -1,4 +1,4 @@
-/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
+﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
 for details on configuring this project to bundle and minify static web assets. */
 
 .divider-text:before,
@@ -547,3 +547,14 @@ bg-success {
         background-color: #578553;
         border-color: #578553;
     }
+
+
+
+
+.product-title {
+    min-height: 50px; /* Điều chỉnh chiều cao tùy ý */
+    display: flex;
+    align-items: center;
+}
+
+
