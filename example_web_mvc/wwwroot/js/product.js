@@ -17,13 +17,18 @@ function loadDataTable() {
             {
                 data: 'id',
                 "render": function (data) {
-                    return `<div class="w-75 btn-group" role="group">
-                    <a href ="/admin/product/upsert?id=${data}" class="btn btn-primary mx-2"><i class="bi bi-pencil-square"></i> Edit </a>
-                    <a onClick=Delete('/admin/product/delete/${data}') class="btn btn-danger mx-2"><i class="bi bi-trash-fill"></i> Delete </a>
-                    </div>`
-                }, "width": "25%"
-
+                    return `<div class="row">
+                    <div class="col">
+                        <a href="/admin/product/upsert?id=${data}" class="btn btn-primary mx-2"><i class="fas fa-pencil-alt"></i> Edit</a>
+                    </div>
+                    <div class="col">
+                        <a onClick="Delete('/admin/product/delete/${data}')" class="btn btn-danger mx-2"><i class="fas fa-trash"></i> Delete</a>
+                    </div>
+                </div>`;
+                },
+                "width": "25%"
             }
+
         ]
     });
 }

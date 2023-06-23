@@ -6,9 +6,13 @@
 <ul class="navbar-nav">
 @if (SignInManager.IsSignedIn(User))
 {
-       
-        
-        @* @UserManager.GetUserName(User) *@
+
+
+      @*  Hiện thông tin từ bảng Application ví dụ sau đây là hiện Name
+          var user = await UserManager.GetUserAsync(User) as ApplicationUser;
+        <li class="nav-item">
+            <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello  @user.Name</a>
+        </li> *@
     <li class="nav-item">
         <a id="manage" class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">Hello @UserManager.GetUserName(User)</a>
     </li>
