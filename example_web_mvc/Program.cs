@@ -25,6 +25,8 @@ builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("Stri
 
 // add quyen nguoi dung 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
+
+
 //ứng dụng sẽ chuyển hướng người dùng đến khi họ cần đăng nhập, đăng xuất hoặc khi họ bị từ chối truy cập.
 builder.Services.ConfigureApplicationCookie(options =>
 {

@@ -1,5 +1,7 @@
 ﻿using example.DataAccess.Repository.IRepository;
 using example.Models;
+using example.Models.DTO;
+using example.Models.ViewModel;
 using example.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -16,10 +18,14 @@ namespace example_web_mvc.Areas.Customer.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IUnitOfWork _unitOfWork;
 
+        // rằng buộc dữ liệu databinding
+        [BindProperty]
+        public ProductReviewVM ProductReviewVM { get; set; }
         public HomeController(ILogger<HomeController> logger, IUnitOfWork unitOfWork)
         {
             _logger = logger;
             _unitOfWork = unitOfWork;
+
         }
 
         //public IActionResult Index()
@@ -79,32 +85,84 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 ProductId = productId
             };
 
+            IEnumerable<ProductReview> productReviews = _unitOfWork.ProductReview.GetAll(pr => pr.Product.Id == productId, includeProperties: "ApplicationUser");
 
-            return View(cart);
-        }
-
-        [HttpPost]
-        [Authorize]
-        public IActionResult Details(ShoppingCart shoppingCart)
-        {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            shoppingCart.ApplicationUserId = userId;
+            // Create a new ProductReviewVM
+            ProductReviewVM productReviewVM = new ProductReviewVM()
+            {
+                ProductReviewList = productReviews,
+                ShoppingCart = cart,
+                ProductReview = new ProductReview(),
+                ProductId = productId,
+                ApplicationUserId = userId
+
+
+            };
+
+            return View(productReviewVM);
+        }
+
+
+        //[HttpPost]
+        //[Authorize]
+        //public IActionResult Details(ShoppingCart shoppingCart)
+        //{
+        //    var claimsIdentity = (ClaimsIdentity)User.Identity;
+        //    var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //    shoppingCart.ApplicationUserId = userId;
+        //    // vào giỏ hàng lấy dữ liệu từ giỏ hàng từ cơ sở dữ liệu theo id người dùng hiện tại và id sản phẩm giống nhau
+        //    // 
+        //    ShoppingCart cartFormDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId && u.ProductId == shoppingCart.ProductId);
+        //    if (cartFormDb != null)
+        //    {
+        //        // giỏ hàng tồn tại 
+        //        // cập nhật số lượng sản phẩm trong giỏ hàng 
+        //        cartFormDb.Count += shoppingCart.Count;
+        //        _unitOfWork.ShoppingCart.Update(cartFormDb);
+        //        _unitOfWork.Save();
+        //    }
+        //    else
+        //    {
+        //        // thêm giỏ hàng 
+        //        _unitOfWork.ShoppingCart.Add(shoppingCart);
+        //        _unitOfWork.Save();
+        //        HttpContext.Session.SetInt32(SD.SessionCart,
+        //            _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
+
+        //    }
+        //    TempData["success"] = "Cart updated successfully";
+
+        //    return RedirectToAction(nameof(Index));
+        //}
+        [HttpPost]
+        [Authorize]
+        public IActionResult Details(ProductReviewVM productReviewVM)
+        {
+
+
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+
+            productReviewVM.ShoppingCart.ApplicationUserId = userId;
+
+
             // vào giỏ hàng lấy dữ liệu từ giỏ hàng từ cơ sở dữ liệu theo id người dùng hiện tại và id sản phẩm giống nhau
-            // 
-            ShoppingCart cartFormDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId && u.ProductId == shoppingCart.ProductId);
+            ShoppingCart cartFormDb = _unitOfWork.ShoppingCart.Get(u => u.ApplicationUserId == userId && u.ProductId == productReviewVM.ProductId);
             if (cartFormDb != null)
             {
                 // giỏ hàng tồn tại 
                 // cập nhật số lượng sản phẩm trong giỏ hàng 
-                cartFormDb.Count += shoppingCart.Count;
+                cartFormDb.Count += productReviewVM.ShoppingCart.Count;
                 _unitOfWork.ShoppingCart.Update(cartFormDb);
                 _unitOfWork.Save();
             }
             else
             {
                 // thêm giỏ hàng 
-                _unitOfWork.ShoppingCart.Add(shoppingCart);
+                _unitOfWork.ShoppingCart.Add(productReviewVM.ShoppingCart);
                 _unitOfWork.Save();
                 HttpContext.Session.SetInt32(SD.SessionCart,
                     _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId).Count());
@@ -114,7 +172,6 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
             return RedirectToAction(nameof(Index));
         }
-
 
         public IActionResult Privacy()
         {
@@ -126,5 +183,34 @@ namespace example_web_mvc.Areas.Customer.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+
+
+        //[HttpGet]
+        //public IActionResult GetProducts()
+        //{
+        //    var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+        //    return Json(productList, new JsonSerializerOptions
+        //    {
+        //        ReferenceHandler = ReferenceHandler.Preserve
+        //    });
+        //}
+
+        [HttpGet]
+        public IActionResult GetProducts()
+        {
+            var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages")
+                .Select(p => new ProductDTO
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Author = p.Author,
+                    // Extract the image URLs
+                    ImageUrls = p.ProductImages.Select(i => i.ImageUrl).ToList()
+                });
+
+            return Json(productList);
+        }
+
+
     }
 }

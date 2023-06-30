@@ -8,6 +8,7 @@ namespace example.Models
     {
         // tiêu đề đơn hàng 
         public int Id { get; set; }
+        public string? CouponCode { get; set; }
         public string ApplicationUserId { get; set; }
         [ForeignKey("ApplicationUserId")]
         [ValidateNever]
@@ -65,6 +66,10 @@ namespace example.Models
 
         [Required]
         public string Name { get; set; }
+
+
+        // lấy thông tin Product
+        public List<OrderDetail> OrderDetails { get; set; }
 
     }
 }

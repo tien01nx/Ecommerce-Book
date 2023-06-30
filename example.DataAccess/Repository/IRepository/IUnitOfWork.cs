@@ -10,6 +10,8 @@
         IOrderDetailRepository OrderDetail { get; }
         IOrderHeaderRepository OrderHeader { get; }
         IProductImageRepository ProductImage { get; }
+        ICouponRepository Coupon { get; }
+        IProductReviewRepository ProductReview { get; }
         void Save();
     }
 }

@@ -19,6 +19,10 @@ namespace example.DataAccess.Repository
         public IOrderHeaderRepository OrderHeader { get; private set; }
         public IOrderDetailRepository OrderDetail { get; private set; }
         public IProductImageRepository ProductImage { get; private set; }
+        public ICouponRepository Coupon { get; private set; }
+
+
+        public IProductReviewRepository ProductReview { get; private set; }
 
 
 
@@ -34,6 +38,8 @@ namespace example.DataAccess.Repository
 
             OrderDetail = new OrderDetailRepository(_db);
             OrderHeader = new OrderHeaderRepository(_db);
+            Coupon = new CouponRepository(_db);
+            ProductReview = new ProductReviewRepository(_db);
         }
 
 

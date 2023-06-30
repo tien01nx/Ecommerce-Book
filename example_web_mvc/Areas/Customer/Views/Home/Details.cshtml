@@ -1,13 +1,15 @@
-﻿@model ShoppingCart
+﻿@model ProductReviewVM
 
 <form method="post">
-    <input asp-for="ProductId" hidden />
+    <input asp-for="ShoppingCart.ProductId" hidden />
+    <input asp-for="ShoppingCart.Id" hidden />
+
     <div class="card shadow border-0 mt-4 mb-4">
         <div class="card-header bg-secondary bg-gradient text-light py-4">
             <div class="row">
                 <div class="col-12 text-center">
-                    <h3 class="text-white text-uppercase">@Model.Product.Title</h3>
-                    <p class="text-white-50 fw-semibold mb-0">by @Model.Product.Author</p>
+                    <h3 class="text-white text-uppercase">@Model.ShoppingCart.Product.Title</h3>
+                    <p class="text-white-50 fw-semibold mb-0">by @Model.ShoppingCart.Product.Author</p>
                 </div>
             </div>
         </div>
@@ -32,13 +34,13 @@
                             <img src="https://placehold.co/500x600/png" alt="Hình ảnh không tồn tại" width="100%"
                                  class="card-img-top rounded" />
                         } *@
-                        @if (Model.Product.ProductImages != null && Model.Product.ProductImages.Count > 0)
+                        @if (Model.ShoppingCart.Product.ProductImages != null && Model.ShoppingCart.Product.ProductImages.Count > 0)
                         {
                             <div id="carouselExampleIndicators" class="carousel  slide" data-bs-ride="carousel">
                                 <div class="carousel-indicators">
 
                                     @foreach (var imageWithIndex in
-                                   Model.Product.ProductImages
+                                   Model.ShoppingCart.Product.ProductImages
                                    .Select((image, index) => new { Image = image, Index = index }))
                                     {
                                         <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@imageWithIndex.Index"
@@ -49,7 +51,7 @@
                                 </div>
                                 <div class="carousel-inner">
                                     @foreach (var imageWithIndex in
-                                   Model.Product.ProductImages
+                                   Model.ShoppingCart.Product.ProductImages
                                    .Select((image, index) => new { Image = image, Index = index }))
                                     {
                                         <div class="@(imageWithIndex.Index==0?"carousel-item active":"carousel-item")">
@@ -76,16 +78,16 @@
                     <div class="col-12 col-lg-6 offset-lg-1">
 
                         <div class="col-12 col-md-6 pb-4">
-                            <span class="badge">@Model.Product.Category.Name </span>
+                            <span class="badge">@Model.ShoppingCart.Product.Category.Name </span>
                         </div>
                         <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50 ">ISBN : @Model.Product.ISBN</h6>
+                            <h6 class="text-dark text-opacity-50 ">ISBN : @Model.ShoppingCart.Product.ISBN</h6>
                         </div>
                         <div class="row ps-2">
                             <h6 class="text-dark text-opacity-50  pb-2">
                                 List Price:
                                 <span class="text-decoration-line-through">
-                                    @Model.Product.ListPrice.ToString("c")
+                                    @Model.ShoppingCart.Product.ListPrice.ToString("c")
                                 </span>
                             </h6>
                         </div>
@@ -108,18 +110,18 @@
                                 <div>Price</div>
                             </div>
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.Price.ToString("c")</div>
+                                <div>@Model.ShoppingCart.Product.Price.ToString("c")</div>
                             </div>
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.Price50.ToString("c")</div>
+                                <div>@Model.ShoppingCart.Product.Price50.ToString("c")</div>
                             </div>
                             <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.Product.Price100.ToString("c")</div>
+                                <div>@Model.ShoppingCart.Product.Price100.ToString("c")</div>
                             </div>
                         </div>
                         <div class="row pl-2 my-3">
                             <p class="text-secondary lh-sm">
-                                @Html.Raw(Model.Product.Description)
+                                @Html.Raw(Model.ShoppingCart.Product.Description)
                             </p>
                         </div>
                         <div class="row pl-2 mb-3">
@@ -129,7 +131,7 @@
                                           id="inputGroup-sizing-default">
                                         Count
                                     </span>
-                                    <input asp-for="Count" type="number" value="1" class="form-control text-end"
+                                    <input asp-for="ShoppingCart.Count" type="number" value="1" class="form-control text-end"
                                            aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
 
                                 </div>
@@ -150,3 +152,105 @@
         </div>
     </div>
 </form>
+
+<!-- Existing code -->
+
+<!-- Review list -->
+<div class="product-reviews">
+    <h3 class="mb-4">Customer Reviews</h3>
+    @if (Model.ProductReviewList != null)
+    {
+        @foreach (var review in Model.ProductReviewList)
+        {
+            <div class="review">
+                <p>@review.ApplicationUser.Name</p>
+                <div class="rating">
+                    <!-- display filled star for each point of rating -->
+                    @for (var i = 0; i < review.Rating; i++)
+                    {
+                        <i class="fas fa-star" style="color: #f3994a;"></i>
+                    }
+                    <!-- display empty star for the rest -->
+                    @for (var i = review.Rating; i < 5; i++)
+                    {
+                        <i class="far fa-star"></i>
+                    }
+                </div>
+                <p class="comment">
+                    @review.Comment,
+                   
+                </p>
+                @if (review.ApplicationUser.Id.Equals(Model.ApplicationUserId))
+                {
+                    <a href="@Url.Action("EditReview", "ProductReview", new { reviewId = review.Id })" class="btn btn-primary">Edit Review</a>
+                }
+
+            </div>
+        }
+
+    }
+   
+</div>
+
+<!-- Review form -->
+<form asp-action="CreateReview" asp-controller="ProductReview" method="post">
+    <h3 class="mb-4">Leave a Review</h3>
+
+    <input type="hidden" asp-for="ProductId" value="@Model.ShoppingCart.ProductId" />
+    <input type="hidden" asp-for="ApplicationUserId" value="@Model.ApplicationUserId" />
+
+   
+   
+    <input type="hidden" asp-for="ProductReview.Rating" id="ratingInput" />
+
+    <div class="form-group">
+        <label for="rating">Rating</label>
+        <div id="rating">
+            @foreach (var i in Enumerable.Range(1, 5))
+            {
+                <i class="far fa-star rating-star" style="color: #f3994a;" data-rating="@i"></i>
+            }
+            
+        </div>
+
+        <div class="form-group">
+            <label for="comment">Comment</label>
+            <textarea asp-for="ProductReview.Comment" class="form-control" id="comment"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Submit Review</button>
+</form>
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('.rating-star').on('click', function () {
+                var rating = $(this).data('rating');
+                $('#ratingInput').val(rating);
+                updateStars(rating);
+            });
+
+            $('.rating-star').on('mouseover', function () {
+                var hoverRating = $(this).data('rating');
+                updateStars(hoverRating);
+            });
+
+            $('#rating').on('mouseleave', function () {
+                var rating = $('#ratingInput').val();
+                updateStars(rating);
+            });
+
+            function updateStars(rating) {
+                $('.rating-star').each(function () {
+                    if ($(this).data('rating') <= rating) {
+                        $(this).removeClass('far').addClass('fas');
+                    } else {
+                        $(this).removeClass('fas').addClass('far');
+                    }
+                });
+            }
+        });
+    </script>
+}

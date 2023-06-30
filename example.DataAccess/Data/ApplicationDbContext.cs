@@ -24,6 +24,9 @@ namespace example_web_mvc.DataAccess.Data
         public DbSet<OrderHeader> OrderHeaders { get; set; }
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
+        public DbSet<Coupon> Coupons { get; set; }
+        public DbSet<ProductReview> ProductReviews { get; set; }
+
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -105,7 +108,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price = 90,
                     Price50 = 85,
                     Price100 = 80,
-                    CategoryId = 1
+                    CategoryId = 1,
+                    Quantity = 5
                 },
                 new Product
                 {
@@ -118,7 +122,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price = 30,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId = 1
+                    CategoryId = 1,
+                    Quantity = 5
                 },
                 new Product
                 {
@@ -131,7 +136,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price = 50,
                     Price50 = 40,
                     Price100 = 35,
-                    CategoryId = 1
+                    CategoryId = 1,
+                    Quantity = 5
                 },
                 new Product
                 {
@@ -144,7 +150,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price = 65,
                     Price50 = 60,
                     Price100 = 55,
-                    CategoryId = 3
+                    CategoryId = 3,
+                    Quantity = 5
                 },
                 new Product
                 {
@@ -157,7 +164,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price = 27,
                     Price50 = 25,
                     Price100 = 20,
-                    CategoryId = 3
+                    CategoryId = 3,
+                    Quantity = 5
                 },
                 new Product
                 {
@@ -170,7 +178,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price = 23,
                     Price50 = 22,
                     Price100 = 20,
-                    CategoryId = 3
+                    CategoryId = 3,
+                    Quantity = 5
                 },
                 new Product
                 {
@@ -183,7 +192,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price = 90,
                     Price50 = 85,
                     Price100 = 80,
-                    CategoryId = 1
+                    CategoryId = 1,
+                    Quantity = 5
                 },
             new Product
             {
@@ -196,7 +206,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 100,
                 Price50 = 95,
                 Price100 = 90,
-                CategoryId = 2
+                CategoryId = 2,
+                Quantity = 5
             },
             new Product
             {
@@ -209,7 +220,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 75,
                 Price50 = 70,
                 Price100 = 65,
-                CategoryId = 3
+                CategoryId = 3,
+                Quantity = 5
             },
             new Product
             {
@@ -222,7 +234,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 130,
                 Price50 = 125,
                 Price100 = 120,
-                CategoryId = 4
+                CategoryId = 4,
+                Quantity = 5
             },
             new Product
             {
@@ -235,7 +248,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 85,
                 Price50 = 80,
                 Price100 = 75,
-                CategoryId = 5
+                CategoryId = 5,
+                Quantity = 5
             },
             new Product
             {
@@ -248,7 +262,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 100,
                 Price50 = 95,
                 Price100 = 90,
-                CategoryId = 2
+                CategoryId = 2,
+                Quantity = 5
             },
             new Product
             {
@@ -261,7 +276,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 100,
                 Price50 = 95,
                 Price100 = 90,
-                CategoryId = 1
+                CategoryId = 1,
+                Quantity = 5
             },
             new Product
             {
@@ -274,7 +290,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 85,
                 Price50 = 80,
                 Price100 = 75,
-                CategoryId = 3
+                CategoryId = 3,
+                Quantity = 5
             },
             new Product
             {
@@ -287,7 +304,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 120,
                 Price50 = 115,
                 Price100 = 110,
-                CategoryId = 4
+                CategoryId = 4,
+                Quantity = 5
             },
             new Product
             {
@@ -300,7 +318,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 80,
                 Price50 = 75,
                 Price100 = 70,
-                CategoryId = 5
+                CategoryId = 5,
+                Quantity = 100
             },
             new Product
             {
@@ -313,7 +332,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 65,
                 Price50 = 60,
                 Price100 = 55,
-                CategoryId = 1
+                CategoryId = 1,
+                Quantity = 100
             },
             new Product
             {
@@ -326,7 +346,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 70,
                 Price50 = 65,
                 Price100 = 60,
-                CategoryId = 2
+                CategoryId = 2,
+                Quantity = 100
             },
             new Product
             {
@@ -339,7 +360,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 100,
                 Price50 = 95,
                 Price100 = 90,
-                CategoryId = 3
+                CategoryId = 3,
+                Quantity = 100
             },
             new Product
             {
@@ -352,7 +374,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 85,
                 Price50 = 80,
                 Price100 = 75,
-                CategoryId = 4
+                CategoryId = 4,
+                Quantity = 100
             },
             new Product
             {
@@ -365,7 +388,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 100,
                 Price50 = 95,
                 Price100 = 90,
-                CategoryId = 5
+                CategoryId = 5,
+                Quantity = 100
             },
             new Product
             {
@@ -378,7 +402,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 75,
                 Price50 = 70,
                 Price100 = 65,
-                CategoryId = 1
+                CategoryId = 1,
+                Quantity = 100
             },
             new Product
             {
@@ -391,7 +416,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 120,
                 Price50 = 115,
                 Price100 = 110,
-                CategoryId = 2
+                CategoryId = 2,
+                Quantity = 100
             },
             new Product
             {
@@ -404,7 +430,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 80,
                 Price50 = 75,
                 Price100 = 70,
-                CategoryId = 3
+                CategoryId = 3,
+                Quantity = 100
             },
             new Product
             {
@@ -417,7 +444,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 65,
                 Price50 = 60,
                 Price100 = 55,
-                CategoryId = 4
+                CategoryId = 4,
+                Quantity = 100
             },
             new Product
             {
@@ -430,7 +458,79 @@ namespace example_web_mvc.DataAccess.Data
                 Price = 90,
                 Price50 = 85,
                 Price100 = 80,
-                CategoryId = 5
+                CategoryId = 5,
+                Quantity = 100
+            });
+            modelBuilder.Entity<Coupon>().HasData(
+            new Coupon
+            {
+                Id = 1,
+                Code = "SALE20",
+                Description = "Giảm giá 20% cho tất cả sản phẩm",
+                DiscountAmount = 20.0f,
+                MinimumSpend = 100.0f,
+                StartDate = new DateTime(2023, 6, 1),
+                EndDate = new DateTime(2023, 6, 30),
+                MaxUseTimes = 100,
+                UsedTimes = 50,
+                ApplyForAllProducts = true,
+                IsActive = true
+            },
+            new Coupon
+            {
+                Id = 2,
+                Code = "SUMMER10",
+                Description = "Giảm giá 10% cho sản phẩm mùa hè",
+                DiscountAmount = 10.0f,
+                MinimumSpend = 50.0f,
+                StartDate = new DateTime(2023, 7, 1),
+                EndDate = new DateTime(2023, 7, 31),
+                MaxUseTimes = 50,
+                UsedTimes = 20,
+                ApplyForAllProducts = false,
+                IsActive = true
+            },
+            new Coupon
+            {
+                Id = 3,
+                Code = "WELCOME15",
+                Description = "Giảm giá 15% cho đơn hàng đầu tiên",
+                DiscountAmount = 15.0f,
+                MinimumSpend = 0.0f,
+                StartDate = new DateTime(2023, 6, 1),
+                EndDate = new DateTime(2023, 12, 31),
+                MaxUseTimes = 1,
+                UsedTimes = 1,
+                ApplyForAllProducts = true,
+                IsActive = true
+            },
+            new Coupon
+            {
+                Id = 4,
+                Code = "CLEARANCE50",
+                Description = "Giảm giá 50% cho hàng thanh lý",
+                DiscountAmount = 50.0f,
+                MinimumSpend = 0.0f,
+                StartDate = new DateTime(2023, 6, 15),
+                EndDate = new DateTime(2023, 7, 15),
+                MaxUseTimes = 10,
+                UsedTimes = 5,
+                ApplyForAllProducts = false,
+                IsActive = true
+            },
+            new Coupon
+            {
+                Id = 5,
+                Code = "EXTRA5OFF",
+                Description = "Giảm thêm 5% cho khách hàng VIP",
+                DiscountAmount = 5.0f,
+                MinimumSpend = 50.0f,
+                StartDate = new DateTime(2023, 6, 1),
+                EndDate = new DateTime(2023, 12, 31),
+                MaxUseTimes = 100,
+                UsedTimes = 80,
+                ApplyForAllProducts = true,
+                IsActive = false
             });
 
 

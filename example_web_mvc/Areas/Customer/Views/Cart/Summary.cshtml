@@ -97,11 +97,23 @@
 									</li>
 
 
-									<li class="list-group-item d-flex justify-content-between bg-light">
-										<small class="text-info">Total (USD)</small>
-										<strong class="text-info">@Model.OrderHeader.OrderTotal.ToString("c")</strong>
-									</li>
 								}
+								<li class="list-group-item d-flex justify-content-between bg-light">
+									<small class="text-info">Coupon: </small>
+									<input type="text" asp-for="CouponCode" id="couponCodeInput" />
+									<button type="button" id="applyCouponButton">Áp dụng mã</button>
+								</li>
+
+								<!-- This line will show the discount amount -->
+								<li class="list-group-item d-flex justify-content-between bg-light">
+									<small class="text-info">Discount:</small>
+									<span id="discountAmount"></span>
+								</li>
+
+								<li class="list-group-item d-flex justify-content-between bg-light">
+									<small class="text-info">Total (USD)</small>
+									<strong class="text-info" id="orderTotal" >@(Model.OrderHeader.OrderTotal.ToString("c"))</strong>
+								</li>
 								
 							</ul>
 						</div>
@@ -125,3 +137,35 @@
 		</div>
 	</div>
 </form>
+
+@section Scripts{
+	<script type="text/javascript">
+		$(document).ready(function () {
+			$('#applyCouponButton').click(function () {
+				var couponCode = $('#couponCodeInput').val();
+				var currentTotal = parseFloat($('#orderTotal').text().replace('$', ''));
+				$.ajax({
+					url: '/Admin/Coupon/CheckCouponCode',
+					type: 'POST',
+					data: {
+						couponCode: couponCode,
+						currentTotal: currentTotal
+					},
+					success: function (response) {
+						if (response.isValid) {
+							var discountAmount = response.discountAmount;
+							$('#discountAmount').text("$" + discountAmount.toFixed(2));
+							$('#orderTotal').text("$" + (currentTotal - discountAmount).toFixed(2));
+							toastr.success('Mã giảm giá hợp lệ');
+						} else {
+							toastr.error('Mã giảm giá không hợp lệ');
+						}
+					},
+					error: function () {
+						toastr.error('Lỗi xảy ra khi kiểm tra mã giảm giá');
+					}
+				});
+			});
+		});
+	</script>
+}

@@ -9,6 +9,8 @@
         // tiêu đề dơn hàng
 
         public OrderHeader OrderHeader { get; set; }
+        public string CouponCode { get; set; }
+
 
 
 

@@ -3,12 +3,12 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace example.Models.ViewModel
 {
-    public class ProductVM
-    {
-        public Product Product { get; set; }
-        [ValidateNever]
-        public IEnumerable<SelectListItem> CategoryList { get; set; }
+	public class ProductVM
+	{
+		public Product Product { get; set; }
+		[ValidateNever]
+		public IEnumerable<SelectListItem> CategoryList { get; set; }
 
 
-    }
+	}
 }

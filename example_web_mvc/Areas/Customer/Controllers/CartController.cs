@@ -102,6 +102,35 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 cart.Price = GetPriceBaseOnQuantity(cart);
                 ShoppingCartVM.OrderHeader.OrderTotal += (cart.Price * cart.Count);
             }
+            var couponDiscount = 0.0;
+            // Kiểm tra và áp dụng mã giảm giá (Coupon)
+            if (!string.IsNullOrEmpty(ShoppingCartVM.CouponCode))
+            {
+                // Truy xuất mã giảm giá từ cơ sở dữ liệu
+                //var coupon = _unitOfWork.Coupon.Get(u => u.Code == ShoppingCartVM.CouponCode);
+
+                //if (coupon != null && coupon.IsActive && _unitOfWork.Coupon.IsCouponValid(coupon))
+                //{
+                //    //ShoppingCartVM.OrderHeader.OrderTotal -= CalculateCouponDiscount(coupon, ShoppingCartVM.OrderHeader.OrderTotal);
+                //    //ShoppingCartVM.OrderHeader.CouponCode = coupon.Code;
+
+                //    couponDiscount = _unitOfWork.Coupon.CalculateCouponDiscount(coupon, ShoppingCartVM.OrderHeader.OrderTotal);
+                //    ShoppingCartVM.OrderHeader.OrderTotal -= couponDiscount;
+                //    ShoppingCartVM.OrderHeader.CouponCode = coupon.Code;
+                //}
+
+                // Retrieve the coupon from the database
+                var coupon = _unitOfWork.Coupon.Get(u => u.Code == ShoppingCartVM.CouponCode);
+
+                if (coupon != null && _unitOfWork.Coupon.IsCouponValid(coupon, ShoppingCartVM.OrderHeader.OrderTotal))
+                {
+                    couponDiscount = _unitOfWork.Coupon.CalculateCouponDiscount(coupon, ShoppingCartVM.OrderHeader.OrderTotal);
+                    ShoppingCartVM.OrderHeader.OrderTotal -= couponDiscount;
+                    ShoppingCartVM.OrderHeader.CouponCode = coupon.Code;
+                }
+
+            }
+
             if (applicationUser.CompanyId.GetValueOrDefault() == 0)
             {
 
@@ -117,8 +146,14 @@ namespace example_web_mvc.Areas.Customer.Controllers
             }
             _unitOfWork.OrderHeader.Add(ShoppingCartVM.OrderHeader);
             _unitOfWork.Save();
+
+
+
+
             foreach (var cart in ShoppingCartVM.ShoppingCartList)
             {
+
+
                 OrderDetail orderDetail = new OrderDetail()
                 {
                     ProductId = cart.ProductId,
@@ -146,11 +181,17 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 };
                 foreach (var item in ShoppingCartVM.ShoppingCartList)
                 {
+
+
+                    // Calculate the final price after applying the discount
+                    var discountAmount = item.Price * (couponDiscount / 100);
+                    var itemFinalPricePerUnit = item.Price - discountAmount;
+
                     var sessionLineItem = new SessionLineItemOptions
                     {
                         PriceData = new SessionLineItemPriceDataOptions
                         {
-                            UnitAmount = (long)(item.Price * 1000), //$20.50 => 2050
+                            UnitAmount = (long?)(itemFinalPricePerUnit * 100),
                             Currency = "usd",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
@@ -178,7 +219,9 @@ namespace example_web_mvc.Areas.Customer.Controllers
         public IActionResult OrderConfirmation(int id)
         {
 
-            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
+            //OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser");
+            OrderHeader orderHeader = _unitOfWork.OrderHeader.Get(u => u.Id == id, includeProperties: "ApplicationUser,OrderDetails.Product");
+
             if (orderHeader.PaymentStatus != SD.PaymentsStatusDelayedPayment)
             {
 
@@ -187,8 +230,18 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 Session session = service.Get(orderHeader.SessionId);
                 if (session.PaymentStatus.ToLower() == "paid")
                 {
+
+
                     _unitOfWork.OrderHeader.UpdateStripePaymentId(id, session.Id, session.PaymentIntentId);
                     _unitOfWork.OrderHeader.UpdateStatus(id, SD.StatusApproved, SD.PaymentStatusApproved);
+
+                    // Cập nhật   Quantity của  Products
+                    foreach (var orderDetail in orderHeader.OrderDetails)
+                    {
+                        orderDetail.Product.Quantity -= orderDetail.Count;
+                        _unitOfWork.Product.Update(orderDetail.Product);
+                    }
+
                     _unitOfWork.Save();
 
                 }
@@ -263,5 +316,25 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 }
             }
         }
+
+        //// Kiểm tra xem mã giảm giá có hợp lệ không
+        //private bool IsCouponValid(Coupon coupon)
+        //{
+        //    var currentDate = System.DateTime.Now;
+        //    return currentDate >= coupon.StartDate && currentDate <= coupon.EndDate && coupon.UsedTimes < coupon.MaxUseTimes;
+        //}
+
+        //// Tính giá tiền sau khi áp dụng mã giảm giá
+        //private double CalculateCouponDiscount(Coupon coupon, double orderTotal)
+        //{
+        //    if (coupon.ApplyForAllProducts)
+        //    {
+        //        return coupon.DiscountAmount;
+        //    }
+        //    else
+        //    {
+        //        return orderTotal * (double)(coupon.DiscountAmount / 100);
+        //    }
+        //}
     }
 }

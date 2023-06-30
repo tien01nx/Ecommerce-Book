@@ -13,6 +13,11 @@ namespace example.Models
         [Required] public string Author { get; set; }
 
         [Required]
+        [Display(Name = "Quantity")]
+        [Range(1, 1000)]
+        public int Quantity { get; set; }
+
+        [Required]
         [Display(Name = "List Price")]
         [Range(1, 1000)]
         public double ListPrice { get; set; }
@@ -41,6 +46,9 @@ namespace example.Models
 
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
+
+
+
 
 
     }

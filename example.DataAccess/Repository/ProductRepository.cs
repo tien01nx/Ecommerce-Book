@@ -30,6 +30,7 @@ namespace example.DataAccess.Repository
                 objFormdb.Description = obj.Description;
                 objFormdb.CategoryId = obj.CategoryId;
                 objFormdb.Author = obj.Author;
+                objFormdb.Quantity = obj.Quantity;
                 objFormdb.ProductImages = obj.ProductImages;
                 //objFormdb.ImageUrl = obj.ImageUrl;
                 //if (obj.ImageUrl != null)
