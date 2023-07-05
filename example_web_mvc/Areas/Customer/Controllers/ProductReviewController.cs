@@ -25,13 +25,19 @@ namespace example_web_mvc.Areas.Customer.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        //[Authorize]
         public IActionResult CreateReview(ProductReviewVM productReviewVM)
         {
 
             //var claimsIdentity = (ClaimsIdentity)User.Identity;
             //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             // Create new ProductReview
+            // xác thực người dùng chưa đăng nhập 
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect($"/Identity/Account/Login?ReturnUrl=/Customer/Home/Details/?productId={productReviewVM.ProductId}");
+
+            }
             var newReview = new ProductReview
             {
                 Rating = productReviewVM.ProductReview.Rating,

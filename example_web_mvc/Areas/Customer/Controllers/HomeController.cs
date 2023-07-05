@@ -53,17 +53,46 @@ namespace example_web_mvc.Areas.Customer.Controllers
         //    return View(productList);
         //}
 
-        public IActionResult Index(string keyword, int? page)
+        //public IActionResult Index(string keyword, int? page)
+        //{
+        //    int pageNumber = page ?? 1;
+        //    int pageSize = 8;
+
+        //    IEnumerable<Product> productList;
+
+        //    if (!string.IsNullOrEmpty(keyword))
+        //    {
+        //        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages")
+        //            .Where(p => p.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+        //    }
+        //    else
+        //    {
+        //        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+        //    }
+
+        //    var pagedProductList = productList.ToPagedList(pageNumber, pageSize);
+
+        //    return View(pagedProductList);
+        //}
+        public IActionResult ProductList()
+        {
+            return View();
+        }
+
+
+        public IActionResult Index(string search, int? page)
         {
             int pageNumber = page ?? 1;
             int pageSize = 8;
 
+            ViewBag.Page = page;
+
             IEnumerable<Product> productList;
 
-            if (!string.IsNullOrEmpty(keyword))
+            if (!string.IsNullOrEmpty(search))
             {
                 productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages")
-                    .Where(p => p.Title.Contains(keyword, StringComparison.OrdinalIgnoreCase));
+                    .Where(p => p.Title.Contains(search, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
@@ -72,12 +101,24 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
             var pagedProductList = productList.ToPagedList(pageNumber, pageSize);
 
+            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+            {
+                return PartialView("_Products", pagedProductList);
+            }
+
             return View(pagedProductList);
         }
 
-
         public IActionResult Details(int productId)
         {
+            var product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages");
+            if (product == null)
+            {
+                // Handle the case where no product with the given id exists.
+                // This might involve returning a 404 error, or redirecting the user to an error page.
+                return NotFound();
+            }
+
             ShoppingCart cart = new ShoppingCart()
             {
                 Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"),
@@ -87,8 +128,8 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
             IEnumerable<ProductReview> productReviews = _unitOfWork.ProductReview.GetAll(pr => pr.Product.Id == productId, includeProperties: "ApplicationUser");
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            //var claimsIdentity = (ClaimsIdentity)User.Identity;
+            //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             // Create a new ProductReviewVM
             ProductReviewVM productReviewVM = new ProductReviewVM()
             {
@@ -96,7 +137,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 ShoppingCart = cart,
                 ProductReview = new ProductReview(),
                 ProductId = productId,
-                ApplicationUserId = userId
+                ApplicationUserId = User.Identity.IsAuthenticated ? ((ClaimsIdentity)User.Identity).FindFirst(ClaimTypes.NameIdentifier).Value : null
 
 
             };
@@ -194,7 +235,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
         //        ReferenceHandler = ReferenceHandler.Preserve
         //    });
         //}
-
+        // tim kiem
         [HttpGet]
         public IActionResult GetProducts()
         {
@@ -204,12 +245,16 @@ namespace example_web_mvc.Areas.Customer.Controllers
                     Id = p.Id,
                     Title = p.Title,
                     Author = p.Author,
+                    ListPrice = p.ListPrice,
+                    Price100 = p.Price100,
                     // Extract the image URLs
                     ImageUrls = p.ProductImages.Select(i => i.ImageUrl).ToList()
                 });
 
             return Json(productList);
         }
+
+
 
 
     }

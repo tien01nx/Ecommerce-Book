@@ -45,6 +45,8 @@
             <span class="visually-hidden">Next</span>
         </a>
     </div>
+
+
     @foreach (var product in Model)
     {
         <div class="col-lg-3 col-sm-6">
@@ -75,7 +77,7 @@
                         </div>
                         <div class="pl-1">
                             <p class="text-dark text-opacity-75 text-center">
-                                List Price:
+                                As low as
                                 <span class="">
                                     @product.Price100.ToString("c")
                                 </span>
@@ -84,42 +86,23 @@
                     </div>
                     <div>
                         <a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary bg-gradient border-0 form-control">
-                            Detail
+                            Detail con gà
                         </a>
-
                      
-
+                            <button id="loadMore" class="btn btn-primary">Xem thêm</button>
+                            <p>hihi</p>
+                    
                     </div>
                 </div>
             </div>
         </div>
     }
-
-   
 </div>
-@if (Model.Count > 0)
-{
-    <div id="products">
-        <div id="firstPageProducts">
-            @if (Model.PageNumber > 1)
-            {
-                @Html.Partial("_Products", Model)
-            }
-        </div>
-        <div id="additionalProducts"></div>
-    </div>
 
-    <div class="text-center">
-        <button id="loadMore" class="btn btn-primary">Xem thêm</button>
-    </div>
-}
-else
-{
-    <div class="text-center">
-        <p>Không tìm thấy sản phẩm.</p>
-    </div>
-}
 
+<div class="text-center">
+    <button id="loadMore" class="btn btn-primary">Xem thêm</button>
+</div>
 
 @if (Model.PageCount > 1)
 {
@@ -127,12 +110,37 @@ else
         <h4>
             @Html.PagedListPager(
         Model,
-        page => Url.Action("Index", new { page, search = Context.Request.Query["search"] }),
+        page => Url.Action("Index", new { page, keyword = Context.Request.Query["keyword"] }),
         new PagedListRenderOptions { MaximumPageNumbersToDisplay = 5 }
         )
         </h4>
     </div>
 }
+
+
+
+
 @section Scripts{
-    <script src="~/js/home.js"></script>
+   @*  <script>
+        var myCarousel = document.querySelector('#myCarousel')
+        var carousel = new bootstrap.Carousel(myCarousel)
+        $(document).ready(function () {
+            var page = 2;
+            $('#loadMore').click(function () {
+                $.ajax({
+                    url: '@Url.Action("Index")',
+                    data: { page: page, keyword: '@Context.Request.Query["keyword"]' },
+                    type: 'GET',
+                    success: function (data) {
+                        $('#products').append(data);
+                        page++;
+                        if (page > '@Model.PageCount') {
+                            $('#loadMore').hide();
+                        }
+                    }
+                });
+            });
+        });
+
+    </script> *@
 }

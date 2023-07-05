@@ -49,6 +49,10 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="Admin" asp-controller="Order" asp-action="Index">Manager Order</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="Customer" asp-controller="Home" asp-action="ProductList">Product List</a>
+                        </li>
+
 
                         @if (User.IsInRole(SD.Role_Admin))
                         {
@@ -84,7 +88,7 @@
 
                     <form class="d-flex" method="get" asp-controller="Home" asp-action="Index">
                         <div class="dropdown">
-                            <input class="form-control me-sm-2" type="search" placeholder="Search" id="searchInput" name="keyword" autocomplete="off">
+                            <input class="form-control me-sm-2" type="search" placeholder="Search" id="searchInput" name="search" autocomplete="off">
                             <ul class="dropdown-menu" id="searchResults" aria-labelledby="searchInput">
                                 <!-- Search results will be inserted here -->
                             </ul>
