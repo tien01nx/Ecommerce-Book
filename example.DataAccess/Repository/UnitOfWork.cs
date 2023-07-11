@@ -24,6 +24,8 @@ namespace example.DataAccess.Repository
 
         public IProductReviewRepository ProductReview { get; private set; }
 
+        public ISellerRepository Seller { get; private set; }
+
 
 
         public UnitOfWork(ApplicationDbContext db)
@@ -40,6 +42,7 @@ namespace example.DataAccess.Repository
             OrderHeader = new OrderHeaderRepository(_db);
             Coupon = new CouponRepository(_db);
             ProductReview = new ProductReviewRepository(_db);
+            Seller = new SellerRepository(_db);
         }
 
 

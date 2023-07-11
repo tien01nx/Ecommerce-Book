@@ -211,7 +211,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
             if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
             {
                 objOrderHeader = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
-            }
+            }// thêm diều kiện check nếu nhà seller thì hiện tất cả các sản phẩm  mà seleer có người đang mua
             else
             {
                 var claimIdentity = (ClaimsIdentity)User.Identity;

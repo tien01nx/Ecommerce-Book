@@ -30,11 +30,16 @@ namespace example_web_mvc.DataAccess.Data
         public DbSet<Coupon> Coupons { get; set; }
         public DbSet<ProductReview> ProductReviews { get; set; }
 
-
+        public DbSet<Seller> Sellers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<Product>()
+             .HasOne(p => p.Seller)
+             .WithMany(s => s.Products)
+             .HasForeignKey(p => p.SellerId)
+             .OnDelete(DeleteBehavior.Restrict); // Sử dụng DeleteBehavior.Restrict thay cho mặc định là DeleteBehavior.Cascade
             modelBuilder.Entity<Category>().HasData(
                 new Category
                 {
@@ -98,6 +103,60 @@ namespace example_web_mvc.DataAccess.Data
                    State = "VN",
                    PhoneNumber = "0987654974"
                });
+            modelBuilder.Entity<Seller>().HasData(
+           new Seller
+           {
+               Id = 1,
+               StoreName = "Store A",
+               Description = "This is Store A",
+               Logo = "logoA.jpg",
+               Sales = 100,
+               Ratings = 4.5,
+               ContactInformation = "Contact Store A",
+               ShippingPolicy = "Shipping Policy for Store A",
+               ReturnPolicy = "Return Policy for Store A",
+               ApplicationUserId = "2945d2ed-60a9-469e-abe2-648bac284bbd"
+           },
+           new Seller
+           {
+               Id = 2,
+               StoreName = "Store B",
+               Description = "This is Store B",
+               Logo = "logoB.jpg",
+               Sales = 200,
+               Ratings = 4.2,
+               ContactInformation = "Contact Store B",
+               ShippingPolicy = "Shipping Policy for Store B",
+               ReturnPolicy = "Return Policy for Store B",
+               ApplicationUserId = "5c5bcfbd-1baf-4338-8536-e0d217bbf8df"
+           },
+           new Seller
+           {
+               Id = 3,
+               StoreName = "Store C",
+               Description = "This is Store C",
+               Logo = "logoC.jpg",
+               Sales = 150,
+               Ratings = 4.7,
+               ContactInformation = "Contact Store C",
+               ShippingPolicy = "Shipping Policy for Store C",
+               ReturnPolicy = "Return Policy for Store C",
+               ApplicationUserId = "5fb323ee-dde6-43d8-bcca-1bfeb93a31a2"
+           },
+           new Seller
+           {
+               Id = 4,
+               StoreName = "Store D",
+               Description = "This is Store D",
+               Logo = "logoD.jpg",
+               Sales = 300,
+               Ratings = 4.9,
+               ContactInformation = "Contact Store D",
+               ShippingPolicy = "Shipping Policy for Store D",
+               ReturnPolicy = "Return Policy for Store D",
+               ApplicationUserId = "fd29dc1d-d32e-47ae-94c4-adc13f16cc7b"
+           });
+
 
             modelBuilder.Entity<Product>().HasData(
                 new Product
@@ -112,7 +171,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price50 = 85,
                     Price100 = 80,
                     CategoryId = 1,
-                    Quantity = 5
+                    Quantity = 5,
+                    SellerId = 1
                 },
                 new Product
                 {
@@ -126,7 +186,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price50 = 25,
                     Price100 = 20,
                     CategoryId = 1,
-                    Quantity = 5
+                    Quantity = 5,
+                    SellerId = 1
                 },
                 new Product
                 {
@@ -140,7 +201,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price50 = 40,
                     Price100 = 35,
                     CategoryId = 1,
-                    Quantity = 5
+                    Quantity = 5,
+                    SellerId = 1
                 },
                 new Product
                 {
@@ -154,7 +216,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price50 = 60,
                     Price100 = 55,
                     CategoryId = 3,
-                    Quantity = 5
+                    Quantity = 5,
+                    SellerId = 1
                 },
                 new Product
                 {
@@ -168,7 +231,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price50 = 25,
                     Price100 = 20,
                     CategoryId = 3,
-                    Quantity = 5
+                    Quantity = 5,
+                    SellerId = 1
                 },
                 new Product
                 {
@@ -182,7 +246,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price50 = 22,
                     Price100 = 20,
                     CategoryId = 3,
-                    Quantity = 5
+                    Quantity = 5,
+                    SellerId = 1
                 },
                 new Product
                 {
@@ -196,7 +261,8 @@ namespace example_web_mvc.DataAccess.Data
                     Price50 = 85,
                     Price100 = 80,
                     CategoryId = 1,
-                    Quantity = 5
+                    Quantity = 5,
+                    SellerId = 1
                 },
             new Product
             {
@@ -210,7 +276,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 95,
                 Price100 = 90,
                 CategoryId = 2,
-                Quantity = 5
+                Quantity = 5,
+                SellerId = 2
             },
             new Product
             {
@@ -224,7 +291,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 70,
                 Price100 = 65,
                 CategoryId = 3,
-                Quantity = 5
+                Quantity = 5,
+                SellerId = 2
             },
             new Product
             {
@@ -239,6 +307,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price100 = 120,
                 CategoryId = 4,
                 Quantity = 5
+                ,
+                SellerId = 2
             },
             new Product
             {
@@ -253,6 +323,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price100 = 75,
                 CategoryId = 5,
                 Quantity = 5
+                ,
+                SellerId = 2
             },
             new Product
             {
@@ -266,7 +338,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 95,
                 Price100 = 90,
                 CategoryId = 2,
-                Quantity = 5
+                Quantity = 5,
+                SellerId = 2
             },
             new Product
             {
@@ -280,7 +353,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 95,
                 Price100 = 90,
                 CategoryId = 1,
-                Quantity = 5
+                Quantity = 5,
+                SellerId = 2
             },
             new Product
             {
@@ -294,7 +368,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 80,
                 Price100 = 75,
                 CategoryId = 3,
-                Quantity = 5
+                Quantity = 5,
+                SellerId = 2
             },
             new Product
             {
@@ -308,7 +383,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 115,
                 Price100 = 110,
                 CategoryId = 4,
-                Quantity = 5
+                Quantity = 5,
+                SellerId = 2
             },
             new Product
             {
@@ -322,7 +398,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 75,
                 Price100 = 70,
                 CategoryId = 5,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 2
             },
             new Product
             {
@@ -336,7 +413,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 60,
                 Price100 = 55,
                 CategoryId = 1,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 2
             },
             new Product
             {
@@ -350,7 +428,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 65,
                 Price100 = 60,
                 CategoryId = 2,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 3
             },
             new Product
             {
@@ -364,7 +443,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 95,
                 Price100 = 90,
                 CategoryId = 3,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 3
             },
             new Product
             {
@@ -378,7 +458,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 80,
                 Price100 = 75,
                 CategoryId = 4,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 3
             },
             new Product
             {
@@ -392,7 +473,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 95,
                 Price100 = 90,
                 CategoryId = 5,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 3
             },
             new Product
             {
@@ -406,7 +488,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 70,
                 Price100 = 65,
                 CategoryId = 1,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 3
             },
             new Product
             {
@@ -420,7 +503,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 115,
                 Price100 = 110,
                 CategoryId = 2,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 3
             },
             new Product
             {
@@ -434,7 +518,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 75,
                 Price100 = 70,
                 CategoryId = 3,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 3
             },
             new Product
             {
@@ -448,7 +533,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 60,
                 Price100 = 55,
                 CategoryId = 4,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 3
             },
             new Product
             {
@@ -462,7 +548,8 @@ namespace example_web_mvc.DataAccess.Data
                 Price50 = 85,
                 Price100 = 80,
                 CategoryId = 5,
-                Quantity = 100
+                Quantity = 100,
+                SellerId = 3
             });
             modelBuilder.Entity<Coupon>().HasData(
             new Coupon
@@ -969,6 +1056,8 @@ namespace example_web_mvc.DataAccess.Data
                     ImageUrl = "\\images\\products\\product-12\\169a2119-7e05-4d35-9371-eecdf9cbe584.webp",
                     ProductId = 12
                 });
+
+
 
 
         }

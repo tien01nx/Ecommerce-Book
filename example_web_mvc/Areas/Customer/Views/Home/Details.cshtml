@@ -9,7 +9,7 @@
             <div class="row">
                 <div class="col-12 text-center">
                     <h3 class="text-white text-uppercase">@Model.ShoppingCart.Product.Title</h3>
-                    <p class="text-white-50 fw-semibold mb-0">by @Model.ShoppingCart.Product.Author</p>
+                 
                 </div>
             </div>
         </div>
@@ -77,8 +77,13 @@
                     </div>
                     <div class="col-12 col-lg-6 offset-lg-1">
 
+
+                     
                         <div class="col-12 col-md-6 pb-4">
-                            <span class="badge">@Model.ShoppingCart.Product.Category.Name </span>
+                            <p class="text-info"> Thể loại: @Model.ShoppingCart.Product.Category.Name  </p>
+                        </div>
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50 ">Tác giả: @Model.ShoppingCart.Product.Author</h6>
                         </div>
                         <div class="row ps-2">
                             <h6 class="text-dark text-opacity-50 ">ISBN : @Model.ShoppingCart.Product.ISBN</h6>
@@ -90,6 +95,9 @@
                                     @Model.ShoppingCart.Product.ListPrice.ToString("c")
                                 </span>
                             </h6>
+                        </div>
+                        <div class="row ps-2">
+                            <h6 class="text-dark text-opacity-50 ">Người bán: @Model.ShoppingCart.Product.Seller.StoreName</h6>
                         </div>
                         <div class="row text-center ps-2">
                             <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
@@ -157,7 +165,7 @@
 
 <!-- Review list -->
 <div class="product-reviews">
-    <h3 class="mb-4">Customer Reviews</h3>
+    <h2 class="mb-4">Customer Reviews</h2>
     @if (Model.ProductReviewList != null)
     {
         @foreach (var review in Model.ProductReviewList)
@@ -194,7 +202,7 @@
 
 <!-- Review form -->
 <form asp-action="CreateReview" asp-controller="ProductReview" method="post">
-    <h3 class="mb-4">Leave a Review</h3>
+    <h2 class="mb-4">Leave a Review</h2>
 
     <input type="hidden" asp-for="ProductId" value="@Model.ShoppingCart.ProductId" />
     <input type="hidden" asp-for="ApplicationUserId" value="@Model.ApplicationUserId" />
@@ -215,7 +223,7 @@
 
         <div class="form-group">
             <label for="comment">Comment</label>
-            <textarea asp-for="ProductReview.Comment" class="form-control" id="comment"></textarea>
+            <textarea asp-for="ProductReview.Comment" class="form-control" style="height:40px" id="comment" ></textarea>
         </div>
 
         <button type="submit" class="btn btn-primary">Submit Review</button>

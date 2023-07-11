@@ -12,6 +12,7 @@
         IProductImageRepository ProductImage { get; }
         ICouponRepository Coupon { get; }
         IProductReviewRepository ProductReview { get; }
+        ISellerRepository Seller { get; }
         void Save();
     }
 }

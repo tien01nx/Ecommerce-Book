@@ -5,14 +5,16 @@ using example.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Stripe.Radar;
 using System.Data;
+using System.Security.Claims;
 
 namespace example_web_mvc.Areas.Admin.Controllers
 {
     [Area("Admin")]
 
     // cũng có thể cho từng hàm nhỏ 
-    [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Seller)]
 
     public class ProductController : Controller
     {
@@ -62,78 +64,92 @@ namespace example_web_mvc.Areas.Admin.Controllers
         [HttpPost]
         public IActionResult Upsert(ProductVM productVM, List<IFormFile>? files)
         {
+            // lấy id người dùng
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
 
-            if (ModelState.IsValid)
-            {
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-                if (productVM.Product.Id == 0)
+            var seller = _unitOfWork.Seller.Get(u=>u.ApplicationUserId == userId);  
+            if (seller != null) { 
+                productVM.Product.SellerId = seller.Id;
+                if (ModelState.IsValid)
                 {
-                    // thêm dữ liệu vào database
-                    _unitOfWork.Product.Add(productVM.Product);
+
+                    if (productVM.Product.Id == 0)
+                    {
+                        // thêm dữ liệu vào database
+                        _unitOfWork.Product.Add(productVM.Product);
+                    }
+                    else
+                    {
+                        _unitOfWork.Product.Update(productVM.Product);
+                    }
+
+
+                    // lưu dữ liệu khi thêm
+                    _unitOfWork.Save();
+
+                    string wwwRootPath = _webHostEnvironment.WebRootPath;
+                    if (files != null)
+                    {
+                        foreach (IFormFile file in files)
+                        {
+                            string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                            string productPath = @"images\products\product-" + productVM.Product.Id;
+                            string finalPath = Path.Combine(wwwRootPath, productPath);
+                            if (!Directory.Exists(finalPath))
+                            {
+                                Directory.CreateDirectory(finalPath);
+                            }
+                            using (var fileStream = new FileStream(Path.Combine(finalPath, filename), FileMode.Create))
+                            {
+                                file.CopyTo(fileStream);
+
+                            }
+                            ProductImage productImage = new ProductImage()
+                            {
+                                ImageUrl = @"\" + productPath + @"\" + filename,
+                                ProductId = productVM.Product.Id
+                            };
+
+                            if (productVM.Product.ProductImages == null)
+                            {
+                                productVM.Product.ProductImages = new List<ProductImage>();
+                            }
+                            // them du lieu anh vao mang
+                            productVM.Product.ProductImages.Add(productImage);
+                            //_unitOfWork.ProductImage.Add(productImage);
+
+                        }
+                        _unitOfWork.Product.Update(productVM.Product);
+                        _unitOfWork.Save();
+
+
+                    }
+
+
+                    TempData["success"] = "Product created/update successfully";
+                    return RedirectToAction("Index");
                 }
                 else
                 {
-                    _unitOfWork.Product.Update(productVM.Product);
-                }
 
 
-                // lưu dữ liệu khi thêm
-                _unitOfWork.Save();
-
-                string wwwRootPath = _webHostEnvironment.WebRootPath;
-                if (files != null)
-                {
-                    foreach (IFormFile file in files)
+                    productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                     {
-                        string filename = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
-                        string productPath = @"images\products\product-" + productVM.Product.Id;
-                        string finalPath = Path.Combine(wwwRootPath, productPath);
-                        if (!Directory.Exists(finalPath))
-                        {
-                            Directory.CreateDirectory(finalPath);
-                        }
-                        using (var fileStream = new FileStream(Path.Combine(finalPath, filename), FileMode.Create))
-                        {
-                            file.CopyTo(fileStream);
+                        Text = u.Name,
+                        Value = u.Id.ToString()
+                    });
 
-                        }
-                        ProductImage productImage = new ProductImage()
-                        {
-                            ImageUrl = @"\" + productPath + @"\" + filename,
-                            ProductId = productVM.Product.Id
-                        };
-
-                        if (productVM.Product.ProductImages == null)
-                        {
-                            productVM.Product.ProductImages = new List<ProductImage>();
-                        }
-                        // them du lieu anh vao mang
-                        productVM.Product.ProductImages.Add(productImage);
-                        //_unitOfWork.ProductImage.Add(productImage);
-
-                    }
-                    _unitOfWork.Product.Update(productVM.Product);
-                    _unitOfWork.Save();
-
-
+                    return View(productVM);
                 }
-
-
-                TempData["success"] = "Product created/update successfully";
-                return RedirectToAction("Index");
             }
             else
             {
-
-
-                productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
-                {
-                    Text = u.Name,
-                    Value = u.Id.ToString()
-                });
-
-                return View(productVM);
+                TempData["error"] = "Could not find associated seller. Please check your account.";
+                return RedirectToAction("Index"); // hoặc đến trang quản lý seller tương ứng
             }
+          
 
 
         }
@@ -207,8 +223,24 @@ namespace example_web_mvc.Areas.Admin.Controllers
         [HttpGet]
         public IActionResult GetAll()
         {
-            List<Product> obj = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var seller = _unitOfWork.Seller.Get(u => u.ApplicationUserId == userId);
+            //List<Product> obj = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            List<Product> obj;
+
+            if (seller != null)
+            {
+                obj = _unitOfWork.Product.GetAll(p => p.SellerId == seller.Id, includeProperties: "Category").ToList();
+            }
+            else
+            {
+                obj = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+            }
+
             return Json(new { data = obj });
+      
 
 
         }

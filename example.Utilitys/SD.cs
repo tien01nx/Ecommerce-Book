@@ -8,6 +8,8 @@
         public const string Role_Company = "Company"; // Vai trò "Công ty"
         public const string Role_Admin = "Admin"; // Vai trò "Quản trị viên"
         public const string Role_Employee = "Employee"; // Vai trò "Nhân viên"
+        public const string Role_Seller = "Seller"; // Vai trò "User bán hàng"
+
 
         // Trạng thái đơn hàng
         public const string StatusPending = "Pending"; // Đơn hàng "Đang chờ xử lý"

@@ -47,7 +47,10 @@ namespace example.Models
         [ValidateNever]
         public List<ProductImage> ProductImages { get; set; }
 
-
+        public int SellerId { get; set; }
+        [ForeignKey("SellerId")]
+        [ValidateNever]
+        public Seller Seller { get; set; }
 
 
 

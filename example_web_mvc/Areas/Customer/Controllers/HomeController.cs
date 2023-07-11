@@ -111,7 +111,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
         public IActionResult Details(int productId)
         {
-            var product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages");
+            var product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages,Seller");
             if (product == null)
             {
                 // Handle the case where no product with the given id exists.
@@ -121,7 +121,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
             ShoppingCart cart = new ShoppingCart()
             {
-                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages"),
+                Product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages,Seller"),
                 Count = 1,
                 ProductId = productId
             };

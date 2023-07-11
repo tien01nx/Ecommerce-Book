@@ -12,8 +12,8 @@ using example_web_mvc.DataAccess.Data;
 namespace example.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230629025119_add-migration addDatabase")]
-    partial class addmigrationaddDatabase
+    [Migration("20230711052752_addSeller")]
+    partial class addSeller
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -612,6 +612,9 @@ namespace example.DataAccess.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
+                    b.Property<int>("SellerId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -620,373 +623,9 @@ namespace example.DataAccess.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products");
+                    b.HasIndex("SellerId");
 
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Author = "Billy Spark",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "SWD9999001",
-                            ListPrice = 99.0,
-                            Price = 90.0,
-                            Price100 = 80.0,
-                            Price50 = 85.0,
-                            Quantity = 5,
-                            Title = "Fortune of Time"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Author = "Nancy Hoover",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "CAW777777701",
-                            ListPrice = 40.0,
-                            Price = 30.0,
-                            Price100 = 20.0,
-                            Price50 = 25.0,
-                            Quantity = 5,
-                            Title = "Dark Skies"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Author = "Julian Button",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "RITO5555501",
-                            ListPrice = 55.0,
-                            Price = 50.0,
-                            Price100 = 35.0,
-                            Price50 = 40.0,
-                            Quantity = 5,
-                            Title = "Vanish in the Sunset"
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Author = "Abby Muscles",
-                            CategoryId = 3,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "WS3333333301",
-                            ListPrice = 70.0,
-                            Price = 65.0,
-                            Price100 = 55.0,
-                            Price50 = 60.0,
-                            Quantity = 5,
-                            Title = "Cotton Candy"
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Author = "Ron Parker",
-                            CategoryId = 3,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "SOTJ1111111101",
-                            ListPrice = 30.0,
-                            Price = 27.0,
-                            Price100 = 20.0,
-                            Price50 = 25.0,
-                            Quantity = 5,
-                            Title = "Rock in the Ocean"
-                        },
-                        new
-                        {
-                            Id = 6,
-                            Author = "Laura Phantom",
-                            CategoryId = 3,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "FOT000000001",
-                            ListPrice = 25.0,
-                            Price = 23.0,
-                            Price100 = 20.0,
-                            Price50 = 22.0,
-                            Quantity = 5,
-                            Title = "Leaves and Wonders"
-                        },
-                        new
-                        {
-                            Id = 21,
-                            Author = "Billy Spark",
-                            CategoryId = 1,
-                            Description = "Praesent vitae sodales libero. Praesent molestie orci augue, vitae euismod velit sollicitudin ac. Praesent vestibulum facilisis nibh ut ultricies.\r\n\r\nNunc malesuada viverra ipsum sit amet tincidunt. ",
-                            ISBN = "SWD9999001",
-                            ListPrice = 99.0,
-                            Price = 90.0,
-                            Price100 = 80.0,
-                            Price50 = 85.0,
-                            Quantity = 5,
-                            Title = "Tài sản của thời gian"
-                        },
-                        new
-                        {
-                            Id = 22,
-                            Author = "Emma Stone",
-                            CategoryId = 2,
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum finibus augue at mauris finibus, in euismod mauris facilisis. Nullam vitae ullamcorper dui. Mauris vitae elit auctor, lacinia arcu in, ultrices ligula.",
-                            ISBN = "SWD9999002",
-                            ListPrice = 120.0,
-                            Price = 100.0,
-                            Price100 = 90.0,
-                            Price50 = 95.0,
-                            Quantity = 5,
-                            Title = "Con đường bí ẩn"
-                        },
-                        new
-                        {
-                            Id = 23,
-                            Author = "Sophia Lee",
-                            CategoryId = 3,
-                            Description = "Sed ut mauris eget nisi cursus dictum. Sed vehicula mauris sed arcu tristique dictum. Mauris efficitur metus in massa sagittis, vitae malesuada enim pharetra. Vivamus blandit risus a fermentum cursus.",
-                            ISBN = "SWD9999003",
-                            ListPrice = 85.0,
-                            Price = 75.0,
-                            Price100 = 65.0,
-                            Price50 = 70.0,
-                            Quantity = 5,
-                            Title = "Nghệ thuật thức tỉnh"
-                        },
-                        new
-                        {
-                            Id = 24,
-                            Author = "Eckhart Tolle",
-                            CategoryId = 4,
-                            Description = "Quisque pulvinar lorem vel iaculis consectetur. Aliquam ac ultricies enim. Integer ac arcu ultrices, posuere lorem vitae, bibendum turpis. Sed sed nulla eget metus consequat volutpat. Sed viverra pharetra lorem eget congue.",
-                            ISBN = "SWD9999004",
-                            ListPrice = 150.0,
-                            Price = 130.0,
-                            Price100 = 120.0,
-                            Price50 = 125.0,
-                            Quantity = 5,
-                            Title = "Sức mạnh của hiện tại"
-                        },
-                        new
-                        {
-                            Id = 25,
-                            Author = "Nguyễn Nhật Ánh",
-                            CategoryId = 5,
-                            Description = "Fusce finibus, ex vel aliquam laoreet, justo turpis faucibus velit, nec scelerisque justo arcu in tellus. Proin in iaculis nunc. Morbi rhoncus faucibus purus, eu finibus sem dignissim a.",
-                            ISBN = "SWD9999005",
-                            ListPrice = 95.0,
-                            Price = 85.0,
-                            Price100 = 75.0,
-                            Price50 = 80.0,
-                            Quantity = 5,
-                            Title = "Nhà thuốc của bác sĩ Tâm"
-                        },
-                        new
-                        {
-                            Id = 26,
-                            Author = "Mark Manson",
-                            CategoryId = 2,
-                            Description = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla finibus turpis quis velit venenatis, sit amet commodo eros eleifend. In hac habitasse platea dictumst. Suspendisse vel eros luctus, efficitur sapien vitae, cursus turpis.",
-                            ISBN = "SWD9999006",
-                            ListPrice = 110.0,
-                            Price = 100.0,
-                            Price100 = 90.0,
-                            Price50 = 95.0,
-                            Quantity = 5,
-                            Title = "Nghệ thuật nhẹ nhàng không quan tâm"
-                        },
-                        new
-                        {
-                            Id = 27,
-                            Author = "Dale Carnegie",
-                            CategoryId = 1,
-                            Description = "Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Sed ut mauris ut velit malesuada malesuada ac sit amet tortor.",
-                            ISBN = "SWD9999007",
-                            ListPrice = 120.0,
-                            Price = 100.0,
-                            Price100 = 90.0,
-                            Price50 = 95.0,
-                            Quantity = 5,
-                            Title = "Đắc nhân tâm"
-                        },
-                        new
-                        {
-                            Id = 28,
-                            Author = "Nick Vujicic",
-                            CategoryId = 3,
-                            Description = "Donec auctor ex quis diam dapibus consectetur. Maecenas sit amet facilisis lectus. Sed dignissim lectus in elit ullamcorper iaculis. Nunc vel massa eget justo efficitur commodo vitae id neque.",
-                            ISBN = "SWD9999008",
-                            ListPrice = 95.0,
-                            Price = 85.0,
-                            Price100 = 75.0,
-                            Price50 = 80.0,
-                            Quantity = 5,
-                            Title = "Cuộc sống không giới hạn"
-                        },
-                        new
-                        {
-                            Id = 9,
-                            Author = "Robin Sharma",
-                            CategoryId = 4,
-                            Description = "Nam in urna ultrices, tempus justo vitae, luctus nulla. Donec convallis lorem ut urna tincidunt, et volutpat dolor tempor. Fusce eleifend metus nec diam euismod varius.",
-                            ISBN = "SWD9999009",
-                            ListPrice = 140.0,
-                            Price = 120.0,
-                            Price100 = 110.0,
-                            Price50 = 115.0,
-                            Quantity = 5,
-                            Title = "Phát sóng tâm hồn"
-                        },
-                        new
-                        {
-                            Id = 10,
-                            Author = "Nguyễn Nhật Ánh",
-                            CategoryId = 5,
-                            Description = "Cras viverra placerat purus. Nunc consectetur enim non elit lacinia, eget tempor neque efficitur. Fusce non pharetra libero. Phasellus malesuada facilisis nibh, id maximus urna consectetur sed.",
-                            ISBN = "SWD9999010",
-                            ListPrice = 90.0,
-                            Price = 80.0,
-                            Price100 = 70.0,
-                            Price50 = 75.0,
-                            Quantity = 100,
-                            Title = "Tháng năm rực rỡ"
-                        },
-                        new
-                        {
-                            Id = 11,
-                            Author = "Phan Nhật Nam",
-                            CategoryId = 1,
-                            Description = "Vestibulum at consectetur leo. Integer mollis dui a rhoncus viverra. Duis sit amet dui nec urna rhoncus consectetur. Vestibulum at lacinia metus. Integer venenatis, neque non pulvinar pulvinar, est purus sollicitudin metus, id euismod metus ex ac quam.",
-                            ISBN = "SWD9999011",
-                            ListPrice = 75.0,
-                            Price = 65.0,
-                            Price100 = 55.0,
-                            Price50 = 60.0,
-                            Quantity = 100,
-                            Title = "Những ngày thứ hai không quên"
-                        },
-                        new
-                        {
-                            Id = 12,
-                            Author = "Norman Vincent Peale",
-                            CategoryId = 2,
-                            Description = "Sed at mauris et sem mattis luctus. Pellentesque congue sem ac feugiat lacinia. Sed facilisis ipsum lectus, in porttitor est pharetra in. Ut consequat ultrices risus, sit amet facilisis ante tempus eget.",
-                            ISBN = "SWD9999012",
-                            ListPrice = 80.0,
-                            Price = 70.0,
-                            Price100 = 60.0,
-                            Price50 = 65.0,
-                            Quantity = 100,
-                            Title = "Tư duy tích cực"
-                        },
-                        new
-                        {
-                            Id = 13,
-                            Author = "Paulo Coelho",
-                            CategoryId = 3,
-                            Description = "Etiam sed feugiat enim. Sed interdum risus id sollicitudin pharetra. Sed commodo, magna nec commodo lacinia, diam tellus dapibus risus, nec vestibulum ex quam eu mi.",
-                            ISBN = "SWD9999013",
-                            ListPrice = 110.0,
-                            Price = 100.0,
-                            Price100 = 90.0,
-                            Price50 = 95.0,
-                            Quantity = 100,
-                            Title = "Nhà giả kim"
-                        },
-                        new
-                        {
-                            Id = 14,
-                            Author = "Hà Thanh",
-                            CategoryId = 4,
-                            Description = "Donec in facilisis lorem. Nunc interdum bibendum tellus eu elementum. Proin venenatis ligula et tellus aliquet, id ullamcorper sem rhoncus. Maecenas sed sapien vitae diam viverra ullamcorper.",
-                            ISBN = "SWD9999014",
-                            ListPrice = 95.0,
-                            Price = 85.0,
-                            Price100 = 75.0,
-                            Price50 = 80.0,
-                            Quantity = 100,
-                            Title = "Trên đường băng"
-                        },
-                        new
-                        {
-                            Id = 15,
-                            Author = "Nguyễn Nhật Ánh",
-                            CategoryId = 5,
-                            Description = "Vestibulum pellentesque faucibus ligula, a feugiat nunc bibendum ac. Sed tristique nulla a quam congue fringilla. Ut aliquet leo et tellus congue placerat. Integer venenatis fermentum libero vitae convallis.",
-                            ISBN = "SWD9999015",
-                            ListPrice = 120.0,
-                            Price = 100.0,
-                            Price100 = 90.0,
-                            Price50 = 95.0,
-                            Quantity = 100,
-                            Title = "Gác một trời ký ức"
-                        },
-                        new
-                        {
-                            Id = 16,
-                            Author = "Hồ Chí Minh",
-                            CategoryId = 1,
-                            Description = "Fusce at leo ac elit viverra luctus. Sed id placerat odio. Sed lacinia auctor lorem vitae posuere. Mauris nec interdum neque, a facilisis tellus. Morbi semper sem vitae lacus consectetur, in malesuada purus fringilla.",
-                            ISBN = "SWD9999016",
-                            ListPrice = 85.0,
-                            Price = 75.0,
-                            Price100 = 65.0,
-                            Price50 = 70.0,
-                            Quantity = 100,
-                            Title = "Nhật ký trong tù"
-                        },
-                        new
-                        {
-                            Id = 17,
-                            Author = "Tony Robbins",
-                            CategoryId = 2,
-                            Description = "Pellentesque a orci euismod, consequat mauris id, mattis lacus. Nulla facilisi. Nulla eu erat id lectus ullamcorper faucibus. Integer a mi neque. Sed a erat lacinia, elementum mauris nec, semper tortor.",
-                            ISBN = "SWD9999017",
-                            ListPrice = 140.0,
-                            Price = 120.0,
-                            Price100 = 110.0,
-                            Price50 = 115.0,
-                            Quantity = 100,
-                            Title = "Đánh thức con người phi thường"
-                        },
-                        new
-                        {
-                            Id = 18,
-                            Author = "Nguyễn Minh Trí",
-                            CategoryId = 3,
-                            Description = "In hac habitasse platea dictumst. Ut feugiat iaculis mi, sit amet tristique massa mattis id. Maecenas maximus lorem sed dolor auctor tristique. Vestibulum pulvinar elit id finibus tincidunt.",
-                            ISBN = "SWD9999018",
-                            ListPrice = 90.0,
-                            Price = 80.0,
-                            Price100 = 70.0,
-                            Price50 = 75.0,
-                            Quantity = 100,
-                            Title = "Cuộc sống không bù đắp"
-                        },
-                        new
-                        {
-                            Id = 19,
-                            Author = "Nguyễn Nhật Ánh",
-                            CategoryId = 4,
-                            Description = "Quisque lacinia sollicitudin interdum. Sed auctor lectus eu mi fringilla eleifend. Sed posuere iaculis eleifend. Praesent non dapibus lacus.",
-                            ISBN = "SWD9999019",
-                            ListPrice = 75.0,
-                            Price = 65.0,
-                            Price100 = 55.0,
-                            Price50 = 60.0,
-                            Quantity = 100,
-                            Title = "Mắt biếc"
-                        },
-                        new
-                        {
-                            Id = 20,
-                            Author = "Tuấn Hạc",
-                            CategoryId = 5,
-                            Description = "Vestibulum sodales, mi a eleifend commodo, lectus elit consectetur sem, sit amet feugiat lectus libero sed sem. Donec rhoncus auctor congue. Nulla facilisi. Mauris sed finibus orci.",
-                            ISBN = "SWD9999020",
-                            ListPrice = 100.0,
-                            Price = 90.0,
-                            Price100 = 80.0,
-                            Price50 = 85.0,
-                            Quantity = 100,
-                            Title = "Hạnh phúc không chờ đợi"
-                        });
+                    b.ToTable("Products");
                 });
 
             modelBuilder.Entity("example.Models.ProductImage", b =>
@@ -1019,6 +658,10 @@ namespace example.DataAccess.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
                     b.Property<string>("Comment")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -1026,17 +669,73 @@ namespace example.DataAccess.Migrations
                     b.Property<DateTime>("DateCreated")
                         .HasColumnType("datetime2");
 
+                    b.Property<int>("ProductId")
+                        .HasColumnType("int");
+
                     b.Property<int>("Rating")
                         .HasColumnType("int");
 
-                    b.Property<int>("ShoppingCartId")
+                    b.Property<int?>("SellerId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("ShoppingCartId");
+                    b.HasIndex("ApplicationUserId");
+
+                    b.HasIndex("ProductId");
+
+                    b.HasIndex("SellerId");
 
                     b.ToTable("ProductReviews");
+                });
+
+            modelBuilder.Entity("example.Models.Seller", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("ApplicationUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ContactInformation")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Logo")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<double>("Ratings")
+                        .HasColumnType("float");
+
+                    b.Property<string>("ReturnPolicy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Sales")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ShippingPolicy")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("StoreName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicationUserId");
+
+                    b.ToTable("Sellers");
                 });
 
             modelBuilder.Entity("example.Models.ShoppingCart", b =>
@@ -1183,7 +882,15 @@ namespace example.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("example.Models.Seller", "Seller")
+                        .WithMany("Products")
+                        .HasForeignKey("SellerId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Seller");
                 });
 
             modelBuilder.Entity("example.Models.ProductImage", b =>
@@ -1199,13 +906,36 @@ namespace example.DataAccess.Migrations
 
             modelBuilder.Entity("example.Models.ProductReview", b =>
                 {
-                    b.HasOne("example.Models.ShoppingCart", "ShoppingCart")
-                        .WithMany("ProductReviews")
-                        .HasForeignKey("ShoppingCartId")
+                    b.HasOne("example.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("ShoppingCart");
+                    b.HasOne("example.Models.Product", "Product")
+                        .WithMany()
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("example.Models.Seller", null)
+                        .WithMany("Reviews")
+                        .HasForeignKey("SellerId");
+
+                    b.Navigation("ApplicationUser");
+
+                    b.Navigation("Product");
+                });
+
+            modelBuilder.Entity("example.Models.Seller", b =>
+                {
+                    b.HasOne("example.Models.ApplicationUser", "ApplicationUser")
+                        .WithMany()
+                        .HasForeignKey("ApplicationUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("ApplicationUser");
                 });
 
             modelBuilder.Entity("example.Models.ShoppingCart", b =>
@@ -1246,9 +976,11 @@ namespace example.DataAccess.Migrations
                     b.Navigation("ProductImages");
                 });
 
-            modelBuilder.Entity("example.Models.ShoppingCart", b =>
+            modelBuilder.Entity("example.Models.Seller", b =>
                 {
-                    b.Navigation("ProductReviews");
+                    b.Navigation("Products");
+
+                    b.Navigation("Reviews");
                 });
 #pragma warning restore 612, 618
         }
