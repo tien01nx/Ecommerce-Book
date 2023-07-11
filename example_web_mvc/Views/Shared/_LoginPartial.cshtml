@@ -3,50 +3,37 @@
 @inject SignInManager<IdentityUser> SignInManager
 @inject UserManager<IdentityUser> UserManager
 
-<ul class="navbar-nav">
+@{
+    var user = await UserManager.GetUserAsync(User) as ApplicationUser;
+}
+
+<ul class="navbar-nav mx-auto">
     @if (SignInManager.IsSignedIn(User))
     {
-        <li class="nav-item dropdown">
+        <li class="nav-item dropdown px-2 py-4">
             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-             @*    <img src="\files\assets\images\avatar-4.jpg" class="img-radius" alt="User-Profile-Image"> *@
-                <span>@UserManager.GetUserName(User)</span>
+                @*  <span>@UserManager.GetUserName(User)</span> *@
+                @*  <span>@user.Name</span> *@
+                <i class="fas fa-user-circle"></i> <span>Tài khoản</span>
             </a>
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-             
-                <li><a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fas fa-user-alt"></i> Profile</a></li>
-                <li><a class="dropdown-item" href="email-inbox.htm"><i class="fas fa-envelope"></i> My Messages</a></li>
-                <li><a class="dropdown-item" href="auth-lock-screen.htm"><i class="fal fa-lock"></i> Lock Screen</a></li>
-                <li><a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i> Settings</a></li>
-                <li>
-                    <a class="dropdown-item " href="javascript:void(0)" onclick="document.getElementById('logoutForm').submit()">
-                        <i class="fal fa-sign-out-alt"></i> Đăng Xuất
-                    </a>
-               
-                    <form id="logoutForm" style="display: none;" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                    </form>
-                </li>
-              
-                  @*   <form id="logoutForm" class="dropdown-item d-flex align-items-center" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
-                        <button type="submit" class="btn text-dark border-0 d-flex align-items-center"><i class="fal fa-sign-out-alt"></i> <span>Đăng xuất</span></button>
-                    </form> *@
-
-
-              
-
-
-                
-
-            </ul>
-
-
+            <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage"><i class="fas fa-user-alt"></i> Profile</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-envelope"></i> My Messages</a>
+                <a class="dropdown-item" href="#"><i class="fal fa-lock"></i> Lock Screen</a>
+                <a class="dropdown-item" href="#"><i class="fas fa-user-cog"></i> Settings</a>
+                <a class="dropdown-item " href="javascript:void(0)" onclick="document.getElementById('logoutForm').submit()">
+                    <i class="fal fa-sign-out-alt"></i> Đăng Xuất
+                </a>
+                <form id="logoutForm" style="display: none;" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"></form>
+            </div>
         </li>
     }
     else
     {
-        <li class="nav-item">
+        <li class="nav-item px-2 py-4">
             <a class="nav-link" id="register" asp-area="Identity" asp-page="/Account/Register">Register</a>
         </li>
-        <li class="nav-item">
+        <li class="nav-item px-2 py-4">
             <a class="nav-link" id="login" asp-area="Identity" asp-page="/Account/Login">Login</a>
         </li>
     }
