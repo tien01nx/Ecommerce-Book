@@ -7,5 +7,6 @@ namespace example.DataAccess.Repository.IRepository
 
         void Update(OrderDetail obj);
 
+    
     }
 }

@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Net.NetworkInformation;
-using System.Reflection.Emit;
 
 namespace example_web_mvc.DataAccess.Data
 {

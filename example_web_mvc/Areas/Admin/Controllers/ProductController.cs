@@ -5,7 +5,6 @@ using example.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
-using Stripe.Radar;
 using System.Data;
 using System.Security.Claims;
 
@@ -69,8 +68,9 @@ namespace example_web_mvc.Areas.Admin.Controllers
 
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var seller = _unitOfWork.Seller.Get(u=>u.ApplicationUserId == userId);  
-            if (seller != null) { 
+            var seller = _unitOfWork.Seller.Get(u => u.ApplicationUserId == userId);
+            if (seller != null)
+            {
                 productVM.Product.SellerId = seller.Id;
                 if (ModelState.IsValid)
                 {
@@ -149,7 +149,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
                 TempData["error"] = "Could not find associated seller. Please check your account.";
                 return RedirectToAction("Index"); // hoặc đến trang quản lý seller tương ứng
             }
-          
+
 
 
         }
@@ -240,7 +240,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
             }
 
             return Json(new { data = obj });
-      
+
 
 
         }

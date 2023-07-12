@@ -203,30 +203,36 @@ namespace example_web_mvc.Areas.Admin.Controllers
         #region API CALLS
 
         // https://localhost:7139/admin/product/getall
-        [HttpGet]
+        [HttpGet]   
         public IActionResult GetAll(string status)
         {
             IEnumerable<OrderHeader> objOrderHeader;
-
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
             {
                 objOrderHeader = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
-            }// thêm diều kiện check nếu nhà seller thì hiện tất cả các sản phẩm  mà seleer có người đang mua
+            }
+            else if (User.IsInRole(SD.Role_Seller))
+            {
+                var seller = _unitOfWork.Seller.Get(u=>u.ApplicationUserId ==userId);
+
+                objOrderHeader = _unitOfWork.OrderHeader.GetOrderHeadersForSeller(seller.Id);
+
+            
+            }
             else
             {
-                var claimIdentity = (ClaimsIdentity)User.Identity;
-                var userId = claimIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-                objOrderHeader = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ApplicationUser");
+               
+                objOrderHeader = _unitOfWork.OrderHeader.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ApplicationUser").ToList();
             }
 
+            // Thêm các điều kiện lọc theo status
             switch (status)
             {
-                //Thanh toán "Được chấp nhận cho thanh toán trễ hẹn"
                 case "pending":
                     objOrderHeader = objOrderHeader.Where(u => u.PaymentStatus == SD.PaymentsStatusDelayedPayment);
                     break;
-
-
                 case "inprocess":
                     objOrderHeader = objOrderHeader.Where(u => u.OrderStatus == SD.StatusInProcess);
                     break;
@@ -237,11 +243,9 @@ namespace example_web_mvc.Areas.Admin.Controllers
                     objOrderHeader = objOrderHeader.Where(u => u.OrderStatus == SD.StatusApproved);
                     break;
                 default:
-
                     break;
-
-
             }
+
             return Json(new { data = objOrderHeader });
 
 

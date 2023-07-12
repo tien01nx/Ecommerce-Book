@@ -1,6 +1,7 @@
 ﻿using example.DataAccess.Repository.IRepository;
 using example.Models;
 using example_web_mvc.DataAccess.Data;
+using Microsoft.EntityFrameworkCore;
 
 namespace example.DataAccess.Repository
 {
@@ -18,5 +19,6 @@ namespace example.DataAccess.Repository
         {
             _db.OrderDetails.Update(obj);
         }
+     
     }
 }
