@@ -5,6 +5,7 @@ using example.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
+using NuGet.Protocol.Plugins;
 using Stripe.Checkout;
 using System.Security.Claims;
 
@@ -28,6 +29,14 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
         public IActionResult Index()
         {
+            //// xác thực người dùng chưa đăng nhập 
+            // xác thực người dùng chưa đăng nhập 
+            if (!User.Identity.IsAuthenticated)
+            {
+                //return Redirect($"/Identity/Account/Login?ReturnUrl=/Customer/Home/Details/?productId={productReviewVM.ProductId}");
+                return Redirect($"/Login?ReturnUrl=/Customer/Cart/Index");
+
+            }
 
             // lấy id người dùng
             var claimsIdentity = (ClaimsIdentity)User.Identity;
@@ -192,7 +201,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
                         PriceData = new SessionLineItemPriceDataOptions
                         {
                             UnitAmount = (long?)(itemFinalPricePerUnit * 100),
-                            Currency = "usd",
+                            Currency = "vnd",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
                                 Name = item.Product.Title

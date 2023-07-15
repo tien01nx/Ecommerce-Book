@@ -68,8 +68,10 @@ namespace example.Models
         public string Name { get; set; }
 
 
-        // lấy thông tin Product
+        // lấy thông tin OrderDetails 
         public List<OrderDetail> OrderDetails { get; set; }
+
+      
 
     }
 }

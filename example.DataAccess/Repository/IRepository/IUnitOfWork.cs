@@ -13,6 +13,7 @@
         ICouponRepository Coupon { get; }
         IProductReviewRepository ProductReview { get; }
         ISellerRepository Seller { get; }
+        IUserProductViewRepository UserProductView { get; }
         void Save();
     }
 }

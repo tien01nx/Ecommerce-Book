@@ -1,4 +1,5 @@
-﻿using example.DataAccess.Repository.IRepository;
+﻿using example.DataAccess.Repository;
+using example.DataAccess.Repository.IRepository;
 using example.Models;
 using example.Models.DTO;
 using example.Models.ViewModel;
@@ -128,8 +129,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
             IEnumerable<ProductReview> productReviews = _unitOfWork.ProductReview.GetAll(pr => pr.Product.Id == productId, includeProperties: "ApplicationUser");
 
-            //var claimsIdentity = (ClaimsIdentity)User.Identity;
-            //var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+         
             // Create a new ProductReviewVM
             ProductReviewVM productReviewVM = new ProductReviewVM()
             {
@@ -141,6 +141,35 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
 
             };
+
+
+            // nếu người dùng đã đăng nhập
+            if (User.Identity.IsAuthenticated)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+                var view = new UserProductView
+                {
+                    ApplicationUserId = userId,
+                    ProductId = product.Id,
+                    ViewTime = DateTime.Now
+                };
+
+                _unitOfWork.UserProductView.Add(view);
+                _unitOfWork.Save();
+            }
+
+            // nếu người chưa đăng nhập thì lưu vào Cookie
+            else
+            {
+                var cookieOptions = new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(30)  // cookie will expire in 30 days
+                };
+                // Create a new cookie for the product view
+                Response.Cookies.Append($"ViewedProduct_{productId}", DateTime.Now.ToString(), cookieOptions);
+            }
+
 
             return View(productReviewVM);
         }
@@ -236,6 +265,8 @@ namespace example_web_mvc.Areas.Customer.Controllers
         //    });
         //}
         // tim kiem
+
+
         [HttpGet]
         public IActionResult GetProducts()
         {
@@ -252,6 +283,51 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 });
 
             return Json(productList);
+        }
+
+
+        public IActionResult ViewedProducts()
+        {
+            var viewedProductIds = new List<int>();
+
+            // Iterate over all cookies
+            foreach (var cookie in Request.Cookies)
+            {
+                if (cookie.Key.StartsWith("ViewedProduct_"))
+                {
+                    // Get the product id from the cookie key
+                    var productId = int.Parse(cookie.Key.Substring("ViewedProduct_".Length));
+                    viewedProductIds.Add(productId);
+                }
+            }
+
+            // Fetch the products from the database using the repository
+            var productDTOs = new List<ProductDTO>();
+            foreach (var productId in viewedProductIds)
+            {
+                var product = _unitOfWork.UserProductView.GetProductById(productId);
+                if (product != null)
+                {
+                    // Map Product to ProductDTO
+                    var productDTO = new ProductDTO
+                    {
+                        Id = product.Id,
+                        Title = product.Title,
+                        Author = product.Author,
+                        ListPrice = product.ListPrice,
+                        ProductImages = product.ProductImages.Select(image => new ProductImage
+                        {
+                            Id = image.Id,
+                            ImageUrl = image.ImageUrl
+                        }).ToList(),
+                        // Map các trường khác
+                    };
+                    productDTOs.Add(productDTO);
+                }
+            }
+
+            // Return the list of product DTOs as a JSON object
+            return Json(productDTOs);
         }
 
 

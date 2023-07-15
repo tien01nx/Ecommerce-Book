@@ -29,6 +29,7 @@ namespace example_web_mvc.DataAccess.Data
 
         public DbSet<Seller> Sellers { get; set; }
 
+        public DbSet<UserProductView> UserProducts { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

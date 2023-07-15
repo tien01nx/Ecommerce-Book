@@ -1,5 +1,6 @@
 ﻿using example.DataAccess.Repository.IRepository;
 using example.Models;
+using example.Models.DTO;
 using example.Models.ViewModel;
 using example.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -244,6 +245,21 @@ namespace example_web_mvc.Areas.Admin.Controllers
 
 
         }
+
+        [HttpGet]
+        public IActionResult GetProductsBySeller()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+           
+
+            var products = _unitOfWork.Product.GetProductsBySellerApplicationUserId(userId);
+
+         
+
+            return Json(new { data = products });
+        }
+
 
 
         [HttpDelete]

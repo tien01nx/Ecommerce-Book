@@ -6,6 +6,7 @@
     var completed = "text-primary";
     var approved = "text-primary";
     var all = "text-primary";
+    var inventory = "text-primary";
     switch (status)
     {
         case "pending":
@@ -20,6 +21,10 @@
         case "approved":
             approved = "active text-white bg-primary";
             break;
+        case "inventory":
+            inventory = "active text-white bg-primary";
+            break;
+
         default:
             all = "active text-white bg-primary";
             break;
@@ -78,6 +83,15 @@
                 </li>
 
                 </a>
+
+
+
+                <a style="text-decoration:none;" onclick="loadInventoryDataTable()">
+                <li class="list-group-item @inventory">
+                    Inventory
+                </li>
+                </a>
+
             </ul>
 
 

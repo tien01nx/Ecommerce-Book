@@ -26,11 +26,22 @@ builder.Services.Configure<StripeSetting>(builder.Configuration.GetSection("Stri
 // add quyen nguoi dung 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    // Cấu hình yêu cầu mật khẩu
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequiredLength = 0;
+});
+
 
 //ứng dụng sẽ chuyển hướng người dùng đến khi họ cần đăng nhập, đăng xuất hoặc khi họ bị từ chối truy cập.
 builder.Services.ConfigureApplicationCookie(options =>
 {
-    options.LoginPath = $"/Identity/Account/Login";
+    //options.LoginPath = $"/Identity/Account/Login";
+    options.LoginPath = "/Login";
     options.LogoutPath = $"/Identity/Account/Logout";
     options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
 });
@@ -113,6 +124,7 @@ app.UseCors("VueCorsPolicy");
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+
 
 app.Run();
 

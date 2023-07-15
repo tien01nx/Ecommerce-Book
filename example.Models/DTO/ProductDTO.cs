@@ -9,6 +9,8 @@
         public double Price100 { get; set; }
 
         public List<string> ImageUrls { get; set; }
+
+        public List<ProductImage> ProductImages { get; set; }
     }
 
 }

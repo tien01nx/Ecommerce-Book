@@ -35,7 +35,8 @@ namespace example_web_mvc.Areas.Customer.Controllers
             // xác thực người dùng chưa đăng nhập 
             if (!User.Identity.IsAuthenticated)
             {
-                return Redirect($"/Identity/Account/Login?ReturnUrl=/Customer/Home/Details/?productId={productReviewVM.ProductId}");
+                //return Redirect($"/Identity/Account/Login?ReturnUrl=/Customer/Home/Details/?productId={productReviewVM.ProductId}");
+                return Redirect($"/Login?ReturnUrl=/Customer/Home/Details/?productId={productReviewVM.ProductId}");
 
             }
             var newReview = new ProductReview
@@ -60,33 +61,26 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
         }
 
-        [HttpGet]
+        [HttpPost]
         [Authorize]
-        public IActionResult EditReview(int reviewId)
+        public IActionResult EditReview(ProductReviewVM productReviewVM)
         {
-            var review = _unitOfWork.ProductReview.Get(u => u.Id == reviewId);
-
-
-
-
-            if (review != null)
+            var newReview = new ProductReview
             {
-                var productReviewVM = new ProductReviewVM
-                {
-                    ProductId = review.ProductId,
-                    ProductReview = new ProductReview
-                    {
-                        Id = review.Id,
-                        Rating = review.Rating,
-                        Comment = review.Comment
-                    }
-                };
+                Rating = productReviewVM.ProductReview.Rating,
+                Comment = productReviewVM.ProductReview.Comment,
+                DateCreated = DateTime.Now,
+                ProductId = productReviewVM.ProductId,
+                ApplicationUserId = productReviewVM.ApplicationUserId,
+                Id= productReviewVM.ProductReview.Id
 
-                return View(productReviewVM);
-            }
+            };
+
+           _unitOfWork.ProductReview.Update(newReview);
+            _unitOfWork.Save();
 
             // Nếu không tìm thấy đánh giá hoặc không có quyền chỉnh sửa, chuyển hướng đến trang chi tiết sản phẩm
-            return RedirectToAction(nameof(HomeController.Details), "Home", new { productId = review.ProductId });
+            return RedirectToAction(nameof(HomeController.Details), "Home", new { productId = productReviewVM.ProductId });
         }
 
 

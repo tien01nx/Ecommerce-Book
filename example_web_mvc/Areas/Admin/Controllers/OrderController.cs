@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Stripe;
 using Stripe.Checkout;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using example.Models.DTO;
 
 namespace example_web_mvc.Areas.Admin.Controllers
 {
@@ -202,24 +205,26 @@ namespace example_web_mvc.Areas.Admin.Controllers
         }
         #region API CALLS
 
-        // https://localhost:7139/admin/product/getall
+        // https://localhost:7139/admin/order/getall
         [HttpGet]   
         public IActionResult GetAll(string status)
         {
             IEnumerable<OrderHeader> objOrderHeader;
+         
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             if (User.IsInRole(SD.Role_Admin) || User.IsInRole(SD.Role_Employee))
             {
                 objOrderHeader = _unitOfWork.OrderHeader.GetAll(includeProperties: "ApplicationUser").ToList();
             }
-            else if (User.IsInRole(SD.Role_Seller))
+            else  if (User.IsInRole(SD.Role_Seller))
             {
-                var seller = _unitOfWork.Seller.Get(u=>u.ApplicationUserId ==userId);
+               var seller = _unitOfWork.Seller.Get(u=>u.ApplicationUserId == userId, includeProperties: "Products");
 
                 objOrderHeader = _unitOfWork.OrderHeader.GetOrderHeadersForSeller(seller.Id);
 
-            
+
+
             }
             else
             {
@@ -242,11 +247,24 @@ namespace example_web_mvc.Areas.Admin.Controllers
                 case "approved":
                     objOrderHeader = objOrderHeader.Where(u => u.OrderStatus == SD.StatusApproved);
                     break;
+                case "inventory":
+                    objOrderHeader = null;
+                    break;
                 default:
                     break;
             }
 
-            return Json(new { data = objOrderHeader });
+            var dtoData = objOrderHeader.Select(oh => new OrderHeaderDto
+            {
+                Id = oh.Id,
+                Name = oh.Name,
+                PhoneNumber = oh.PhoneNumber,
+                Email = oh.ApplicationUser.Email,
+                OrderStatus = oh.OrderStatus,
+                OrderTotal = oh.OrderTotal
+            }).ToList();
+
+            return Json(new { data = dtoData });
 
 
         }

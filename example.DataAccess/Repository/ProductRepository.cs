@@ -12,7 +12,10 @@ namespace example.DataAccess.Repository
             _db = db;
         }
 
-
+        public IEnumerable<Product> GetProductsBySellerApplicationUserId(string applicationUserId)
+        {
+            return _db.Products.Where(p => p.Seller.ApplicationUserId == applicationUserId).ToList();
+        }
 
         public void Update(Product obj)
         {

@@ -6,6 +6,6 @@ namespace example.DataAccess.Repository.IRepository
     {
 
         void Update(Product obj);
-
+        IEnumerable<Product> GetProductsBySellerApplicationUserId(string applicationUserId);
     }
 }
