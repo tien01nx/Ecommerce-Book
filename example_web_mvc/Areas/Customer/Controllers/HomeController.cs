@@ -92,13 +92,21 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
             if (!string.IsNullOrEmpty(search))
             {
-                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages")
-                    .Where(p => p.Title.Contains(search, StringComparison.OrdinalIgnoreCase));
+                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller")
+                    .Where(p => p.Title.Contains(search, StringComparison.OrdinalIgnoreCase) || p.Seller.StoreName.Contains(search, StringComparison.OrdinalIgnoreCase));
             }
             else
             {
-                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller");
             }
+
+            //foreach (var product in productList)
+            //{
+            //    var seller = product.Seller;
+            //    Console.WriteLine(seller.StoreName); // In ra tên của cửa hàng
+            //    Console.WriteLine(seller.Description); // In ra mô tả về cửa hàng
+            //                                           // và cứ như vậy với các thuộc tính khác của `Seller`
+            //}
 
             var pagedProductList = productList.ToPagedList(pageNumber, pageSize);
 
@@ -270,7 +278,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
         [HttpGet]
         public IActionResult GetProducts()
         {
-            var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages")
+            var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller")
                 .Select(p => new ProductDTO
                 {
                     Id = p.Id,
@@ -278,6 +286,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
                     Author = p.Author,
                     ListPrice = p.ListPrice,
                     Price100 = p.Price100,
+                    StoreName = p.Seller.StoreName,
                     // Extract the image URLs
                     ImageUrls = p.ProductImages.Select(i => i.ImageUrl).ToList()
                 });

@@ -1,4 +1,5 @@
-﻿using example.DataAccess.Repository.IRepository;
+﻿using example.DataAccess.Repository;
+using example.DataAccess.Repository.IRepository;
 using example.Models;
 using example.Utility;
 using Microsoft.AspNetCore.Authorization;
@@ -27,26 +28,33 @@ namespace example_web_mvc.Areas.Admin.Controllers
             return View();
         }
 
+    
         [HttpPost]
-        public IActionResult Create(Category obj)
+        public IActionResult Create([FromBody] Category category)
         {
-            // kiếm tra dữ liệu khi thêm
-            //if (obj.Name == obj.DisplayOrder.ToString())
-            //{
-            //    ModelState.AddModelError("name", "displayOrder cannot exactly match the Name");
-            //}
-            if (ModelState.IsValid)
+            try
             {
-                // thêm dữ liệu vào database
-                _unitOfWork.Category.Add(obj);
+                bool exists = _unitOfWork.Category.ExistsBy(c => c.Name.Equals(category.Name));
+                if (exists)
+                {
+                    return BadRequest(new
+                    {
+                        message = "Tên  danh mục đã tồn tại"
+                    });
+                }
+                else
+                {
+                    _unitOfWork.Category.Add(category);
+                    _unitOfWork.Save();
+                }
 
-                // lưu dữ liệu khi thêm
-                _unitOfWork.Save();
-
-                TempData["success"] = "Category created successfully";
-                return RedirectToAction("Index");
+              
+                return Ok(category);
             }
-            return View();
+            catch
+            {
+                return BadRequest();
+            }
         }
 
         public IActionResult Edit(int? id)
@@ -66,12 +74,12 @@ namespace example_web_mvc.Areas.Admin.Controllers
                 return NotFound();
             }
 
-            return View(category);
+            return Json(category);
         }
 
 
         [HttpPost]
-        public IActionResult Edit(Category obj)
+        public IActionResult Edit([FromBody] Category obj)
         {
 
 
@@ -82,14 +90,15 @@ namespace example_web_mvc.Areas.Admin.Controllers
 
                 // lưu dữ liệu khi thêm
                 _unitOfWork.Save();
-                TempData["success"] = "Category update successfully";
-                return RedirectToAction("Index");
+                //TempData["success"] = "Category update successfully";
+                return Ok(obj);
             }
 
             // return View();
             // Nếu dữ liệu không hợp lệ, quay lại modal chỉnh sửa
-            return PartialView("Edit", obj);
+            return BadRequest();
         }
+
 
 
         public IActionResult Delete(int? id)

@@ -1,89 +1,109 @@
 ﻿@model List<Category>
+    
 
-<div class="container">
-  <div class="row pt-4 pb-2">
-    <div class="col-6">
-      <h2 class="text-dark">Category List</h2>
+@{
+    ViewData["Title"] = "Industry";
+    Layout = "~/Views/Shared/_LayoutManager.cshtml";
+}
+
+
+<div class="container-fluid p-0">
+
+    <div class="mb-3">
+        <h1 class="h3 d-inline align-middle">Quản lý danh mục</h1>
     </div>
-    <div class="col-6 text-end">
-      <a asp-controller="Category" asp-action="Create" class="btn btn-primary">
-        <i class="bi bi-plus-lg"></i> Create New Category
-      </a>
-    </div>
-  </div>
-</div>
-<table class="table table-bordered table-striped">
-  <thead>
-    <tr>
-      <th>Name Category</th>
 
-      <th>Display Order</th>
-    </tr>
-  </thead>
-  <tbody>
-        @foreach (var obj in Model.OrderBy(u => u.DisplayOrder))
-        {
-        <tr>
-          <td>@obj.Name</td>
-          <td>@obj.DisplayOrder</td>
-          <td>
-            <div class="w-75 btn-group" role="group">
-
-
-              @* <a
-                asp-controller="Category"
-                asp-action="Edit"
-                asp-route-Id="@obj.Id"
-                class="btn btn-success mx-2"
-              >
-                <i class="bi bi-pen">Edit</i>
-              </a> *@
-
-
-                <button type="button" class="btn btn-success mx-2" data-bs-toggle="modal" data-bs-target="#editModal-@obj.Id">
-
-
-          <i class="bi bi-pen">Edit</i>
+    <div class="mb-3">
+        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal" onclick="showModal()">
+            <i class="align-middle" data-feather="plus"></i> Thêm mới
         </button>
-              <a
-                asp-controller="Category"
-                asp-action="Delete"
-                asp-route-Id="@obj.Id"
-                class="btn btn-danger"
-              >
-                <i class="bi bi-trash3">Delete</i>
-              </a>
-            </div>
-          </td>
-        </tr>
-
-<!-- Modal -->
-  <div class="modal fade" id="editModal-@obj.Id" tabindex="-1" aria-labelledby="editModalLabel-@obj.Id" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="editModalLabel-@obj.Id">Edit Category</h5>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-        <div class="modal-body">
-          <!-- Add your form fields for editing the category here -->
-          <!-- Example: -->
-          <form asp-controller="Category" asp-action="Edit" method="post">
-            <input type="hidden" name="Id" value="@obj.Id" />
-            <div class="form-group">
-              <label for="name">Name:</label>
-              <input type="text" class="form-control" id="name" name="Name" value="@obj.Name" required>
-            </div>
-            <div class="form-group">
-              <label for="displayOrder">Display Order:</label>
-              <input type="text" class="form-control" id="displayOrder" name="DisplayOrder" value="@obj.DisplayOrder" required>
-            </div>
-            <button type="submit" class="btn btn-primary">Save</button>
-          </form>
-        </div>
-      </div>
     </div>
-  </div>
-        }
-  </tbody>
-</table>
+
+    <div class="row">
+        <div class="col-12 col-xl-12">
+            @*<div class="alert alert-success alert-dismissible" role="alert" id="alert" style="visibility: hidden">
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                <div class="alert-icon">
+                    <i class="fal fa-bell-on"></i>
+                </div>
+                <div class="alert-message">
+                    Thêm ngành nghề thành công !
+                </div>
+            </div>*@
+            <div class="card">
+                <table class="table table-striped" id="tblCategory">
+                    <thead>
+                        <tr>
+                            <th>STT</th>
+                            <th>Tên danh mục</th>
+                            <th>Thứ tự hiện thị</th>
+                            <th nowrap>Thao tác</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @{
+                            int STT = 1;
+                        }
+                        @foreach (var item in Model)
+                        {
+                            <tr id="hihi-@item.Id">
+                                <td>@STT</td>
+                                <td id="category-name-@item.Id">@item.Name</td>
+                                <td id="display-order-@item.Id">@item.DisplayOrder</td>
+                             
+                                <td class="table-action">
+                                    <a href="#" onclick="populateModalWithIndustryDetails(@item.Id)">
+                                        <i class="fal fa-pen" style="color: #000000; margin-right: 25px;"></i>
+                                    </a>
+                                    <a onclick="deleteIndustry(@item.Id)">
+                                        <i class="fal fa-trash" style="color: #000000;"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            STT++;
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="myModalLabel">Thêm mới một danh mục</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="btn-close" onclick="resetText()"></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">Tên danh mục <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="CategoryName" placeholder="Nhập tên ngành nghề" style="margin-bottom: 5px;" />
+                    <span id="message" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label">Thứ tự hiện thị <span class="text-danger">*</span></label>
+                    <input type="text" class="form-control" id="DisplayOrder" placeholder="Nhập tên ngành nghề" style="margin-bottom: 5px;" />
+                    <span id="message" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="resetText()">Đóng</button>
+                <button type="button" class="btn btn-primary" onclick="saveIndustry()">Thêm mới</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{
+    <script src="~/js/category.js"></script>
+    <script>
+        document.getElementById("CategoryName").addEventListener("keyup", function (event) {
+            if (event.keyCode === 13) {
+                createIndustry();
+            }
+        });</script>
+}

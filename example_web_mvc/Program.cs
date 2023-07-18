@@ -123,7 +123,7 @@ app.UseCors("VueCorsPolicy");
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
+    pattern: "{area=Admin}/{controller=Category}/{action=Index}/{id?}");
 
 
 app.Run();

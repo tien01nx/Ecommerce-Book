@@ -1,6 +1,7 @@
 ﻿using example.DataAccess.Repository.IRepository;
 using example.Models;
 using example_web_mvc.DataAccess.Data;
+using System.Linq.Expressions;
 
 namespace example.DataAccess.Repository
 {
@@ -12,7 +13,10 @@ namespace example.DataAccess.Repository
             _db = db;
         }
 
-
+        public bool ExistsBy(Expression<Func<Category, bool>> filter)
+        {
+            return dbSet.Any(filter);
+        }
 
         public void Update(Category obj)
         {

@@ -8,11 +8,11 @@ namespace example.Models
         public int Id { get; set; }
 
         [Required]
-        [DisplayName("Category Name")]
-        [MaxLength(30, ErrorMessage = "độ dài của Name <30 ký tự")]
+        [DisplayName("Tên danh mục")]
+        [MaxLength(30, ErrorMessage = "độ dài của tên danh mục <30 ký tự")]
         public string Name { get; set; }
 
-        [DisplayName("Display Order")]
+        [DisplayName("Thứ tự hiện thị")]
         [Range(1, 100, ErrorMessage = "Dũ liệu nhập từ 0 đến 100")]
         public int DisplayOrder { get; set; }
 

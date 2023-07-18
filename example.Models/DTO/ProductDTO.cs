@@ -7,6 +7,7 @@
         public string Author { get; set; }
         public double ListPrice { get; set; }
         public double Price100 { get; set; }
+        public string  StoreName { get; set; }
 
         public List<string> ImageUrls { get; set; }
 

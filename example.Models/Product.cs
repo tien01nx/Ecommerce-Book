@@ -52,10 +52,5 @@ namespace example.Models
         [ValidateNever]
         public Seller Seller { get; set; }
 
-
-
-
-
-
     }
 }

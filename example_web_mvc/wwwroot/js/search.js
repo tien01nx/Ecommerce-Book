@@ -5,14 +5,20 @@ fetch('/Customer/Home/GetProducts')
     .then(response => response.json())
     .then(data => {
         productList = data;
-        //console.log(data);
+        console.log(data);
     })
     .catch(error => console.log(error));
 
 // Handle input event
 $('#searchInput').on('input', function () {
     const search = $(this).val().toLowerCase();
-    const filteredProducts = productList.filter(p => p.title.toLowerCase().includes(search));
+    const filteredProducts = productList.filter(p =>
+        p.storeName.toLowerCase().includes(search) ||
+        p.title.toLowerCase().includes(search)
+        || p.author.toLowerCase().includes(search)
+    );
+
+    console.log(filteredProducts)
 
     // Build search results HTML
     let searchResultsHtml = '';
