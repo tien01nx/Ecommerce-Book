@@ -4,6 +4,7 @@ using example.Models.DTO;
 using example.Models.ViewModel;
 using example.Utility;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using System.Data;
@@ -20,10 +21,12 @@ namespace example_web_mvc.Areas.Admin.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment;
-        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        private readonly UserManager<IdentityUser> _userManager;
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment, UserManager<IdentityUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
+            _userManager = userManager;
         }
         public IActionResult Index()
         {
@@ -221,30 +224,63 @@ namespace example_web_mvc.Areas.Admin.Controllers
         #region API CALLS
 
         // https://localhost:7139/admin/product/getall
+        //[HttpGet]
+        //public IActionResult GetAll()
+        //{
+        //    var claimsIdentity = (ClaimsIdentity)User.Identity;
+        //    var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+        //    var seller
+        //    if (!User.IsInRole(SD.Role_Admin))
+        //    {
+        //         seller = _unitOfWork.Seller.Get(u => u.ApplicationUserId == userId);
+
+        //    }
+
+        //    //List<Product> obj = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+        //    List<Product> obj;
+
+        //    if (seller != null)
+        //    {
+        //        obj = _unitOfWork.Product.GetAll(p => p.SellerId == seller.Id, includeProperties: "Category").ToList();
+        //    }
+        //    else
+        //    {
+        //        obj = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
+        //    }
+
+        //    return Json(new { data = obj });
+
+
+
+        //}
+
         [HttpGet]
         public IActionResult GetAll()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var seller = _unitOfWork.Seller.Get(u => u.ApplicationUserId == userId);
-            //List<Product> obj = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
             List<Product> obj;
-
-            if (seller != null)
-            {
-                obj = _unitOfWork.Product.GetAll(p => p.SellerId == seller.Id, includeProperties: "Category").ToList();
-            }
-            else
+            if (User.IsInRole(SD.Role_Admin))
             {
                 obj = _unitOfWork.Product.GetAll(includeProperties: "Category").ToList();
             }
+            else
+            {
+                var seller = _unitOfWork.Seller.Get(u => u.ApplicationUserId == userId);
+                if (seller != null)
+                {
+                    obj = _unitOfWork.Product.GetAll(p => p.SellerId == seller.Id, includeProperties: "Category").ToList();
+                }
+                else
+                {
+                    obj = new List<Product>();
+                }
+            }
 
             return Json(new { data = obj });
-
-
-
         }
+
 
         [HttpGet]
         public IActionResult GetProductsBySeller()

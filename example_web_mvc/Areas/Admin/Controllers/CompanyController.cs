@@ -37,13 +37,13 @@ namespace example_web_mvc.Areas.Admin.Controllers
             if (id == 0 || id == null)
             {
                 // create
-                return View(new Company());
+              return NotFound();
             }
             else
             {
                 // update
                 Company companyObj = _unitOfWork.Company.Get(u => u.Id == id);
-                return View(companyObj);
+                return Json(companyObj);
             }
 
         }
@@ -51,7 +51,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
 
 
         [HttpPost]
-        public IActionResult Upsert(Company companyObj)
+        public IActionResult Upsert([FromBody] Company companyObj)
         {
 
             if (ModelState.IsValid)
@@ -67,20 +67,16 @@ namespace example_web_mvc.Areas.Admin.Controllers
                     _unitOfWork.Company.Update(companyObj);
                 }
 
-
                 // lưu dữ liệu khi thêm
                 _unitOfWork.Save();
 
-                TempData["success"] = "Company created successfully";
-                return RedirectToAction("Index");
+                //TempData["success"] = "Company created successfully";
+                return Ok(companyObj);
+                //return RedirectToAction("Index");
             }
             else
-            {
-
-
-
-
-                return View(companyObj);
+            { 
+                return BadRequest();
             }
 
 

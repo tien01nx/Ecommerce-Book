@@ -8,7 +8,9 @@ var updateId = null;
 function showModal(isUpdate, id) {
     updateId = isUpdate ? id : null;
     var title = isUpdate ? 'Cập nhật danh mục' : 'Thêm mới một danh mục';
+    var save = isUpdate ? 'Cập nhật' : 'Thêm mới';
     document.getElementById('myModalLabel').innerHTML = title;
+    document.getElementById('save').innerHTML = save;
     $('#myModal').modal('show');
 }
 
@@ -30,6 +32,7 @@ function updateIndustry(id) {
         DisplayOrder: DisplayOrder.value
     };
 
+    console.log(industryData);
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -51,7 +54,7 @@ function fetchIndustryData(id, callback) {
         if (this.readyState == 4 && this.status == 200) {
             try {
                 var industryData = JSON.parse(this.responseText);
-                console.log(industryData);
+                console.log("hihi",industryData);
                 callback(null, industryData);
             } catch (err) {
                 callback(err);
@@ -79,18 +82,38 @@ function populateModalWithIndustryDetails(id) {
 
 function createIndustry() {
     var CategoryName = document.getElementById("CategoryName");
-    var DesplayOrder = document.getElementById("DisplayOrder");
-    var message = document.getElementById("message");
-    /*var alert = document.getElementById("alert");*/
+    var DisplayOrder = document.getElementById("DisplayOrder");
+    var checkName = document.getElementById("checkName");
+    var checkDisplay = document.getElementById("checkDisplay");
+    var alertMsg = document.getElementById("alert");
+
     if (CategoryName.value == "") {
-        message.innerHTML = "Vui lòng nhập tên ngành nghề !";
+        checkName.innerHTML = "Vui lòng nhập tên danh mục!";
         CategoryName.focus();
         return;
+    } else {
+        checkName.innerHTML = ""; // Xóa thông báo lỗi
+    }
+
+    if (DisplayOrder.value == "") {
+        checkDisplay.innerHTML = "Vui lòng nhập thứ tự danh mục!";
+        DisplayOrder.focus();
+        return;
+    } else {
+        checkDisplay.innerHTML = ""; // Xóa thông báo lỗi
+        var displayOrderValue = parseInt(DisplayOrder.value);
+        if (isNaN(displayOrderValue) || displayOrderValue < 0 || displayOrderValue > 100) {
+            checkDisplay.innerHTML = "Thứ tự danh mục phải là một số trong khoảng từ 0 đến 100!";
+            DisplayOrder.focus();
+            return;
+        } else {
+            displayOrderValue.innerHTML = ""; // Xóa thông báo lỗi
+        }
     }
 
     var industryData = {
         Name: CategoryName.value,
-        DisplayOrder: DesplayOrder.value
+        DisplayOrder: DisplayOrder.value
     };
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -98,9 +121,9 @@ function createIndustry() {
 
             toastr.success("Thêm thành công")
             var res = JSON.parse(this.responseText);
-            if (res.message != null) {
+            if (res.checkName != null) {
               
-                message.innerHTML = res.message;
+                checkName.innerHTML = res.checkName;
                 return;
             }
            
@@ -177,6 +200,7 @@ function addRowToTable(id, name, displayorder) {
 function resetText() {
     document.getElementById("CategoryName").value = "";
     document.getElementById("DisplayOrder").value = "";
-    
-    document.getElementById("message").innerHTML = "";
+    document.getElementById("checkName").innerHTML = "";
+    document.getElementById("checkDisplay").innerHTML = "";
+
 }

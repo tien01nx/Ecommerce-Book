@@ -39,18 +39,18 @@ namespace example_web_mvc.Areas.Admin.Controllers
             if (id == 0 || id == null)
             {
                 // create
-                return View(new Coupon());
+                return BadRequest();
             }
             else
             {
                 // update
                 Coupon companyObj = _unitOfWork.Coupon.Get(u => u.Id == id);
-                return View(companyObj);
+                return Json(companyObj);
             }
 
         }
         [HttpPost]
-        public IActionResult Upsert(Coupon couponObj)
+        public IActionResult Upsert([FromBody] Coupon couponObj)
         {
 
             if (ModelState.IsValid)
@@ -71,15 +71,12 @@ namespace example_web_mvc.Areas.Admin.Controllers
                 _unitOfWork.Save();
 
                 TempData["success"] = "Coupon created successfully";
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return Ok(couponObj);
             }
             else
             {
-
-
-
-
-                return View(couponObj);
+                return BadRequest();
             }
 
 

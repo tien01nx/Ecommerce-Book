@@ -79,20 +79,20 @@
             <div class="modal-body">
                 <div class="form-group">
                     <label class="control-label">Tên danh mục <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="CategoryName" placeholder="Nhập tên ngành nghề" style="margin-bottom: 5px;" />
-                    <span id="message" class="text-danger"></span>
+                    <input type="text" class="form-control" id="CategoryName" placeholder="Nhập tên danh mục" style="margin-bottom: 5px;" />
+                    <span id="checkName" class="text-danger"></span>
                 </div>
             </div>
             <div class="modal-body">
                 <div class="form-group">
                     <label class="control-label">Thứ tự hiện thị <span class="text-danger">*</span></label>
-                    <input type="text" class="form-control" id="DisplayOrder" placeholder="Nhập tên ngành nghề" style="margin-bottom: 5px;" />
-                    <span id="message" class="text-danger"></span>
+                    <input type="text" class="form-control" id="DisplayOrder" placeholder="Nhập thứ tự hiện thị" style="margin-bottom: 5px;" />
+                    <span id="checkDisplay" class="text-danger"></span>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" onclick="resetText()">Đóng</button>
-                <button type="button" class="btn btn-primary" onclick="saveIndustry()">Thêm mới</button>
+                <button type="button" class="btn btn-primary" id="save" onclick="saveIndustry()">Thêm mới</button>
             </div>
         </div>
     </div>
