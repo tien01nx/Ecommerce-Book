@@ -21,6 +21,67 @@ function saveIndustry() {
         createIndustry();
     }
 }
+
+function updateIndustry(id) {
+    console.log("hihi1");
+    var Code = document.getElementById("code-" + id).value;
+    var Description = document.getElementById("description-" + id).value;
+    var DiscountAmount = parseFloat(document.getElementById("discount-amount-" + id).value);
+    var MinimumSpend = parseFloat(document.getElementById("minimum-spend-" + id).value);
+    var StartDate = document.getElementById("start-date-" + id).value;
+    var EndDate = document.getElementById("end-date-" + id).value;
+    var MaxUseTimes = parseInt(document.getElementById("max-use-times-" + id).value);
+    var UsedTimes = parseInt(document.getElementById("used-times-" + id).value);
+    var ApplyForAllProducts = document.getElementById("apply-for-all-products-" + id).checked;
+    var IsActive = document.getElementById("is-active-" + id).checked;
+
+    console.log(StartDate + ", " + EndDate);
+    var isoStartDate = convertToIsoDate(StartDate);
+    var isoEndDate = convertToIsoDate(EndDate);
+
+    var industryData = {
+        Id: id,
+        Code: Code,
+        Description: Description,
+        DiscountAmount: DiscountAmount,
+        MinimumSpend: MinimumSpend,
+        StartDate: isoStartDate,
+        EndDate: isoEndDate,
+        MaxUseTimes: MaxUseTimes,
+        UsedTimes: UsedTimes,
+        ApplyForAllProducts: ApplyForAllProducts,
+        IsActive: IsActive
+    };
+    console.log("Lấy dữ liệu gửi lên server",industryData);
+
+    var request = new XMLHttpRequest();
+    request.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status == 200) {
+            console.log("hihi: " + JSON.stringify(industryData));
+            toastr.success("Cập nhật thành công");
+            document.getElementById('code-' + id).value = industryData.Code;
+            document.getElementById('description-' + id).value = industryData.Description;
+            document.getElementById('discount-amount-' + id).value = industryData.DiscountAmount;
+            document.getElementById('minimum-spend-' + id).value = industryData.MinimumSpend;
+            document.getElementById('start-date-' + id).value = StartDate; // assign the old formatted date string
+            document.getElementById('end-date-' + id).value = EndDate; // assign the old formatted date string
+            document.getElementById('max-use-times-' + id).value = industryData.MaxUseTimes;
+            document.getElementById('used-times-' + id).value = industryData.UsedTimes;
+            document.getElementById('apply-for-all-products-' + id).checked = industryData.ApplyForAllProducts;
+            document.getElementById('is-active-' + id).checked = industryData.IsActive;
+            document.getElementById("btn-close").click();
+        }
+        else {
+            console.log(this.status)
+        }
+    };
+
+    request.open("POST", "/Admin/Coupon/Upsert", true);
+    request.setRequestHeader("Content-type", "application/json");
+    request.send(JSON.stringify(industryData));
+}
+
+
 function updateIndustry(id) {
     console.log("hihi1");
     var Code = document.getElementById("code-" + id);
@@ -33,8 +94,6 @@ function updateIndustry(id) {
     var UsedTimes = document.getElementById("used-times-" + id);
     var ApplyForAllProducts = document.getElementById("apply-for-all-products-" + id);
     var IsActive = document.getElementById("is-active-" + id);
-
-    // Convert date strings to ISO format
     var isoStartDate = convertToIsoDate(StartDate.innerHTML);
     var isoEndDate = convertToIsoDate(EndDate.innerHTML);
 
@@ -51,7 +110,7 @@ function updateIndustry(id) {
         ApplyForAllProducts: ApplyForAllProducts.innerHTML === "true",
         IsActive: IsActive.innerHTML === "true"
     };
-    console.log(industryData);
+    console.log("Lấy dữ liệu gửi lên server",industryData.Code);
 
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -87,6 +146,9 @@ function convertToIsoDate(dateStr) {
 }
 
 
+
+// đổ dữ liệu lên modal khi ấn edit
+// hàm lấy dữ liệu
 function fetchIndustryData(id, callback) {
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
@@ -104,6 +166,8 @@ function fetchIndustryData(id, callback) {
     request.send();
 }
 
+
+//hàm đổ dữ liệu
 function populateModalWithIndustryDetails(id) {
     fetchIndustryData(id, function (err, industryData) {
         if (err) {

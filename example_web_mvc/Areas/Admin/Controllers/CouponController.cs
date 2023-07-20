@@ -45,7 +45,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
             {
                 // update
                 Coupon companyObj = _unitOfWork.Coupon.Get(u => u.Id == id);
-                return Json(companyObj);
+                return View(companyObj);
             }
 
         }

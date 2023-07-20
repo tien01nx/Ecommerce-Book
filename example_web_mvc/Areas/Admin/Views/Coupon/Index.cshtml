@@ -59,9 +59,12 @@
                                 <td id="apply-for-all-products-@item.Id">@item.ApplyForAllProducts</td>
                                 <td id="is-active-@item.Id">@item.IsActive</td>
                                 <td class="table-action">
-                                    <a href="#" onclick="populateModalWithIndustryDetails(@item.Id)">
+                                    <a href="/Admin/Coupon/Upsert/@item.Id">
                                         <i class="fal fa-pen" style="color: #000000; margin-right: 25px;"></i>
                                     </a>
+                                   @*  <a href="#" onclick="populateModalWithIndustryDetails(@item.Id)">
+                                        <i class="fal fa-pen" style="color: #000000; margin-right: 25px;"></i>
+                                    </a> *@
                                     <a onclick="deleteIndustry(@item.Id)">
                                         <i class="fal fa-trash" style="color: #000000;"></i>
                                     </a>
