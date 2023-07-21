@@ -1,4 +1,5 @@
-﻿@using Microsoft.AspNetCore.Http
+﻿
+@using Microsoft.AspNetCore.Http
 @inject IHttpContextAccessor HtppContextAccessor
 
 @using Microsoft.AspNetCore.Identity
@@ -18,19 +19,17 @@
           type="image/x-icon"
           href="~/images/favicon.png" />
 
-    <link rel="stylesheet" href="~/assets/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/assets/css/owl.carousel.min.css" />
-    <link rel="stylesheet" href="~/assets/css/slicknav.css" />
-    <link rel="stylesheet" href="~/assets/css/animate.min.css" />
-    <link rel="stylesheet" href="~/assets/css/price_rangs.css" />
-    <link rel="stylesheet" href="~/assets/css/magnific-popup.css" />
-    <link rel="stylesheet" href="~/assets/css/fontawesome-all.min.css" />
-    <link rel="stylesheet" href="~/assets/css/themify-icons.css" />
-    <link rel="stylesheet" href="~/assets/css/slick.css" />
-    <link rel="stylesheet" href="~/assets/css/nice-select.css" />
-    <link rel="stylesheet" href="~/assets/css/style.css" />
-    @* <script src="~/js/home.js" asp-append-version="true"></script> *@
-
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="assets/css/owl.carousel.min.css" />
+    <link rel="stylesheet" href="assets/css/slicknav.css" />
+    <link rel="stylesheet" href="assets/css/animate.min.css" />
+    <link rel="stylesheet" href="assets/css/price_rangs.css" />
+    <link rel="stylesheet" href="assets/css/magnific-popup.css" />
+    <link rel="stylesheet" href="assets/css/fontawesome-all.min.css" />
+    <link rel="stylesheet" href="assets/css/themify-icons.css" />
+    <link rel="stylesheet" href="assets/css/slick.css" />
+    <link rel="stylesheet" href="assets/css/nice-select.css" />
+    <link rel="stylesheet" href="assets/css/style.css" />
     <script nonce="8f280784-52ef-40f0-aac1-57ca7d966ab6">
         (function (w, d) {
             !(function (a, b, c, d) {
@@ -76,7 +75,7 @@
                     i.defer = !0;
                     for (const r of [localStorage, sessionStorage])
                         Object.keys(r || {})
-                            .filter((t) => t.startsWith("_zaraz_"))
+                            .filter((t) => t.startsWith("zaraz"))
                             .forEach((s) => {
                                 try {
                                     a[c]["z_" + s.slice(7)] = JSON.parse(r.getItem(s));
@@ -108,43 +107,31 @@
                                 <div class="d-flex justify-content-between align-items-center flex-sm">
                                     <div class="header-info-left d-flex align-items-center">
                                         <div class="logo">
-                                            <a href="/Customer/Home">
-                                                <img src="~/images/logo.png" alt="" />
+                                            <a href="index-2.html">
+                                                <img src="images/logo.png" alt="" />
                                             </a>
                                         </div>
-                                        <div class="form-box">
-                                            <input type="search"
-                                                id="searchInput" name="search" autocomplete="off"
-                                                   placeholder="Search book by author or publisher" />
-                                            <ul class="dropdown-menu" id="searchResults" aria-labelledby="searchInput">
-                                                <!-- Search results will be inserted here -->
-                                            </ul>
 
-                                            <div class="search-icon">
-                                                <i class="ti-search"></i>
-                                            </div>
-                                        </div>
-
-                                      @*   <form action="#" class="form-box">
+                                        <form action="#" class="form-box">
                                             <input type="text"
                                                    name="Search"
                                                    placeholder="Search book by author or publisher" />
                                             <div class="search-icon">
                                                 <i class="ti-search"></i>
                                             </div>
-                                        </form> *@
+                                        </form>
                                     </div>
                                     <div class="header-info-right d-flex align-items-center">
                                         <ul>
                                             <li><a href="#">FAQ</a></li>
                                             <li><a href="#">Track Order</a></li>
                                             <li class="shopping-card">
-                                                <a href="/Customer/Cart">
-                                                    <img src="~/assets/img/icon/cart.svg" alt="" />
+                                                <a href="cart.html">
+                                                    <img src="assets/img/icon/cart.svg" alt="" />
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="/Login" class="btn header-btn">Sign in</a>
+                                                <a href="login.html" class="btn header-btn">Sign in</a>
                                             </li>
                                         </ul>
                                     </div>
@@ -158,22 +145,22 @@
                         <div class="row align-items-center">
                             <div class="col-xl-12">
                                 <div class="logo2">
-                                    <a href="/Customer/Home">
-                                        <img src="~/images/logo.png" alt="" />
+                                    <a href="index-2.html">
+                                        <img src="assets/img/logo/logo.png" alt="" />
                                     </a>
                                 </div>
 
                                 <div class="main-menu text-center d-none d-lg-block">
                                     <nav>
                                         <ul id="navigation">
-                                            <li><a href="/Customer/Home">Home</a></li>
-                                            <li><a href="/Customer/Category">Categories</a></li>
+                                            <li><a href="index-2.html">Home</a></li>
+                                            <li><a href="categories.html">Categories</a></li>
                                             <li><a href="about.html">About</a></li>
                                             <li>
                                                 <a href="#">Pages</a>
                                                 <ul class="submenu">
-                                                    <li><a href="/Login">login</a></li>
-                                                    <li><a href="/Home/Cart">Cart</a></li>
+                                                    <li><a href="login.html">login</a></li>
+                                                    <li><a href="cart.html">Cart</a></li>
                                                     <li><a href="checkout.html">Checkout</a></li>
                                                     <li>
                                                         <a href="book-details.html">book Details</a>
@@ -200,129 +187,16 @@
             </div>
         </div>
     </header>
-    <div class="slider-area">
-    <div class="container">
-        <main role="main" class="pb-3">
-            <partial name="_Notification" />
-            @RenderBody()
-        </main>
-    </div>
+    <div>
+
+        <partial name="_Notification" />
+        @RenderBody()
+
 
     </div>
 
-    <footer>
-        <div class="footer-wrappper section-bg">
-            <div class="footer-area footer-padding">
-                <div class="container">
-                    <div class="row justify-content-between">
-                        <div class="col-xl-3 col-lg-5 col-md-4 col-sm-6">
-                            <div class="single-footer-caption mb-50">
-                                <div class="single-footer-caption mb-30">
-                                    <div class="footer-logo mb-25">
-                                        <a href="/Customer/Home">
-                                            <img src="assets/img/logo/logo2_footer.png" alt="" />
-                                        </a>
-                                    </div>
-                                    <div class="footer-tittle">
-                                        <div class="footer-pera">
-                                            <p>
-                                                Get the breathing space now, and we’ll extend your
-                                                term at the other end year for go.
-                                            </p>
-                                        </div>
-                                    </div>
-
-                                    <div class="footer-social">
-                                        <a href="https://bit.ly/sai4ull">
-                                            <i class="fab fa-facebook"></i>
-                                        </a>
-                                        <a href="#"><i class="fab fa-instagram"></i></a>
-                                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
-                                        <a href="#"><i class="fab fa-youtube"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-5">
-                            <div class="single-footer-caption mb-50">
-                                <div class="footer-tittle">
-                                    <h4>Book Category</h4>
-                                    <ul>
-                                        <li><a href="#">History</a></li>
-                                        <li><a href="#">Horror - Thriller</a></li>
-                                        <li><a href="#">Love Stories</a></li>
-                                        <li><a href="#">Science Fiction</a></li>
-                                        <li><a href="#">Business</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                            <div class="single-footer-caption mb-50">
-                                <div class="footer-tittle">
-                                    <h4>&nbsp;</h4>
-                                    <ul>
-                                        <li><a href="#">Biography</a></li>
-                                        <li><a href="#">Astrology</a></li>
-                                        <li><a href="#">Digital Marketing</a></li>
-                                        <li><a href="#">Software Development</a></li>
-                                        <li><a href="#">Ecommerce</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
-                            <div class="single-footer-caption mb-50">
-                                <div class="footer-tittle">
-                                    <h4>Site Map</h4>
-                                    <ul class="mb-20">
-                                        <li><a href="#">Home</a></li>
-                                        <li><a href="#">About Us</a></li>
-                                        <li><a href="#">FAQs</a></li>
-                                        <li><a href="#">Blog</a></li>
-                                        <li><a href="#">Contact</a></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="footer-bottom-area">
-                <div class="container">
-                    <div class="footer-border">
-                        <div class="row d-flex align-items-center">
-                            <div class="col-xl-12">
-                                <div class="footer-copy-right text-center">
-                                    Copyright &copy;
-                                    <script>
-                                        document.write(new Date().getFullYear());
-                                    </script>
-                                    All rights reserved | This template is made with
-                                    <i class="fa fa-heart color-danger" aria-hidden="true"></i>
-                                    by
-                                    <a href="https://colorlib.com/"
-                                       style="color: black"
-                                       target="_blank"
-                                       rel="nofollow noopener">Colorlib</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer>
-
-    <div id="back-top">
-        <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
-    </div>
-   
     <script src="~/assets/js/vendor/modernizr-3.5.0.min.js"></script>
     <script src="~/assets/js/vendor/jquery-1.12.4.min.js"></script>
-    @* <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
-    <script src="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script> *@
     <script src="~/assets/js/popper.min.js"></script>
     <script src="~/assets/js/bootstrap.min.js"></script>
 
@@ -345,8 +219,6 @@
 
     <script src="~/assets/js/plugins.js"></script>
     <script src="~/assets/js/main.js"></script>
- 
-    <script src="~/js/search.js"></script>
 
     <script async
             src="~/assets/js/googletagmanager.js"></script>

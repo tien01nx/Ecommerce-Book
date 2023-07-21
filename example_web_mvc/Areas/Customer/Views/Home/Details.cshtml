@@ -1,179 +1,168 @@
-﻿@model ProductReviewVM
+﻿@using Microsoft.AspNetCore.Identity;
+@model ProductReviewVM
+@inject UserManager<IdentityUser> UserManager
+@inject SignInManager<IdentityUser> SignInManager
+@{
+    var user = await UserManager.GetUserAsync(User) as ApplicationUser;
 
-<form method="post">
+}
+
+@{
+    ViewData["Title"] = "Industry";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+ <form method="post">
     <input asp-for="ShoppingCart.ProductId" hidden />
     <input asp-for="ShoppingCart.Id" hidden />
-
-    <div class="card shadow border-0 mt-4 mb-4">
-        <div class="card-header bg-secondary bg-gradient text-light py-4">
+    <div class="services-area2">
+        <div class="container">
             <div class="row">
-                <div class="col-12 text-center">
-                    <h3 class="text-white text-uppercase">@Model.ShoppingCart.Product.Title</h3>
-                </div>
-            </div>
-        </div>
-        <div class="card-body">
-            <div class="py-3">
-                <div class="row">
-                    <div class="col-6 col-md-2 offset-lg-1 pb-1">
-                        <a asp-action="Index" class="btn btn-outline-primary bg-gradient mb-5 fw-semibold btn-sm text-uppercase">
-                            <small>Back to home</small>
-                        </a>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 col-lg-3 offset-lg-1 text-center mb-3">
-                        @if (Model.ShoppingCart.Product.ProductImages != null && Model.ShoppingCart.Product.ProductImages.Count > 0)
-                        {
-                            <div id="carouselExampleIndicators" class="carousel  slide" data-bs-ride="carousel">
-                                <div class="carousel-indicators">
-
-                                    @foreach (var imageWithIndex in
-                                   Model.ShoppingCart.Product.ProductImages
-                                   .Select((image, index) => new { Image = image, Index = index }))
-                                    {
-                                        <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="@imageWithIndex.Index"
-                                                class="@(imageWithIndex.Index==0?"active":"")" aria-current="true" aria-label="Slide 1"></button>
-                                    }
+                <div class="col-xl-12">
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="single-services d-flex align-items-center mb-0">
+                                <div class="features-img">
+                                    <img src="~/images/best-books1.jpg" alt="" />
                                 </div>
-                                <div class="carousel-inner">
-                                    @foreach (var imageWithIndex in
-                                   Model.ShoppingCart.Product.ProductImages
-                                   .Select((image, index) => new { Image = image, Index = index }))
-                                    {
-                                        <div class="@(imageWithIndex.Index==0?"carousel-item active":"carousel-item")">
-                                            <img src="@imageWithIndex.Image.ImageUrl" class="d-block w-100" alt="...">
+                                <div class="features-caption">
+                                    <h3>@Model.ShoppingCart.Product.Title</h3>
+                                    <p>@Model.ShoppingCart.Product.Author</p>
+                                    <div class="review">
+                                        <div class="rating">
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star"></i>
+                                            <i class="fas fa-star-half-alt"></i>
                                         </div>
-                                    }
+                                        <p>(120 Review)</p>
+                                    </div>
+                                    <div class="price">
+                                        <span>@Model.ShoppingCart.Product.Price100 Vnđ</span>
+                                    </div>
+                                    <div class="">
+                                        Số lượng: 
+                                        <input asp-for="ShoppingCart.Count" type="number" value="1" class=" text-end"
+                                               aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" style="width: 50px;margin-bottom: 10px;"  />
+                                    </div>
+
+                                   
+                                    <button type="submit"
+                                            class=" white-btn mr-10">
+                                        Add to Cart
+                                    </button>
                                 </div>
-                                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
-                                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Previous</span>
-                                </button>
-                                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
-                                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                                    <span class="visually-hidden">Next</span>
-                                </button>
-                            </div>
-                        }
-                    </div>
-                    <div class="col-12 col-lg-6 offset-lg-1">
-                        <div class="col-12 col-md-6 pb-4">
-                            <p class="text-info"> Thể loại: @Model.ShoppingCart.Product.Category.Name  </p>
-                        </div>
-                        <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50 ">Tác giả: @Model.ShoppingCart.Product.Author</h6>
-                        </div>
-                        <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50 ">ISBN : @Model.ShoppingCart.Product.ISBN</h6>
-                        </div>
-                        <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50  pb-2">
-                                List Price:
-                                <span class="text-decoration-line-through">
-                                    @Model.ShoppingCart.Product.ListPrice.ToString("c")
-                                </span>
-                            </h6>
-                        </div>
-                        <div class="row ps-2">
-                            <h6 class="text-dark text-opacity-50 ">Người bán: @Model.ShoppingCart.Product.Seller.StoreName</h6>
-                        </div>
-                        <div class="row text-center ps-2">
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">Quantity</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">1-50</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">51-100</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white border-bottom">
-                                <div class="text-dark text-opacity-50 fw-semibold">100+</div>
-                            </div>
-                        </div>
-                        <div class="row text-center ps-2">
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>Price</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.ShoppingCart.Product.Price.ToString("c")</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.ShoppingCart.Product.Price50.ToString("c")</div>
-                            </div>
-                            <div class="p-1 col-3 col-lg-2 bg-white text-warning fw-bold">
-                                <div>@Model.ShoppingCart.Product.Price100.ToString("c")</div>
-                            </div>
-                        </div>
-                        <div class="row pl-2 my-3">
-                            <p class="text-secondary lh-sm">
-                                @Html.Raw(Model.ShoppingCart.Product.Description)
-                            </p>
-                        </div>
-                        <div class="row pl-2 mb-3">
-                            <div class="col-md-4">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text bg-primary text-white border-0 fw-semibold"
-                                          id="inputGroup-sizing-default">
-                                        Count
-                                    </span>
-                                    <input asp-for="ShoppingCart.Count" type="number" value="1" class="form-control text-end"
-                                           aria-label="Sizing example input" aria-describedby="inputGroup-sizing-default" />
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12 col-md-6 pb-1">
-                                <button type="submit"
-                                        class="btn btn-primary bg-gradient  w-100 py-2 text-uppercase fw-semibold">
-                                    Add to Cart
-                                </button>
                             </div>
                         </div>
                     </div>
-                </div>
-                <!-- Review list -->
-                <div class="product-reviews">
-                    <h2 class="mb-4">Customer Reviews</h2>
-                    @if (Model.ProductReviewList != null)
-                    {
-                        @foreach (var review in Model.ProductReviewList)
-                        {
-                            <div class="review">
-                                <input type="text" class="reviewId"  value="@review.Id" hidden />
-                                <p>@review.ApplicationUser.Name</p>
-                                <div class="rating">
-                                    <!-- display filled star for each point of rating -->
-                                    @for (var i = 0; i < review.Rating; i++)
-                                    {
-                                        <i class="fas fa-star" style="color: #f3994a;"></i>
-                                    }
-                                    <!-- display empty star for the rest -->
-                                    @for (var i = review.Rating; i < 5; i++)
-                                    {
-                                        <i class="far fa-star"></i>
-                                    }
-                                </div>
-                                <p class="comment">
-                                    @review.Comment,
-                                </p>
-                                @if (review.ApplicationUser.Id.Equals(Model.ApplicationUserId))
-                                {
-                                    <a class="btn btn-primary edit-review" data-review-id="@review.Id">Edit Review</a>
-                                }
-                            </div>
-                        }
-                    }
                 </div>
             </div>
         </div>
     </div>
 </form>
+
+    <section class="our-client section-padding best-selling">
+        <div class="container">
+            <div class="row">
+                <div class="offset-xl-1 col-xl-10">
+                    <div class="nav-button f-left">
+                        <nav>
+                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
+                                <a class="nav-link active"
+                                   id="nav-one-tab"
+                                   data-bs-toggle="tab"
+                                   href="#nav-one"
+                                   role="tab"
+                                   aria-controls="nav-one"
+                                   aria-selected="true">Mô tả</a>
+                               
+                                
+                                <a class="nav-link"
+                                   id="nav-three-tab"
+                                   data-bs-toggle="tab"
+                                   href="#nav-three"
+                                   role="tab"
+                                   aria-controls="nav-three"
+                                   aria-selected="false">Bình luận</a>
+                              
+                            </div>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="tab-content" id="nav-tabContent">
+                <div class="tab-pane fade show active"
+                     id="nav-one"
+                     role="tabpanel"
+                     aria-labelledby="nav-one-tab">
+                    <div class="row">
+                        <div class="offset-xl-1 col-lg-9">
+                            <p>
+                                @Model.ShoppingCart.Product.Description
+                            </p>
+                        </div>
+                    </div>
+                </div>
+             
+             
+                <div class="tab-pane fade"
+                 id="nav-three"
+                     role="tabpanel"
+                     aria-labelledby="nav-four-tab">
+                    <div class="row">
+                        <div class="offset-xl-1 col-lg-9">
+
+                        <div class="product-reviews">
+                            @if (Model.ProductReviewList != null)
+                            {
+                                @foreach (var review in Model.ProductReviewList.OrderByDescending(p=>p.DateCreated).Take(4))
+                                {
+                                    <div class="review">
+                                        <input type="text" class="reviewId" value="@review.Id" hidden />
+                                        <p>@review.ApplicationUser.Name</p>
+                                        <div class="rating">
+                                            <!-- display filled star for each point of rating -->
+                                            @for (var i = 0; i < review.Rating; i++)
+                                            {
+                                                <i class="fas fa-star" style="color: #f3994a;"></i>
+                                            }
+                                            <!-- display empty star for the rest -->
+                                            @for (var i = review.Rating; i < 5; i++)
+                                            {
+                                                <i class="far fa-star"></i>
+                                            }
+                                        </div>
+                                        <p class="comment">
+                                            @review.Comment
+                                        </p>
+                                        @if (review.ApplicationUser.Id.Equals(Model.ApplicationUserId))
+                                        {
+                                            <a class="btn btn-primary edit-review" data-review-id="@review.Id">Edit Review</a>
+                                        }
+                                    </div>
+                                }
+                            }
+                        </div>
+                        </div>
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+    </section> 
+
+
+
+
 <!-- Review form -->
 <form asp-action="CreateReview" asp-controller="ProductReview" method="post">
-    <h2 class="mb-4">Leave a Review</h2>
-
+    <h2 class="mb-4">Để lại đánh giá</h2>
+     @if (SignInManager.IsSignedIn(User))
+    {
+         <span>@user.Name</span>
+    }
     <input type="hidden" asp-for="ProductId" value="@Model.ShoppingCart.ProductId" />
     <input type="hidden" asp-for="ApplicationUserId" value="@Model.ApplicationUserId" />
 
@@ -189,9 +178,9 @@
     </div>
     <div class="form-group">
         <label for="comment">Comment</label>
-        <textarea asp-for="ProductReview.Comment" class="form-control" id="comment" placeholder="Write your review here..."></textarea>
+        <textarea asp-for="ProductReview.Comment" class="form-control" id="comment" placeholder="Viết đánh giá của bạn ở đây..."></textarea>
     </div>
-    <button type="submit" class="btn btn-primary">Submit Review</button>
+    <button type="submit" class="btn btn-primary">Gửi đánh giá</button>
 </form>
 
 

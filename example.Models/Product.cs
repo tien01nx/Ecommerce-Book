@@ -12,6 +12,9 @@ namespace example.Models
         [Required] public string ISBN { get; set; }
         [Required] public string Author { get; set; }
 
+        [Display(Name = "Publish Date")]
+        [DataType(DataType.Date)]
+        public DateTime PublishDate { get; set; }
         [Required]
         [Display(Name = "Quantity")]
         [Range(1, 1000)]

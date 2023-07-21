@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 using System.Diagnostics;
+using System.Dynamic;
 using System.Security.Claims;
 using X.PagedList;
 
@@ -80,43 +81,44 @@ namespace example_web_mvc.Areas.Customer.Controllers
             return View();
         }
 
-
-        public IActionResult Index(string search, int? page)
-        {
-            int pageNumber = page ?? 1;
-            int pageSize = 8;
-
-            ViewBag.Page = page;
-
-            IEnumerable<Product> productList;
-
-            if (!string.IsNullOrEmpty(search))
-            {
-                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller")
-                    .Where(p => p.Title.Contains(search, StringComparison.OrdinalIgnoreCase) || p.Seller.StoreName.Contains(search, StringComparison.OrdinalIgnoreCase));
-            }
-            else
-            {
-                productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller");
-            }
-
-            //foreach (var product in productList)
-            //{
-            //    var seller = product.Seller;
-            //    Console.WriteLine(seller.StoreName); // In ra tên của cửa hàng
-            //    Console.WriteLine(seller.Description); // In ra mô tả về cửa hàng
-            //                                           // và cứ như vậy với các thuộc tính khác của `Seller`
-            //}
-
-            var pagedProductList = productList.ToPagedList(pageNumber, pageSize);
-
-            if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-            {
-                return PartialView("_Products", pagedProductList);
-            }
-
-            return View(pagedProductList);
+        public IActionResult Index()
+        {  
+            dynamic myModel = new ExpandoObject();
+            myModel.GetProductsTop10 = _unitOfWork.Product.GetTopOrderedProducts().Take(8);
+            myModel.GetProductInPublishDate = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages").OrderByDescending(p => p.PublishDate).ToList().Take(6);
+            myModel.Featuredthisweek = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages").OrderByDescending(p => p.PublishDate).ThenBy(p=>p.Category.DisplayOrder).ToList().Take(2);
+            return View(myModel);
         }
+        //public IActionResult Index(string search, int? page)
+        //{
+
+        //   var hihi=  _unitOfWork.Product.GetTopOrderedProducts();
+        //    int pageNumber = page ?? 1;
+        //    int pageSize = 8;
+
+        //    ViewBag.Page = page;
+
+        //    IEnumerable<Product> productList;
+
+        //    if (!string.IsNullOrEmpty(search))
+        //    {
+        //        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller")
+        //            .Where(p => p.Title.Contains(search, StringComparison.OrdinalIgnoreCase) || p.Seller.StoreName.Contains(search, StringComparison.OrdinalIgnoreCase));
+        //    }
+        //    else
+        //    {
+        //        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller");
+        //    }
+
+        //    var pagedProductList = productList.ToPagedList(pageNumber, pageSize);
+
+        //    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        //    {
+        //        return PartialView("_Products", pagedProductList);
+        //    }
+
+        //    return View(pagedProductList);
+        //}
 
         public IActionResult Details(int productId)
         {
@@ -137,7 +139,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
             IEnumerable<ProductReview> productReviews = _unitOfWork.ProductReview.GetAll(pr => pr.Product.Id == productId, includeProperties: "ApplicationUser");
 
-         
+
             // Create a new ProductReviewVM
             ProductReviewVM productReviewVM = new ProductReviewVM()
             {
@@ -338,6 +340,69 @@ namespace example_web_mvc.Areas.Customer.Controllers
             // Return the list of product DTOs as a JSON object
             return Json(productDTOs);
         }
+
+
+        public IActionResult GetTopOrderedProduct()
+        {
+            IEnumerable<ProductWithTotalCount> products = _unitOfWork.Product.GetTopOrderedProducts();
+            return Json(products);
+        }
+
+        //public IActionResult GetProductInCategory(string CategoryName)
+        //{
+
+        //    List<Product> products;
+        //    if (CategoryName != null)
+        //    {
+        //        products = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages").OrderByDescending(p => p.PublishDate).ToList();
+
+        //    }
+        //    else
+        //    {
+
+        //        products = _unitOfWork.Product.GetAll(u => u.Category.Name.Equals(CategoryName), includeProperties: "Category,ProductImages")
+        //            .OrderByDescending(p => p.PublishDate).ToList();
+
+        //    }
+
+
+
+        //    return Json(products);
+        //}
+
+
+        public IActionResult GetProductInCategory(string CategoryName)
+        {
+            IEnumerable<Product> productsQuery = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages");
+
+            if (!CategoryName.Equals("All"))
+            {
+                productsQuery = productsQuery.Where(p => p.Category.Name.Equals(CategoryName));
+            }
+
+            productsQuery = productsQuery.Take(6);
+
+            List<ProductDTO> productDTOs = productsQuery
+                .OrderByDescending(p => p.PublishDate)
+                .Select(p => new ProductDTO
+                {
+                    Id = p.Id,
+                    Title = p.Title,
+                    Price100 = p.Price,
+                    Author = p.Author,
+                    CategoryName = p.Category?.Name,
+                    ProductImages = p.ProductImages.Select(pi => new ProductImage
+                    {
+                        Id = pi.Id,
+                        ImageUrl = pi.ImageUrl
+                    }).ToList()
+                    // Gán các giá trị khác của DTO nếu cần
+                })
+                .ToList();
+
+            return Json(productDTOs);
+        }
+
 
 
 

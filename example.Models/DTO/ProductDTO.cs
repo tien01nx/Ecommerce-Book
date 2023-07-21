@@ -8,6 +8,9 @@
         public double ListPrice { get; set; }
         public double Price100 { get; set; }
         public string  StoreName { get; set; }
+        public DateTime PublishDate { get;set; }
+
+        public string CategoryName { get; set; }
 
         public List<string> ImageUrls { get; set; }
 

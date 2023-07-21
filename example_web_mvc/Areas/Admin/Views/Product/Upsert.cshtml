@@ -41,7 +41,13 @@
                         </div>
 
 
+                        <div class="form-floating py-2 col-12">
 
+                            <input asp-for="Product.PublishDate" class="form-control border-0 shadow " />
+
+                            <label asp-for="Product.PublishDate" class="ms-2"></label>
+                            <span asp-validation-for="Product.PublishDate" class="text-danger "></span>
+                        </div>
                         <div class="form-floating py-2 col-12">
 
                             <input asp-for="Product.ISBN" class="form-control border-0 shadow " />

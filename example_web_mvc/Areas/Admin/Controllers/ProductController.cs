@@ -137,7 +137,15 @@ namespace example_web_mvc.Areas.Admin.Controllers
                 }
                 else
                 {
-
+                    // Hiển thị lỗi xác thực trong giao diện người dùng
+                    foreach (var modelStateEntry in ModelState.Values)
+                    {
+                        foreach (var error in modelStateEntry.Errors)
+                        {
+                            string errorMessage = error.ErrorMessage;
+                            // Xử lý thông báo lỗi theo ý của bạn, ví dụ: thêm vào ViewData hoặc hiển thị trực tiếp trong giao diện
+                        }
+                    }
 
                     productVM.CategoryList = _unitOfWork.Category.GetAll().Select(u => new SelectListItem
                     {
@@ -330,7 +338,11 @@ namespace example_web_mvc.Areas.Admin.Controllers
 
             return Json(new { success = true, message = "Delete  successful" });
 
+           
+
         }
+
+     
 
         #endregion
 
