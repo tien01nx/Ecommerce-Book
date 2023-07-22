@@ -1,3 +1,94 @@
+//document.addEventListener('DOMContentLoaded', (event) => {
+//    fetch('https://localhost:7139/Customer/Category/GetCategoryProduct')
+//        .then(response => {
+//            if (!response.ok) {
+//                throw new Error("HTTP error " + response.status);
+//            }
+//            return response.json();
+//        })
+//        .then(data => {
+//            renderData(data);
+//            console.log(data);
+//        })
+//        .catch(function (error) {
+//            console.log(error);
+//        });
+//});
+$(document).ready(function () {
+    $('.author-checkbox').change(function () {
+        var selectedAuthors = [];
+        $('.author-checkbox:checked').each(function () {
+            selectedAuthors.push($(this).val());
+        });
+
+        $.ajax({
+            url: 'https://localhost:7139/Customer/Category/GetCategoryProducthehe',
+            type: 'GET',
+            data: { authors: selectedAuthors },
+            success: function (data) {
+              
+                renderData(data)
+            },
+            error: function () {
+                alert('Error occurred');
+            },
+        });
+    });
+});
+
+function renderData(data) {
+    // Biến dùng để lưu HTML
+    let htmlContent = '';
+
+    data.forEach(function (product) {
+        let productImageUrl = product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : "/images/default-product-image.png";
+        let productHtml = `
+            <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
+                <div class="properties pb-30">
+                    <div class="properties-card">
+                        <div class="properties-img">
+                            <a href="/Customer/Home/Details/?productId=${product.id}">
+                                <img src="${productImageUrl}" alt="${product.title}" />
+                            </a>
+                        </div>
+                        <div class="properties-caption properties-caption2">
+                            <h3 style="min-height: 135px;overflow: hidden;">
+                                <a href="/Customer/Home/Details/?productId=${product.id}">${product.title}</a>
+                            </h3>
+                            <p>${product.author}</p>
+                            <div class="properties-footer d-flex justify-content-between align-items-center">
+                                <div class="review">
+                                    <div class="rating">
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star"></i>
+                                        <i class="fas fa-star-half-alt"></i>
+                                    </div>
+                                    <p>(<span>120</span> Review)</p>
+                                </div>
+                                <div class="price">
+                                    <span>${product.price100}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `;
+        // Thêm vào htmlContent
+        htmlContent += productHtml;
+    });
+
+    // Thêm htmlContent vào div mong muốn (chắc chắn rằng jQuery đã được sử dụng)
+    $('#productContainer').html(htmlContent);
+    // Gọi hàm này sau khi các phần tử đã được thêm vào trang
+}
+
+
+
+
+
 function showModal() {
     $('#myModal').modal('show');
 }

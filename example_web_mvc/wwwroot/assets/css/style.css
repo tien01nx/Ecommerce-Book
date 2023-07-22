@@ -3676,13 +3676,7 @@ input:checked ~ .checkmark:after {
     background-position: center center;
     background-image: url(../img/hero/h1_hero.html);
 }*/
-.login-bg {
-    height: 100%;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-image: url(../img/hero/h1_hero.html);
-}
+
 .login-form-area {
     display: -webkit-box;
     display: -moz-box;

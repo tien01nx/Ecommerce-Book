@@ -62,7 +62,7 @@ function formatProductName(name) {
     }
     return name;
 }
-function renderData(data) {
+function renderData(data)  {
    
     // Biến dùng để lưu HTML
     let htmlContent = '';
