@@ -10,11 +10,18 @@
         public string  StoreName { get; set; }
         public DateTime PublishDate { get;set; }
 
-        public string CategoryName { get; set; }
+        public string ISBN { get; set; }
+
+		public string Description { get; set; }
+
+		public string CategoryName { get; set; }
 
         public List<string> ImageUrls { get; set; }
 
-        public List<ProductImage> ProductImages { get; set; }
+        public double Price { get; set; }   
+        public double Price50 { get; set; }
+
+		public List<ProductImage> ProductImages { get; set; }
     }
 
 }

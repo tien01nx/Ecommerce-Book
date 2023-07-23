@@ -29,7 +29,8 @@
     <link rel="stylesheet" href="~/assets/css/slick.css" />
     <link rel="stylesheet" href="~/assets/css/nice-select.css" />
     <link rel="stylesheet" href="~/assets/css/style.css" />
-    <link rel="stylesheet" href="~/assets/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/all.min.css" />
+    <link rel="stylesheet" href="~//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
 
  
     @* <script src="~/js/home.js" asp-append-version="true"></script> *@
@@ -141,9 +142,10 @@
                                         <ul>
                                             <li><a href="#">FAQ</a></li>
                                             <li><a href="#">Track Order</a></li>
-                                            <li class="shopping-card">
-                                                <a href="/Customer/Cart">
-                                                    <img src="~/assets/img/icon/cart.svg" alt="" />
+                                            <li class="">
+                                            
+                                                <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
+                                                    @await Component.InvokeAsync("ShoppingCart")
                                                 </a>
                                             </li>
                                             <li>
@@ -350,6 +352,7 @@
     <script src="~/assets/js/main.js"></script>
  
     <script src="~/js/search.js"></script>
+    <script src="~//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
 
     <script async
             src="~/assets/js/googletagmanager.js"></script>

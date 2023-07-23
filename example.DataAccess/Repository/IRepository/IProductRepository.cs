@@ -10,5 +10,7 @@ namespace example.DataAccess.Repository.IRepository
         IEnumerable<Product> GetProductsBySellerApplicationUserId(string applicationUserId);
         List<ProductWithTotalCount> GetTopOrderedProducts();
         List<ProductDTO> GetProductsByCategoryName(string categoryName);
+
+        List<ProductWithTotalCount> GetProductCountAll();
     }
 }

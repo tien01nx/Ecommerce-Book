@@ -15,6 +15,9 @@
                             <th scope="col">Tổng tiền</th>
                         </tr>
                     </thead>
+
+
+
                     <tbody>
                          @foreach(var item in Model.ShoppingCartList)
                     {
@@ -45,39 +48,25 @@
                                 </td>
                                 <td>
                                         <div class="product_count">
-                                            <span class="input-number-decrement">
-                                                <i class="ti-minus"></i>
-                                            </span>
-                                            <input class="input-number2"
+                                            <a asp-action="minus" asp-route-cartId="@item.Id" class="input-number-decrement" style="color :black ">
+                                                <i class="far fa-minus"></i>
+                                            </a>
+                                            <input class="" id="count-@item.Id"
                                                    type="text"
-                                                   value="1"
+                                                   value="@item.Count"
                                                    min="0"
                                                    max="10" />
-                                            <span class="input-number-increment">
-                                                <i class="ti-plus"></i>
-                                            </span>
-                                        </div>
-
-                                  @*       <div class="w-75 btn-group" role="group">
-                                            <a asp-action="plus" asp-route-cartId="@item.Id" class="btn btn-outline-primary bg-gradient py-2">
-                                                <i class="bi bi-plus-square"></i>
-                                            </a> &nbsp;
-                                            <a asp-action="minus" asp-route-cartId="@item.Id" class="btn btn-outline-primary bg-gradient py-2">
-                                                <i class="bi bi-dash-square"></i>
+                                            <a asp-action="plus" asp-route-cartId="@item.Id" class="input-number-increment" style="color :black ">
+                                                <i class="far fa-plus"></i>
                                             </a>
-                                        </div> *@
-
-                                       
-                                     
+                                        </div>     
                                 </td>
                                 <td>
                                     <h5>@money</h5>
                                 </td>
                             </tr>
-                         
 
                     }
-                       
                        
                         <tr>
                             <td></td>
@@ -89,10 +78,10 @@
                                 <h5>@(Model.OrderHeader.OrderTotal.ToString("c"))</h5>
                             </td>
                         </tr>
-                    </tbody>
+                    </tbody> 
                 </table>
                 <div class="checkout_btn_inner float-right">
-                    <a class="btn" href="#">Continue Shopping</a>
+                    <a class="btn" href="Customer/Home">Tiếp tục mua sắm</a>
                     <a class="btn checkout_btn" asp-action="Summary" asp-controller="Cart" asp-area="Customer">Mua hàng</a>
                 </div>
             </div>
@@ -101,3 +90,10 @@
 </section>
 
 </form>
+
+
+
+@* @section Scripts{
+    <script src="~/js/cart.js"></script>
+}
+ *@

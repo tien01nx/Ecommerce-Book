@@ -83,16 +83,7 @@ function renderData(data)  {
     overflow: hidden;"><a href="https://localhost:7139/Customer/Home/Details/?productId=${product.id}" style="a:hover{coler:#ff1616}">${productName}</a></h3>
                             <p>${product.author}</p>
                             <div class="properties-footer d-flex justify-content-between align-items-center">
-                                <div class="review">
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <p>(<span>120</span> Review)</p>
-                                </div>
+                               <i class="far fa-cart-plus"></i>
                                 <div class="price">
                                     <span>${product.price100}</span>
                                 </div>

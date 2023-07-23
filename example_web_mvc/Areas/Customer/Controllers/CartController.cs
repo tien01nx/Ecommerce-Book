@@ -8,6 +8,10 @@ using Microsoft.AspNetCore.Mvc;
 using NuGet.Protocol.Plugins;
 using Stripe.Checkout;
 using System.Security.Claims;
+using System.Text.Json.Serialization;
+using System.Text.Json;
+using example.Models.DTO;
+using Microsoft.Extensions.Options;
 
 namespace example_web_mvc.Areas.Customer.Controllers
 {
@@ -265,6 +269,72 @@ namespace example_web_mvc.Areas.Customer.Controllers
             _unitOfWork.Save();
             return View(id);
         }
+
+        //public JsonResult Plus(int cartId)
+        //{
+        //    var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+        //    cartFromDb.Count += 1;
+        //    _unitOfWork.ShoppingCart.Update(cartFromDb);
+        //    _unitOfWork.Save();
+
+        //    var result = new
+        //    {
+        //        success = true,
+        //        message = "Successfully increased item count",
+        //        itemCount = cartFromDb.Count,
+        //    };
+
+        //    return Json(result);
+        //}
+
+        //public JsonResult Minus(int cartId)
+        //{
+        //    var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
+        //    if (cartFromDb.Count <= 1)
+        //    {
+        //        _unitOfWork.ShoppingCart.Remove(cartFromDb);
+        //        HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
+        //           .GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
+
+        //    }
+        //    else
+        //    {
+        //        cartFromDb.Count -= 1;
+        //        _unitOfWork.ShoppingCart.Update(cartFromDb);
+
+        //    }
+        //    _unitOfWork.Save();
+
+        //    var result = new
+        //    {
+        //        success = cartFromDb.Count > 0,
+        //        message = cartFromDb.Count > 0 ? "Successfully decreased item count" : "Item removed",
+        //        itemCount = cartFromDb.Count,
+        //    };
+
+        //    return Json(result);
+        //}
+
+
+        //public JsonResult Remove(int cartId)
+        //{
+        //    var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
+        //    _unitOfWork.ShoppingCart.Remove(cartFromDb);
+        //    HttpContext.Session.SetInt32(SD.SessionCart,
+        //    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
+
+        //    _unitOfWork.Save();
+
+        //    var result = new
+        //    {
+        //        success = true,
+        //        message = "Item removed successfully"
+        //    };
+
+        //    return Json(result);
+        //}
+
+
         public IActionResult Plus(int cartId)
         {
             var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
@@ -326,24 +396,53 @@ namespace example_web_mvc.Areas.Customer.Controllers
             }
         }
 
-        //// Kiểm tra xem mã giảm giá có hợp lệ không
-        //private bool IsCouponValid(Coupon coupon)
-        //{
-        //    var currentDate = System.DateTime.Now;
-        //    return currentDate >= coupon.StartDate && currentDate <= coupon.EndDate && coupon.UsedTimes < coupon.MaxUseTimes;
-        //}
+        public IActionResult GetCartUser()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return Redirect($"/Login?ReturnUrl=/Customer/Cart/Index");
+            }
 
-        //// Tính giá tiền sau khi áp dụng mã giảm giá
-        //private double CalculateCouponDiscount(Coupon coupon, double orderTotal)
-        //{
-        //    if (coupon.ApplyForAllProducts)
-        //    {
-        //        return coupon.DiscountAmount;
-        //    }
-        //    else
-        //    {
-        //        return orderTotal * (double)(coupon.DiscountAmount / 100);
-        //    }
-        //}
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var shoppingCartList = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == userId, includeProperties: "Product,Product.ProductImages");
+            List<ShoppingCartDTO> shoppingCartDtoList = new List<ShoppingCartDTO>();
+            double orderTotal = 0;
+
+            foreach (var cart in shoppingCartList)
+            {
+                var cartDto = new ShoppingCartDTO
+                {
+                    Id = cart.Id,
+                    ProductId = cart.ProductId,
+                    Count = cart.Count,
+                    ProductTitle = cart.Product.Title,
+                    Price = GetPriceBaseOnQuantity(cart),
+                    QuantityProduct = cart.Product.Quantity,
+                    ProductImages = cart.Product.ProductImages.Select(pi => new ProductImage
+                    {
+                        Id = pi.Id,
+                        ImageUrl = pi.ImageUrl
+                    }).ToList(),
+                    ApplicationUserId = cart.ApplicationUserId
+                };
+
+                shoppingCartDtoList.Add(cartDto);
+                orderTotal += (cartDto.Price * cartDto.Count);
+            }
+
+            var orderHeaderDto = new OrderHeaderDto
+            {
+                OrderTotal = orderTotal
+            };
+
+            return Json(new { ShoppingCart = shoppingCartDtoList, OrderHeader = orderHeaderDto });
+        }
+
+
+
+
+
     }
 }

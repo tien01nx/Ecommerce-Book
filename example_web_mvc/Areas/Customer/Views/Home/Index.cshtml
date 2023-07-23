@@ -91,10 +91,56 @@
         <div class="col-xl-12">
             <div class="selling-active">
               
+            
+
 
                 @foreach (var item in Model.GetProductsTop10)
                 {
+                <div class="properties pb-20">
+
+                    <div class="properties-card">
+                            @using (Html.BeginForm("Details", "Home", new { Area = "Customer" }, FormMethod.Post, false, null))
+                        {
+                            <div class="properties-img">
+                                <a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">
+                                    @if (item.ProductDTO.ProductImages != null && item.ProductDTO.ProductImages.Count > 0)
+                                    {
+                                        <img src="@item.ProductDTO.ProductImages[0].ImageUrl" alt="@item.ProductDTO.Title" />
+                                    }
+                                    else
+                                    {
+                                        <img src="/images/default-product-image.png" alt="Default product image" />
+                                    }
+                                </a>
+                            </div>
+                            <div class="properties-caption">
+                                <h3 class="height-min"><a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">@item.ProductDTO.Title</a></h3>
+                                <p>@item.ProductDTO.Author</p>
+                                <div class="properties-footer d-flex justify-content-between align-items-center">
+                                        <input type="hidden" name="ShoppingCart.ProductId" value="@item.ProductDTO.Id" />
+                                        <input type="hidden" name="ShoppingCart.Count" value="1" />
+
+                                    <button type="submit"
+                                            class=" white-btn mr-10">
+                                        <i class="far fa-cart-plus"></i>
+                                    </button>
+
+                                    <div class="price">
+                                        <span>@item.ProductDTO.Price100</span>
+                                    </div>
+                                </div>
+                            </div>
+                                
+                        } <!-- Đóng thẻ form tại đây -->
+                    </div>
+                </div>
+                }
+
+
+                @* @foreach (var item in Model.GetProductsTop10)
+                {
                     <div class="properties pb-20">
+                      
                         <div class="properties-card">
                             <div class="properties-img">
                                 <a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">
@@ -112,16 +158,12 @@
                                 <h3 class="height-min" ><a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">@item.ProductDTO.Title</a></h3>
                                 <p>@item.ProductDTO.Author</p>
                                 <div class="properties-footer d-flex justify-content-between align-items-center">
-                                    <div class="review">
-                                        <div class="rating">
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star"></i>
-                                            <i class="fas fa-star-half-alt"></i>
-                                        </div>
-                                        <p>(<span>120</span> Review)</p>
-                                    </div>
+
+                                        <button type="submit"
+                                                class=" white-btn mr-10">
+                                            <i class="far fa-cart-plus"></i>
+                                        </button>
+                                  
                                     <div class="price">
                                         <span>@item.ProductDTO.Price100</span>
                                     </div>
@@ -129,7 +171,9 @@
                             </div>
                         </div>
                     </div>
-                }
+                } *@
+
+              
             </div>
         </div>
     </div>
@@ -168,19 +212,11 @@
                                         <img src="assets/img/icon/logo.html" alt="" />
                                         <h3>@item.Title</h3>
                                         <p>@item.Author</p>
+                                        
                                         <div class="price">
                                             <span>@item.Price100</span>
                                         </div>
-                                        <div class="review">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(120 Review)</p>
-                                        </div>
+                                       
                                         <a href="https://localhost:7139/Customer/Home/Details/?productId=@item.Id" class="border-btn">Chi tiết</a>
                                     </div>
                                 </div>
@@ -194,7 +230,7 @@
             </div>
             <div class="col-xl-3 col-lg-3 col-md-4 col-sm-9">
                 <div class="google-add">
-                    <img src="assets/img/gallery/ad.jpg" alt="" class="w-100" />
+                    <img src="/assets/img/gallery/ad.jpg" alt="" class="w-100" />
                 </div>
             </div>
         </div>
@@ -291,7 +327,8 @@
                                         <h3 class="height-min"><a href="book-details.html">@item.Title</a></h3>
                                     <p>@item.Author</p>
                                     <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="review">
+                                        <div class="
+                                            ">
                                             <div class="rating">
                                                 <i class="fas fa-star"></i>
                                                 <i class="fas fa-star"></i>

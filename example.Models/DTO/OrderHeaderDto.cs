@@ -16,8 +16,12 @@ namespace example.Models.DTO
         public string OrderStatus { get; set; }
         public double OrderTotal { get; set; }
         // Lấy thông tin product
-   
-       
+
+        public string UserId { get; set; }
+     
+
+
+
     }
 
 }

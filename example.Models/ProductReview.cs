@@ -31,8 +31,10 @@ namespace example.Models
         [ValidateNever]
         public ApplicationUser ApplicationUser { get; set; }
 
+	
 
 
 
-    }
+
+	}
 }

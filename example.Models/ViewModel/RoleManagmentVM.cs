@@ -10,8 +10,5 @@ namespace example.Models.ViewModel
         public IEnumerable<SelectListItem> CompanyList { get; set; }
 
 
-
-
-
     }
 }

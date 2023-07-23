@@ -3,6 +3,7 @@ using example.Models;
 using example.Models.DTO;
 using example_web_mvc.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 
 namespace example.DataAccess.Repository
 {
@@ -13,6 +14,40 @@ namespace example.DataAccess.Repository
         public ProductRepository(ApplicationDbContext db) : base(db)
         {
             _db = db;
+        }
+
+        public List<ProductWithTotalCount> GetProductCountAll()
+        {
+            return _db.OrderDetails
+            .GroupBy(od => od.ProductId)
+            .Select(group => new
+            {
+                ProductId = group.Key,
+                TotalCount = group.Sum(x => x.Count)
+            })
+            .Join(
+                _db.Products.Include(p => p.ProductImages),
+                od => od.ProductId,
+                p => p.Id,
+                (od, p) => new ProductWithTotalCount
+                {
+                    ProductDTO = new ProductDTO
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Author = p.Author,
+                        Price100 = p.Price100,
+                        // Copy other properties
+                        ProductImages = p.ProductImages.Select(pi => new ProductImage
+                        {
+                            Id = pi.Id,
+                            ImageUrl = pi.ImageUrl
+                            // Copy other properties
+                        }).ToList()
+                    },
+                    TotalCount = od.TotalCount
+                }).ToList();
+
         }
 
         public List<ProductDTO> GetProductsByCategoryName(string categoryName)

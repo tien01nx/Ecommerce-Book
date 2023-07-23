@@ -15,6 +15,8 @@
 
         public string ApplicationUserId { get; set; }
 
+		public int TotalOrderedQuantity { get; set; }
 
-    }
+
+	}
 }

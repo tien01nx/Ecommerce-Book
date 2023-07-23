@@ -186,26 +186,13 @@ function createIndustry() {
         checkName.innerHTML = ""; // Xóa thông báo lỗi
     }
 
-    if (DisplayOrder.value == "") {
-        checkDisplay.innerHTML = "Vui lòng nhập thứ tự danh mục!";
-        DisplayOrder.focus();
-        return;
-    } else {
-        checkDisplay.innerHTML = ""; // Xóa thông báo lỗi
-        var displayOrderValue = parseInt(DisplayOrder.value);
-        if (isNaN(displayOrderValue) || displayOrderValue < 0 || displayOrderValue > 100) {
-            checkDisplay.innerHTML = "Thứ tự danh mục phải là một số trong khoảng từ 0 đến 100!";
-            DisplayOrder.focus();
-            return;
-        } else {
-            displayOrderValue.innerHTML = ""; // Xóa thông báo lỗi
-        }
-    }
-
+   
+   
     var industryData = {
-        Name: CategoryName.value,
-        DisplayOrder: DisplayOrder.value
+        CategoryName: CategoryName.value,
+        Description: DisplayOrder.value
     };
+
     var request = new XMLHttpRequest();
     request.onreadystatechange = function () {
         if (this.readyState == 4 && this.status == 200) {
@@ -219,7 +206,7 @@ function createIndustry() {
             }
            
             resetText();
-            addRowToTable(res.id, res.name,res.displayOrder);
+            addRowToTable(res.id, res.categoryName, res.description);
             document.getElementById("btn-close").click();
         }
     };

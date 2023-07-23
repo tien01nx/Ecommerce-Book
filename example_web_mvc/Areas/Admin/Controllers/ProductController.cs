@@ -14,7 +14,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
 {
     [Area("Admin")]
 
-    // cũng có thể cho từng hàm nhỏ 
+    // cũng có thể cho từng hàm nhỏ 0
     [Authorize(Roles = SD.Role_Admin + "," + SD.Role_Seller)]
 
     public class ProductController : Controller
