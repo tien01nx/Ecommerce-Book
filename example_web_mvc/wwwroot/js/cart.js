@@ -274,6 +274,34 @@ document.addEventListener('DOMContentLoaded', (event) => {
         tbody.appendChild(trTotal);
     }
 
+    
+
+    function removeItem(id) {
+        fetch(`/Customer/Cart/Remove?cartId=${id}`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    
+                    var priceElement = document.querySelector(`#price-${id}`);
+                    var countElement = document.querySelector(`#count-${id}`);
+                    var removedMoney = parseFloat(priceElement.textContent) * parseFloat(countElement.value);
+
+                    document.querySelector(`#row-${id}`).remove();
+
+                    var totalPriceElement = document.querySelector('#totalPrice');
+                    var oldTotalPrice = parseFloat(totalPriceElement.textContent);
+                    totalPriceElement.textContent = (oldTotalPrice - removedMoney).toFixed(2);
+                }
+            });
+    }
+
+
     function updateCount(id, action) {
         fetch(`/Customer/Cart/${action}?cartId=${id}`, {
             method: 'POST',
@@ -314,31 +342,6 @@ document.addEventListener('DOMContentLoaded', (event) => {
                         document.querySelector(`#row-${id}`).remove();
                     }
 
-                }
-            });
-    }
-
-    function removeItem(id) {
-        fetch(`/Customer/Cart/Remove?cartId=${id}`, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    // Update total price
-                    var priceElement = document.querySelector(`#price-${id}`);
-                    var countElement = document.querySelector(`#count-${id}`);
-                    var removedMoney = parseFloat(priceElement.textContent) * parseFloat(countElement.value);
-
-                    document.querySelector(`#row-${id}`).remove();
-
-                    var totalPriceElement = document.querySelector('#totalPrice');
-                    var oldTotalPrice = parseFloat(totalPriceElement.textContent);
-                    totalPriceElement.textContent = (oldTotalPrice - removedMoney).toFixed(2);
                 }
             });
     }

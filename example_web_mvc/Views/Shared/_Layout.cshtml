@@ -30,7 +30,7 @@
     <link rel="stylesheet" href="~/assets/css/nice-select.css" />
     <link rel="stylesheet" href="~/assets/css/style.css" />
     <link rel="stylesheet" href="~/css/all.min.css" />
-    <link rel="stylesheet" href="~//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" />
+    <link rel="stylesheet" href="/css/toastr.min.css" />
 
  
     @* <script src="~/js/home.js" asp-append-version="true"></script> *@
@@ -113,13 +113,13 @@
                                     <div class="header-info-left d-flex align-items-center">
                                         <div class="logo">
                                             <a href="/Customer/Home">
-                                                <img src="~/images/logo.png" alt="" />
+                                                <img src="~/images/logoweb.png" alt="" width="50" height="50" />
                                             </a>
                                         </div>
                                         <div class="form-box">
                                             <input type="search"
                                                 id="searchInput" name="search" autocomplete="off"
-                                                   placeholder="Search book by author or publisher" />
+                                                   placeholder="Nhập tên sách tìm kiếm" />
                                             <ul class="dropdown-menu" id="searchResults" aria-labelledby="searchInput">
                                                 <!-- Search results will be inserted here -->
                                             </ul>
@@ -128,6 +128,20 @@
                                                 <i class="ti-search"></i>
                                             </div>
                                         </div>
+
+                                     @*    <div class="form-box">
+                                            <input type="search"
+                                                   id="searchInput" name="search" autocomplete="off"
+                                                   placeholder="Search book by author or publisher" />
+                                            <p id="message"></p>
+                                            <ul class="dropdown-menu" id="searchResults" aria-labelledby="searchInput">
+                                                <!-- Search results will be inserted here -->
+                                            </ul>
+
+                                            <div class="search-icon">
+                                                <i onclick="checkInput()" class="ti-search"></i>
+                                            </div>
+                                        </div> *@
 
                                       @*   <form action="#" class="form-box">
                                             <input type="text"
@@ -140,8 +154,8 @@
                                     </div>
                                     <div class="header-info-right d-flex align-items-center">
                                         <ul>
-                                            <li><a href="#">FAQ</a></li>
-                                            <li><a href="#">Track Order</a></li>
+                                           @*  <li><a href="#">FAQ</a></li>
+                                            <li><a href="#">Track Order</a></li> *@
                                             <li class="">
                                             
                                                 <a class="nav-link text-dark" asp-area="Customer" asp-controller="Cart" asp-action="Index">
@@ -149,7 +163,17 @@
                                                 </a>
                                             </li>
                                             <li>
-                                                <a href="/Login" class="btn header-btn">Sign in</a>
+                                                 @if (!SignInManager.IsSignedIn(User))
+                                                {
+                                                    <a href="/Login" class="btn header-btn">Sign in</a>
+                                                }
+                                                else
+                                                {
+                                                    <a class="dropdown-item " href="javascript:void(0)" onclick="document.getElementById('logoutForm').submit()">
+                                                        <i class="fal fa-sign-out-alt"></i> Đăng Xuất
+                                                    </a>
+                                                    <form id="logoutForm" style="display: none;" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })"></form>
+                                                }
                                             </li>
                                         </ul>
                                     </div>
@@ -173,7 +197,7 @@
                                         <ul id="navigation">
                                             <li><a href="/Customer/Home">Home</a></li>
                                             <li><a href="/Customer/Category">Categories</a></li>
-                                            <li><a href="about.html">About</a></li>
+                                          @*   <li><a href="about.html">About</a></li>
                                             <li>
                                                 <a href="#">Pages</a>
                                                 <ul class="submenu">
@@ -190,7 +214,7 @@
                                                 </ul>
                                             </li>
                                             <li><a href="blog.html">Blog</a></li>
-                                            <li><a href="contact.html">Contect</a></li>
+                                            <li><a href="contact.html">Contect</a></li> *@
                                         </ul>
                                     </nav>
                                 </div>
@@ -216,7 +240,7 @@
     </div>
 
     <footer>
-        <div class="footer-wrappper section-bg">
+        @* <div class="footer-wrappper section-bg">
             <div class="footer-area footer-padding">
                 <div class="container">
                     <div class="row justify-content-between">
@@ -225,7 +249,7 @@
                                 <div class="single-footer-caption mb-30">
                                     <div class="footer-logo mb-25">
                                         <a href="/Customer/Home">
-                                            <img src="assets/img/logo/logo2_footer.png" alt="" />
+                                            <img src="/images/logoweb.png" height="50" width="50" alt="" />
                                         </a>
                                     </div>
                                     <div class="footer-tittle">
@@ -293,7 +317,7 @@
                     </div>
                 </div>
             </div>
-
+                
             <div class="footer-bottom-area">
                 <div class="container">
                     <div class="footer-border">
@@ -317,13 +341,33 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> *@
     </footer>
 
     <div id="back-top">
         <a title="Go to Top" href="#"> <i class="fas fa-level-up-alt"></i></a>
     </div>
    
+
+@*     //check ô tìm kiếm
+    // function checkInput() {
+    //     // Lấy giá trị của ô input
+    //     const inputValue = document.getElementById("searchInput").value;
+
+    //     // Kiểm tra xem giá trị có trống hay không
+    //     if (inputValue.trim() === "") {
+    //         // Hiển thị thông báo
+    //         document.getElementById("message").innerText = "Ô input đang trống!";
+    //         // Đổi màu nền của ô input để làm nổi bật
+    //         document.getElementById("searchInput").style.backgroundColor = "white";
+    //         document.getElementById("message").style.color = "red";
+    //     } else {
+    //         // Nếu không trống, xóa thông báo và đổi lại màu nền ban đầu
+    //         document.getElementById("message").innerText = "";
+    //         document.getElementById("searchInput").style.backgroundColor = "white";
+    //     }
+
+    // } *@
     <script src="~/assets/js/vendor/modernizr-3.5.0.min.js"></script>
     <script src="~/assets/js/vendor/jquery-1.12.4.min.js"></script>
     @* <link rel="stylesheet" href="https://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css">
@@ -352,7 +396,7 @@
     <script src="~/assets/js/main.js"></script>
  
     <script src="~/js/search.js"></script>
-    <script src="~//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js"></script>
+    <script src="~/assets/js/toastr.js"></script>
 
     <script async
             src="~/assets/js/googletagmanager.js"></script>

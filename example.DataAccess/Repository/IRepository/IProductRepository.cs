@@ -12,5 +12,6 @@ namespace example.DataAccess.Repository.IRepository
         List<ProductDTO> GetProductsByCategoryName(string categoryName);
 
         List<ProductWithTotalCount> GetProductCountAll();
+        List<ProductDTO> GetSoldProductsInLastMonth();
     }
 }

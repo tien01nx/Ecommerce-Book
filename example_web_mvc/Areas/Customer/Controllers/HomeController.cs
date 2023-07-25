@@ -84,6 +84,8 @@ namespace example_web_mvc.Areas.Customer.Controllers
         public IActionResult Index()
         {  
             dynamic myModel = new ExpandoObject();
+
+       
             // lấy ra số thông tin Product có tổng số lượng đã bán
             //myModel.GetProductCountAll1 = _unitOfWork.Product.GetProductCountAll();
 

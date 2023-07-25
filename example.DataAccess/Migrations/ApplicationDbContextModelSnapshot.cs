@@ -240,6 +240,11 @@ namespace example.DataAccess.Migrations
                     b.Property<int>("DisplayOrder")
                         .HasColumnType("int");
 
+                    b.Property<string>("MoTa")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(30)
@@ -254,30 +259,35 @@ namespace example.DataAccess.Migrations
                         {
                             Id = 1,
                             DisplayOrder = 2,
+                            MoTa = "123",
                             Name = "Tien"
                         },
                         new
                         {
                             Id = 2,
                             DisplayOrder = 9,
+                            MoTa = "123",
                             Name = "Diu"
                         },
                         new
                         {
                             Id = 3,
                             DisplayOrder = 5,
+                            MoTa = "123",
                             Name = "Manh"
                         },
                         new
                         {
                             Id = 4,
                             DisplayOrder = 5,
+                            MoTa = "123",
                             Name = "Dang"
                         },
                         new
                         {
                             Id = 5,
                             DisplayOrder = 5,
+                            MoTa = "123",
                             Name = "Tu"
                         });
                 });

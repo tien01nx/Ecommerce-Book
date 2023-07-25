@@ -26,12 +26,43 @@ namespace example_web_mvc.Areas.Customer.Controllers
             return View(myModel);
 
         }
-     
+
+
+  
 
         [HttpGet]
-        public IActionResult GetCategoryProduct()
+        public IActionResult GetCategoryProduct(int startAt = 0, string categoryNames = "", string authors = "", string orderBy = "")
         {
-            var productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller")
+            var categories = categoryNames.Split(',').ToList();
+            var authorList = authors.Split(',').ToList();
+            categories.RemoveAll(item => item == "");
+            authorList.RemoveAll(item => item == "");
+
+
+
+            var productQuery = (categories.Count == 0 && authorList.Count == 0)
+          ? _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller").Skip(startAt)
+          : _unitOfWork.Product.GetAll(p => categories.Contains(p.Category.Name) || authorList.Contains(p.Author), includeProperties: "Category,ProductImages,Seller").Skip(startAt);
+
+            switch (orderBy)
+            {
+                case "Tên":
+                    productQuery = productQuery.OrderBy(p => p.Title);
+                    break;
+                case "Mới":
+                    productQuery = productQuery.OrderByDescending(p => p.PublishDate);
+                    break;
+                case "Cũ":
+                    productQuery = productQuery.OrderBy(p => p.PublishDate);
+                    break;
+                case "Giá":
+                    productQuery = productQuery.OrderBy(p => p.Price100);
+                    break;
+                default:
+                    break;  // Do nothing, retain the original order
+            }
+
+            var productList = productQuery
                 .Select(p => new ProductDTO
                 {
                     Id = p.Id,
@@ -40,6 +71,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
                     ListPrice = p.ListPrice,
                     Price100 = p.Price100,
                     StoreName = p.Seller.StoreName,
+                    CategoryName = p.Category.Name,
                     // Extract the image URLs
                     ImageUrls = p.ProductImages.Select(i => i.ImageUrl).Take(12).ToList()
                 });
@@ -48,24 +80,59 @@ namespace example_web_mvc.Areas.Customer.Controllers
         }
 
 
+
         [HttpGet]
-        public IActionResult GetCategoryProducthehe(List<string> authors)
+        public IActionResult SearchProduct(string searchTerm)
         {
-            var products = _unitOfWork.Product.GetAll(includeProperties: "Category,Seller,ProductImages")
-                                .Where(p => authors.Contains(p.Author))
-                                .ToList();
+            if (string.IsNullOrEmpty(searchTerm))
+            {
+                // Nếu ô input không có dữ liệu, trả về tất cả sản phẩm
+                var productList = _unitOfWork.Product
+                    .GetAll(includeProperties: "Category,ProductImages,Seller")
+                    .Select(p => new ProductDTO
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Author = p.Author,
+                        ListPrice = p.ListPrice,
+                        Price100 = p.Price100,
+                        StoreName = p.Seller.StoreName,
+                        CategoryName = p.Category.Name,
+                        ImageUrls = p.ProductImages.Select(i => i.ImageUrl).Take(12).ToList()
+                    }).Take(8);
 
-            // convert to a format suitable for your front-end
-            var result = products.Select(p => new {
-                id = p.Id,
-                title = p.Title,
-                author = p.Author,
-                price100 = p.Price100,
-                imageUrls = p.ProductImages.Select(i => i.ImageUrl).ToList()
-            }).ToList();
+                return Json(productList);
+            }
+            else
+            {
+                // Nếu có tiêu chí tìm kiếm, trả về danh sách sản phẩm phù hợp
+                var productList = _unitOfWork.Product
+                    .GetAll(p => p.Title.Contains(searchTerm),
+                            includeProperties: "Category,ProductImages,Seller")
+                    .Select(p => new ProductDTO
+                    {
+                        Id = p.Id,
+                        Title = p.Title,
+                        Author = p.Author,
+                        ListPrice = p.ListPrice,
+                        Price100 = p.Price100,
+                        StoreName = p.Seller.StoreName,
+                        CategoryName = p.Category.Name,
+                        ImageUrls = p.ProductImages.Select(i => i.ImageUrl).Take(12).ToList()
+                    }).Take(8);
 
-            return Json(result);
+                return Json(productList);
+            }
         }
+
+        // Lấy bài viết trong một tháng qua
+        public IActionResult GetProductMon()
+        {
+            var GetMonth = _unitOfWork.Product.GetSoldProductsInLastMonth();
+            return Json (GetMonth);
+        }
+
+       
 
     }
 }

@@ -1,5 +1,6 @@
 ﻿
 @model dynamic
+
 <div class="row">
     <div class="col-xl-12">
         <div class="slider-area">
@@ -13,6 +14,7 @@
 </div>
 
 
+
 <div class="listing-area pt-50 pb-50">
     <div class="container">
         <div class="row">
@@ -22,15 +24,15 @@
                         <div class="select-Categories pb-30">
                             <div class="small-tittle mb-20">
                                 <h4>Thể loại</h4>
-                            </div>
+                            </div> 
                             @foreach(var item in Model.CategoryName)
                             {
                                 <label class="container">
                                     @item.Name
-                                    <input type="checkbox" value="@item.Id" />
+                                    <input type="checkbox" value="@item.Name" />
                                     <span class="checkmark"></span>
                                 </label>
-                            }
+                            } 
                            
                             
                         </div>
@@ -59,7 +61,7 @@
                             </div>
                         </aside>
 
-                 @*        <div class="select-job-items2 mb-30">
+                        <div class="select-job-items2 mb-30">
                             <div class="col-xl-12">
                                 <select name="select2">
                                     <option value="">Filter by Rating</option>
@@ -70,14 +72,14 @@
                                     <option value="">1 Star Rating</option>
                                 </select>
                             </div>
-                        </div> *@
+                        </div>
 
                  
 
                         <div class="select-Categories">
                             <div class="small-tittle mb-20">
                                 <h4>Lọc theo tên tác giả</h4>
-                            </div>
+                            </div> 
                             @foreach (var item in Model.AuthorTop8)
                             {
                                 <label class="container">
@@ -92,6 +94,8 @@
                     </div>
                 </div>
             </div>
+
+            @* // sửa lại col12 vè 8 *@
 
             <div class="col-xl-8 col-lg-8 col-md-6">
                 <div class="row justify-content-end">
@@ -111,49 +115,7 @@
                 </div>
                 <div class="best-selling p-0">
                     <div class="row" id="productContainer">
-                      @*   @foreach (var item in Model.ProductAll)
-                        {
-                            <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                                <div class="properties pb-30">
-                                    <div class="properties-card">
-                                        <div class="properties-img">
-                                            <a href="/Customer/Home/Details/?productId=@item.Id">
-                                                @if (item.ProductImages != null && item.ProductImages.Count > 0)
-                                                {
-                                                    <img src="@item.ProductImages[0].ImageUrl" alt="@item.Title" />
-                                                }
-                                                else
-                                                {
-                                                    <img src="/images/default-product-image.png" alt="Default product image" />
-                                                }
-                                            </a>
-                                        </div>
-                                        <div class="properties-caption properties-caption2">
-                                            <h3 style="    min-height: 135px;overflow: hidden;">
-                                                <a href="/Customer/Home/Details/?productId=@item.Id">@item.Title</a>
-                                            </h3>
-                                            <p>@item.Author</p>
-                                            <div class="properties-footer d-flex justify-content-between align-items-center">
-                                                <div class="review">
-                                                    <div class="rating">
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star"></i>
-                                                        <i class="fas fa-star-half-alt"></i>
-                                                    </div>
-                                                    <p>(<span>120</span> Review)</p>
-                                                </div>
-                                                <div class="price">
-                                                    <span>@item.Price100</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        }
-                      *@
+                    
                        
                     </div>
                 </div>
@@ -195,5 +157,6 @@
 
 
 @section Scripts{
-    <script src="~/js/category.js"></script>
+
+    <script src="~/js/categoryUser.js" asp-append-version="true"></script>
 }

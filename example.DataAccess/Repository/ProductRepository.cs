@@ -120,6 +120,45 @@ namespace example.DataAccess.Repository
             return _db.Products.Where(p => p.Seller.ApplicationUserId == applicationUserId).ToList();
         }
 
+        public List<ProductDTO> GetSoldProductsInLastMonth()
+        {
+            var oneMonthAgo = DateTime.Now.AddMonths(-1);
+
+            var orderDetailsList = _db.OrderDetails
+         .Include(od => od.Product)
+         .ThenInclude(p => p.ProductImages)
+         .Include(od => od.Product)
+         .ThenInclude(p => p.Seller)
+         .Where(od => od.OrderHeader.OrderDate >= oneMonthAgo)
+         .ToList();
+
+            var soldProducts = orderDetailsList
+                    .Select(od => new ProductDTO
+                    {
+                        Id = od.Product.Id,
+                        Title = od.Product.Title,
+                        Author = od.Product.Author,
+                        ListPrice = od.Product.ListPrice,
+                        Price100 = od.Product.Price100,
+                        StoreName = od.Product.Seller.StoreName,
+                        PublishDate = od.Product.PublishDate,
+                        ISBN = od.Product.ISBN,
+                        Description = od.Product.Description,
+                        //CategoryName = od.Product.Category.Name,
+                        ImageUrls = od.Product.ProductImages.Select(pi => pi.ImageUrl).ToList(),
+                        Price = od.Product.Price,
+                        Price50 = od.Product.Price50,
+                    })
+                    .GroupBy(p => p.Id)
+                    .Select(g => g.First())
+                    .ToList();
+
+            return soldProducts;
+
+
+
+        }
+
         public List<ProductWithTotalCount> GetTopOrderedProducts()
         {
             return _db.OrderDetails

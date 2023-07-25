@@ -86,94 +86,98 @@
         }
     </style>
 
-     @* nội dung đổ giao diện *@
+    @* nội dung đổ giao diện *@
     <div class="row">
         <div class="col-xl-12">
             <div class="selling-active">
-              
-            
+
+
 
 
                 @foreach (var item in Model.GetProductsTop10)
                 {
-                <div class="properties pb-20">
+                    <div class="properties pb-20">
 
-                    <div class="properties-card">
+                        <div class="properties-card">
                             @using (Html.BeginForm("Details", "Home", new { Area = "Customer" }, FormMethod.Post, false, null))
-                        {
-                            <div class="properties-img">
-                                <a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">
-                                    @if (item.ProductDTO.ProductImages != null && item.ProductDTO.ProductImages.Count > 0)
-                                    {
-                                        <img src="@item.ProductDTO.ProductImages[0].ImageUrl" alt="@item.ProductDTO.Title" />
-                                    }
-                                    else
-                                    {
-                                        <img src="/images/default-product-image.png" alt="Default product image" />
-                                    }
-                                </a>
-                            </div>
-                            <div class="properties-caption">
-                                <h3 class="height-min"><a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">@item.ProductDTO.Title</a></h3>
-                                <p>@item.ProductDTO.Author</p>
-                                <div class="properties-footer d-flex justify-content-between align-items-center">
+                            {
+                                <div class="properties-img">
+                                    <a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">
+                                        @if (item.ProductDTO.ProductImages != null && item.ProductDTO.ProductImages.Count > 0)
+                                        {
+                                            <img src="@item.ProductDTO.ProductImages[0].ImageUrl" alt="@item.ProductDTO.Title" />
+                                        }
+                                        else
+                                        {
+                                            <img src="/images/default-product-image.png" alt="Default product image" />
+                                        }
+                                    </a>
+                                </div>
+                                <div class="properties-caption">
+                                    <h3 class="height-min"><a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">@item.ProductDTO.Title</a></h3>
+                                    <p>@item.ProductDTO.Author</p>
+                                    <div class="properties-footer d-flex justify-content-between align-items-center">
                                         <input type="hidden" name="ShoppingCart.ProductId" value="@item.ProductDTO.Id" />
                                         <input type="hidden" name="ShoppingCart.Count" value="1" />
-
-                                    <button type="submit"
-                                            class=" white-btn mr-10">
-                                        <i class="far fa-cart-plus"></i>
-                                    </button>
-
-                                    <div class="price">
-                                        <span>@item.ProductDTO.Price100</span>
-                                    </div>
-                                </div>
-                            </div>
-                                
-                        } <!-- Đóng thẻ form tại đây -->
-                    </div>
-                </div>
-                }
-
-
-                @* @foreach (var item in Model.GetProductsTop10)
-                {
-                    <div class="properties pb-20">
-                      
-                        <div class="properties-card">
-                            <div class="properties-img">
-                                <a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">
-                                    @if (item.ProductDTO.ProductImages != null && item.ProductDTO.ProductImages.Count > 0)
-                                    {
-                                        <img src="@item.ProductDTO.ProductImages[0].ImageUrl" alt="@item.ProductDTO.Title" />
-                                    }
-                                    else
-                                    {
-                                        <img src="/images/default-product-image.png" alt="Default product image" />
-                                    }
-                                </a>
-                            </div>
-                            <div class="properties-caption">
-                                <h3 class="height-min" ><a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">@item.ProductDTO.Title</a></h3>
-                                <p>@item.ProductDTO.Author</p>
-                                <div class="properties-footer d-flex justify-content-between align-items-center">
 
                                         <button type="submit"
                                                 class=" white-btn mr-10">
                                             <i class="far fa-cart-plus"></i>
                                         </button>
-                                  
-                                    <div class="price">
-                                        <span>@item.ProductDTO.Price100</span>
+
+                                        <div class="price">
+                                            <span>@item.ProductDTO.Price100</span>
+
+                                        </div>
+                                        @* số lượng đã bán *@
+                                        @*       <span>@item.TotalCount</span> *@
+                                        @*       <span> @item.ProductDTO.Quantity</span> *@
                                     </div>
                                 </div>
-                            </div>
+
+                            } <!-- Đóng thẻ form tại đây -->
                         </div>
                     </div>
+                }
+
+
+                @* @foreach (var item in Model.GetProductsTop10)
+                {
+                <div class="properties pb-20">
+
+                <div class="properties-card">
+                <div class="properties-img">
+                <a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">
+                @if (item.ProductDTO.ProductImages != null && item.ProductDTO.ProductImages.Count > 0)
+                {
+                <img src="@item.ProductDTO.ProductImages[0].ImageUrl" alt="@item.ProductDTO.Title" />
+                }
+                else
+                {
+                <img src="/images/default-product-image.png" alt="Default product image" />
+                }
+                </a>
+                </div>
+                <div class="properties-caption">
+                <h3 class="height-min" ><a href="/Customer/Home/Details/?productId=@item.ProductDTO.Id">@item.ProductDTO.Title</a></h3>
+                <p>@item.ProductDTO.Author</p>
+                <div class="properties-footer d-flex justify-content-between align-items-center">
+
+                <button type="submit"
+                class=" white-btn mr-10">
+                <i class="far fa-cart-plus"></i>
+                </button>
+
+                <div class="price">
+                <span>@item.ProductDTO.Price100</span>
+                </div>
+                </div>
+                </div>
+                </div>
+                </div>
                 } *@
 
-              
+
             </div>
         </div>
     </div>
@@ -200,30 +204,31 @@
                                     <div class="features-img">
                                         @if (item.ProductImages != null && item.ProductImages.Count > 0)
                                         {
-                                            <img src="@item.ProductImages[0].ImageUrl" alt="@item.Title"  width="426" height="282"/>
+                                            <img src="@item.ProductImages[0].ImageUrl" alt="@item.Title" width="426" height="282" />
                                         }
                                         else
                                         {
                                             <img src="/images/default-product-image.png" alt="Default product image" />
                                         }
-                                      @*   <img src="assets/img/gallery/best-books1.jpg" alt="" /> *@
+                                        @*   <img src="assets/img/gallery/best-books1.jpg" alt="" /> *@
                                     </div>
                                     <div class="features-caption">
                                         <img src="assets/img/icon/logo.html" alt="" />
                                         <h3>@item.Title</h3>
                                         <p>@item.Author</p>
-                                        
+
                                         <div class="price">
                                             <span>@item.Price100</span>
+
                                         </div>
-                                       
+
                                         <a href="https://localhost:7139/Customer/Home/Details/?productId=@item.Id" class="border-btn">Chi tiết</a>
                                     </div>
                                 </div>
                             }
-                          
 
-                         
+
+
                         </div>
                     </div>
                 </div>
@@ -306,53 +311,53 @@
                             overflow: hidden;
                         }
                     </style>
-                  @*    @foreach (var item in Model.GetProductInPublishDate)
+                    @*    @foreach (var item in Model.GetProductInPublishDate)
                     {
-                     <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
-                        <div class="properties pb-30">
-                            <div class="properties-card">
-                                <div class="properties-img">
-                                    <a href="book-details.html">
-                                            @if (item.ProductImages != null && item.ProductImages.Count > 0)
-                                            {
-                                                <img src="@item.ProductImages[0].ImageUrl" alt="@item.Title" />
-                                            }
-                                            else
-                                            {
-                                                <img src="/images/default-product-image.png" alt="Default product image" />
-                                            }
-                                    </a>
-                                </div>
-                                <div class="properties-caption properties-caption2">
-                                        <h3 class="height-min"><a href="book-details.html">@item.Title</a></h3>
-                                    <p>@item.Author</p>
-                                    <div class="properties-footer d-flex justify-content-between align-items-center">
-                                        <div class="
-                                            ">
-                                            <div class="rating">
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star"></i>
-                                                <i class="fas fa-star-half-alt"></i>
-                                            </div>
-                                            <p>(<span>120</span> Review)</p>
-                                        </div>
-                                        <div class="price">
-                                            <span>@item.Price100</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div> 
+                    <div class="col-xl-2 col-lg-3 col-md-4 col-sm-6">
+                    <div class="properties pb-30">
+                    <div class="properties-card">
+                    <div class="properties-img">
+                    <a href="book-details.html">
+                    @if (item.ProductImages != null && item.ProductImages.Count > 0)
+                    {
+                    <img src="@item.ProductImages[0].ImageUrl" alt="@item.Title" />
+                    }
+                    else
+                    {
+                    <img src="/images/default-product-image.png" alt="Default product image" />
+                    }
+                    </a>
+                    </div>
+                    <div class="properties-caption properties-caption2">
+                    <h3 class="height-min"><a href="book-details.html">@item.Title</a></h3>
+                    <p>@item.Author</p>
+                    <div class="properties-footer d-flex justify-content-between align-items-center">
+                    <div class="
+                    ">
+                    <div class="rating">
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star"></i>
+                    <i class="fas fa-star-half-alt"></i>
+                    </div>
+                    <p>(<span>120</span> Review)</p>
+                    </div>
+                    <div class="price">
+                    <span>@item.Price100</span>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
+                    </div>
                     } *@
-                   
-                 
+
+
                 </div>
             </div>
-           
-      
+
+
         </div>
         <div class="row">
             <div class="col-xl-12">

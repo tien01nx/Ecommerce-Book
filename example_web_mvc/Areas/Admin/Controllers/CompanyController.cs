@@ -37,7 +37,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
             if (id == 0 || id == null)
             {
                 // create
-              return NotFound();
+                return NotFound();
             }
             else
             {
@@ -75,12 +75,94 @@ namespace example_web_mvc.Areas.Admin.Controllers
                 //return RedirectToAction("Index");
             }
             else
-            { 
+            {
                 return BadRequest();
             }
 
 
         }
+
+
+        //Serverside 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult CreateCompany(Company companyObj)
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Company.Add(companyObj);
+                _unitOfWork.Save();
+                TempData["success"] = "Thêm sản phẩm thành công";
+                return RedirectToAction(nameof(Index));
+            }
+
+            // Nếu dữ liệu không hợp lệ, hiển thị lại form với thông báo lỗi
+            return BadRequest(companyObj);
+        }
+
+
+
+        public IActionResult CreateCompanySV(Company companyObj)
+        {
+
+
+            // Nếu dữ liệu không hợp lệ, hiển thị lại form với thông báo lỗi
+            return View("Create", companyObj);
+        }
+
+
+
+
+        public IActionResult UpdateCompany(int? id)
+        {
+            if (id == null || id == 0)
+            {
+                // Nếu ID không hợp lệ, trả về trang Not Found hoặc trang lỗi khác
+                return NotFound();
+            }
+
+            // Chỉnh sửa, trả về view chứa form với dữ liệu hiện tại để chỉnh sửa
+            Company companyObj = _unitOfWork.Company.Get(u => u.Id == id);
+            if (companyObj == null)
+            {
+                // Nếu không tìm thấy dữ liệu theo ID, trả về trang Not Found hoặc trang lỗi khác
+                return NotFound();
+            }
+
+            return View("Update", companyObj);
+        }
+
+        // POST: /Admin/Company/Update/1
+        // Xử lý dữ liệu khi submit form chỉnh sửa
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, Company companyObj)
+        {
+            if (ModelState.IsValid)
+            {
+                if (id != companyObj.Id)
+                {
+                    // Nếu ID không khớp với dữ liệu, trả về trang Not Found hoặc trang lỗi khác
+                    return NotFound();
+                }
+
+                // Cập nhật dữ liệu
+                _unitOfWork.Company.Update(companyObj);
+                // Lưu dữ liệu khi cập nhật
+                _unitOfWork.Save();
+                TempData["success"] = "Cập nhật thành công";
+                // Redirect về trang Index sau khi cập nhật thành công
+                return RedirectToAction("Index");
+            }
+
+            // Nếu dữ liệu không hợp lệ, hiển thị lại form với thông báo lỗi
+            return View(companyObj);
+        }
+
+
+
+
+
 
 
 
@@ -113,6 +195,13 @@ namespace example_web_mvc.Areas.Admin.Controllers
             return Json(new { success = true, message = "Delete  successful" });
 
         }
+
+
+
+
+
+
+
 
         #endregion
 

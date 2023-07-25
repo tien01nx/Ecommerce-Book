@@ -1,9 +1,11 @@
 ﻿using example.DataAccess.Repository;
 using example.DataAccess.Repository.IRepository;
 using example.Models;
+using example.Models.ViewModel;
 using example.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using X.PagedList;
 
 namespace example_web_mvc.Areas.Admin.Controllers
 {
@@ -17,18 +19,35 @@ namespace example_web_mvc.Areas.Admin.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        public IActionResult Index()
+     
+
+
+        public ActionResult Index(int page, int size)
         {
-            List<Category> obj = _unitOfWork.Category.GetAll().ToList();
-            return View(obj);
+            int pageSize = size > 0 ? size : 10;
+            int pageNumber = page > 0 ? page : 1;
+
+            var categories = _unitOfWork.Category.GetAll().ToList();
+            var categoryViewModels = categories.Select(c => new CategoryVM
+            {
+                Category = c,
+                CountProduct = _unitOfWork.Product.GetAll(p => p.CategoryId == c.Id).Count()
+            }).ToList();
+
+            var pagedList = new PagedList<CategoryVM>(categoryViewModels, pageNumber, pageSize);
+            return View(pagedList);
         }
+
+
+
 
         public IActionResult Create()
         {
             return View();
         }
 
-    
+
+
         [HttpPost]
         public IActionResult Create([FromBody] Category category)
         {
@@ -48,7 +67,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
                     _unitOfWork.Save();
                 }
 
-              
+
                 return Ok(category);
             }
             catch
@@ -138,6 +157,76 @@ namespace example_web_mvc.Areas.Admin.Controllers
             return RedirectToAction("Index");
 
         }
+
+
+        //tìm kiếm 
+        public IActionResult Search(string name)
+        {
+            var results = _unitOfWork.Category.GetAll(u => u.Name.Contains(name));
+            try
+            {
+                return Ok(results);
+            }
+            catch
+            {
+                return NotFound();
+            }
+        }
+
+
+
+
+        //serverside category 
+        [HttpPost]
+
+        public IActionResult CreateCategory(Category Category)
+        {
+            if (ModelState.IsValid)
+            {
+
+                _unitOfWork.Category.Add(Category);
+                _unitOfWork.Save();
+                TempData["success"] = "Thêm sản phẩm thành công";
+                return RedirectToAction(nameof(Index));
+
+
+            }
+            return BadRequest(Category);
+        }
+
+        public IActionResult EditSV(int? id)
+        {
+
+
+            if (id == null)
+            {
+                return NotFound();
+            }
+            var Category = _unitOfWork.Category.Get(u => u.Id == id);
+            if (Category == null)
+            {
+                return NotFound();
+            }
+            return View("Edit", Category);
+        }
+
+        [HttpPost]
+        public IActionResult SaveSV(Category Category)
+
+        {
+            if (ModelState.IsValid)
+            {
+                _unitOfWork.Category.Update(Category);
+                _unitOfWork.Save();
+                TempData["success"] = "Cập nhật thành công";
+                return RedirectToAction(nameof(Index));
+
+            }
+            return View("Edit", Category);
+        }
+
+
+
 
     }
 

@@ -197,14 +197,14 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
 
                     // Calculate the final price after applying the discount
-                    var discountAmount = item.Price * (couponDiscount / 100);
+                    var discountAmount = item.Price * (couponDiscount / 10000);
                     var itemFinalPricePerUnit = item.Price - discountAmount;
 
                     var sessionLineItem = new SessionLineItemOptions
                     {
                         PriceData = new SessionLineItemPriceDataOptions
                         {
-                            UnitAmount = (long?)(itemFinalPricePerUnit * 100),
+                            UnitAmount = (long?)(itemFinalPricePerUnit * 1),
                             Currency = "vnd",
                             ProductData = new SessionLineItemPriceDataProductDataOptions
                             {
@@ -270,81 +270,24 @@ namespace example_web_mvc.Areas.Customer.Controllers
             return View(id);
         }
 
-        //public JsonResult Plus(int cartId)
-        //{
-        //    var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
-        //    cartFromDb.Count += 1;
-        //    _unitOfWork.ShoppingCart.Update(cartFromDb);
-        //    _unitOfWork.Save();
-
-        //    var result = new
-        //    {
-        //        success = true,
-        //        message = "Successfully increased item count",
-        //        itemCount = cartFromDb.Count,
-        //    };
-
-        //    return Json(result);
-        //}
-
-        //public JsonResult Minus(int cartId)
-        //{
-        //    var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
-        //    if (cartFromDb.Count <= 1)
-        //    {
-        //        _unitOfWork.ShoppingCart.Remove(cartFromDb);
-        //        HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
-        //           .GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
-
-        //    }
-        //    else
-        //    {
-        //        cartFromDb.Count -= 1;
-        //        _unitOfWork.ShoppingCart.Update(cartFromDb);
-
-        //    }
-        //    _unitOfWork.Save();
-
-        //    var result = new
-        //    {
-        //        success = cartFromDb.Count > 0,
-        //        message = cartFromDb.Count > 0 ? "Successfully decreased item count" : "Item removed",
-        //        itemCount = cartFromDb.Count,
-        //    };
-
-        //    return Json(result);
-        //}
-
-
-        //public JsonResult Remove(int cartId)
-        //{
-        //    var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
-        //    _unitOfWork.ShoppingCart.Remove(cartFromDb);
-        //    HttpContext.Session.SetInt32(SD.SessionCart,
-        //    _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
-
-        //    _unitOfWork.Save();
-
-        //    var result = new
-        //    {
-        //        success = true,
-        //        message = "Item removed successfully"
-        //    };
-
-        //    return Json(result);
-        //}
-
-
-        public IActionResult Plus(int cartId)
+        public JsonResult Plus(int cartId)
         {
             var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
             cartFromDb.Count += 1;
             _unitOfWork.ShoppingCart.Update(cartFromDb);
             _unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
+
+            var result = new
+            {
+                success = true,
+                message = "Successfully increased item count",
+                itemCount = cartFromDb.Count,
+            };
+
+            return Json(result);
         }
 
-        public IActionResult Minus(int cartId)
+        public JsonResult Minus(int cartId)
         {
             var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
             if (cartFromDb.Count <= 1)
@@ -361,20 +304,77 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
             }
             _unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
+
+            var result = new
+            {
+                success = cartFromDb.Count > 0,
+                message = cartFromDb.Count > 0 ? "Successfully decreased item count" : "Item removed",
+                itemCount = cartFromDb.Count,
+            };
+
+            return Json(result);
         }
 
-        public IActionResult Remove(int cartId)
+
+        public JsonResult Remove(int cartId)
         {
             var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
-
             _unitOfWork.ShoppingCart.Remove(cartFromDb);
             HttpContext.Session.SetInt32(SD.SessionCart,
-             _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
+            _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
 
             _unitOfWork.Save();
-            return RedirectToAction(nameof(Index));
+
+            var result = new
+            {
+                success = true,
+                message = "Item removed successfully"
+            };
+
+            return Json(result);
         }
+
+
+        //public IActionResult Plus(int cartId)
+        //{
+        //    var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId);
+        //    cartFromDb.Count += 1;
+        //    _unitOfWork.ShoppingCart.Update(cartFromDb);
+        //    _unitOfWork.Save();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        //public IActionResult Minus(int cartId)
+        //{
+        //    var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
+        //    if (cartFromDb.Count <= 1)
+        //    {
+        //        _unitOfWork.ShoppingCart.Remove(cartFromDb);
+        //        HttpContext.Session.SetInt32(SD.SessionCart, _unitOfWork.ShoppingCart
+        //           .GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
+
+        //    }
+        //    else
+        //    {
+        //        cartFromDb.Count -= 1;
+        //        _unitOfWork.ShoppingCart.Update(cartFromDb);
+
+        //    }
+        //    _unitOfWork.Save();
+        //    return RedirectToAction(nameof(Index));
+        //}
+
+        //public IActionResult Remove(int cartId)
+        //{
+        //    var cartFromDb = _unitOfWork.ShoppingCart.Get(u => u.Id == cartId, tracked: true);
+
+        //    _unitOfWork.ShoppingCart.Remove(cartFromDb);
+        //    HttpContext.Session.SetInt32(SD.SessionCart,
+        //     _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == cartFromDb.ApplicationUserId).Count() - 1);
+
+        //    _unitOfWork.Save();
+        //    return RedirectToAction(nameof(Index));
+        //}
 
         // Tính giá tiền
         public double GetPriceBaseOnQuantity(ShoppingCart shoppingCart)

@@ -1,92 +1,3 @@
-//document.addEventListener('DOMContentLoaded', (event) => {
-//    fetch('https://localhost:7139/Customer/Category/GetCategoryProduct')
-//        .then(response => {
-//            if (!response.ok) {
-//                throw new Error("HTTP error " + response.status);
-//            }
-//            return response.json();
-//        })
-//        .then(data => {
-//            renderData(data);
-//            console.log(data);
-//        })
-//        .catch(function (error) {
-//            console.log(error);
-//        });
-//});
-$(document).ready(function () {
-    $('.author-checkbox').change(function () {
-        var selectedAuthors = [];
-        $('.author-checkbox:checked').each(function () {
-            selectedAuthors.push($(this).val());
-        });
-
-        $.ajax({
-            url: 'https://localhost:7139/Customer/Category/GetCategoryProducthehe',
-            type: 'GET',
-            data: { authors: selectedAuthors },
-            success: function (data) {
-              
-                renderData(data)
-            },
-            error: function () {
-                alert('Error occurred');
-            },
-        });
-    });
-});
-
-function renderData(data) {
-    // Biến dùng để lưu HTML
-    let htmlContent = '';
-
-    data.forEach(function (product) {
-        let productImageUrl = product.imageUrls && product.imageUrls.length > 0 ? product.imageUrls[0] : "/images/default-product-image.png";
-        let productHtml = `
-            <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-12 col-sm-6">
-                <div class="properties pb-30">
-                    <div class="properties-card">
-                        <div class="properties-img">
-                            <a href="/Customer/Home/Details/?productId=${product.id}">
-                                <img src="${productImageUrl}" alt="${product.title}" />
-                            </a>
-                        </div>
-                        <div class="properties-caption properties-caption2">
-                            <h3 style="min-height: 135px;overflow: hidden;">
-                                <a href="/Customer/Home/Details/?productId=${product.id}">${product.title}</a>
-                            </h3>
-                            <p>${product.author}</p>
-                            <div class="properties-footer d-flex justify-content-between align-items-center">
-                                <div class="review">
-                                    <div class="rating">
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star"></i>
-                                        <i class="fas fa-star-half-alt"></i>
-                                    </div>
-                                    <p>(<span>120</span> Review)</p>
-                                </div>
-                                <div class="price">
-                                    <span>${product.price100}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        `;
-        // Thêm vào htmlContent
-        htmlContent += productHtml;
-    });
-
-    // Thêm htmlContent vào div mong muốn (chắc chắn rằng jQuery đã được sử dụng)
-    $('#productContainer').html(htmlContent);
-    // Gọi hàm này sau khi các phần tử đã được thêm vào trang
-}
-
-
-
 
 
 function showModal() {
@@ -189,8 +100,8 @@ function createIndustry() {
    
    
     var industryData = {
-        CategoryName: CategoryName.value,
-        Description: DisplayOrder.value
+        Name: CategoryName.value,
+        DisplayOrder: DisplayOrder.value
     };
 
     var request = new XMLHttpRequest();
@@ -206,7 +117,7 @@ function createIndustry() {
             }
            
             resetText();
-            addRowToTable(res.id, res.categoryName, res.description);
+            addRowToTable(res.id, res.name, res.displayOrder);
             document.getElementById("btn-close").click();
         }
     };
@@ -282,3 +193,41 @@ function resetText() {
     document.getElementById("checkDisplay").innerHTML = "";
 
 }
+
+
+
+
+//function searchIndustries() {
+//    var name = document.getElementById("name").value;
+//    console.log("Name: " + name);
+//    var xhr = new XMLHttpRequest();
+//    xhr.onreadystatechange = function () {
+//        if (this.readyState == 4 && this.status == 200) {
+//            var industries = JSON.parse(xhr.responseText);
+//            var html = "";
+//            for (var i = 0; i < industries.length; i++) {
+//                var industry = industries[i];
+//                var STT = i + 1;
+//                html += '<tr id="hihi-' + industry.id + '">';
+//                html += '<td class="col-1">' + STT + '</td>';
+//                html += '<td id="industry-' + industry.id + '" class="col-5">' + industry.name + '</td>';
+//                html += '<td class="col-3">' + industry.displayOrder + '</td>';
+//                html += '<td class="table-action col-3">';
+//                html += '<a onclick="getIndustryById(' + industry.id + ')" data-bs-toggle="modal" data-bs-target="#myModal">';
+//                html += '<i class="fal fa-pen" style="color: #000000; margin-right: 25px;"></i>';
+//                html += '</a>';
+//                html += '<a onclick="deleteIndustry(' + industry.id + ')">';
+//                html += '<i class="fal fa-trash" style="color: #000000;"></i>';
+//                html += '</a>';
+//                html += '</td>';
+//                html += '</tr>';
+//            }
+//            document.getElementById("tbody").innerHTML = html;
+//            toastr.info("Tìm thấy: " + industries.length + " kết quả.");
+//        }
+//    };
+//    xhr.open("GET", '/Admin/Category/Search?name=' + encodeURIComponent(name), true);
+//    xhr.send();
+//}
+
+//document.getElementById("search").addEventListener("click", searchIndustries);

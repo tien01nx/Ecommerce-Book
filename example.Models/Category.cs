@@ -17,6 +17,11 @@ namespace example.Models
         public int DisplayOrder { get; set; }
 
 
+        [Required(ErrorMessage = "Bạn phải nhập mô tả")]
+        [DisplayName("Mô tả")]
+        [MaxLength(50, ErrorMessage = "Nhập mô tả")]
+        public string MoTa { get; set; }
+
 
     }
 }

@@ -43,31 +43,36 @@ namespace example_web_mvc.DataAccess.Data
                 {
                     Id = 1,
                     Name = "Tien",
-                    DisplayOrder = 2
+                    DisplayOrder = 2,
+                    MoTa="123"
                 },
                 new Category
                 {
                     Id = 2,
                     Name = "Diu",
-                    DisplayOrder = 9
+                    DisplayOrder = 9,
+                    MoTa = "123"
                 },
                 new Category
                 {
                     Id = 3,
                     Name = "Manh",
-                    DisplayOrder = 5
+                    DisplayOrder = 5,
+                    MoTa = "123"
                 },
                  new Category
                  {
                      Id = 4,
                      Name = "Dang",
-                     DisplayOrder = 5
+                     DisplayOrder = 5,
+                     MoTa = "123"
                  },
                   new Category
                   {
                       Id = 5,
                       Name = "Tu",
-                      DisplayOrder = 5
+                      DisplayOrder = 5,
+                      MoTa = "123"
                   });
 
             modelBuilder.Entity<Company>().HasData(
