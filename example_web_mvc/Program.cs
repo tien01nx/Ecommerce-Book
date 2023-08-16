@@ -1,9 +1,9 @@
 
 using Bulky.DataAccess.DbInitializer;
-using example.DataAccess.DbInitializer;
-using example.DataAccess.Repository;
-using example.DataAccess.Repository.IRepository;
-using example.Utility;
+using Ecommerce.DataAccess.DbInitializer;
+using Ecommerce.DataAccess.Repository;
+using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Utility;
 using example_web_mvc.DataAccess.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
@@ -87,7 +87,7 @@ builder.Services.AddCors(options =>
 });
 
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-builder.Services.AddScoped<IEmailSender, EmailSender>();
+//builder.Services.AddScoped<IEmailSender, EmailSender>();
 var app = builder.Build();
 
 // Cấu hình pipelinne xử lý cấu hình HTTP

@@ -1,6 +1,6 @@
-﻿using example.DataAccess.Repository.IRepository;
-using example.Models;
-using example.Models.DTO;
+﻿using Ecommerce-Book.DataAccess.Repository.IRepository;
+using Ecommerce-Book.Models;
+using Ecommerce-Book.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 

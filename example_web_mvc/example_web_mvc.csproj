@@ -24,13 +24,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\example.DataAccess\example.DataAccess.csproj" />
-    <ProjectReference Include="..\example.Models\example.Models.csproj" />
-    <ProjectReference Include="..\example.Utilitys\example.Utility.csproj" />
+    <Folder Include="wwwroot\images\product\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="wwwroot\images\product\" />
+    <ProjectReference Include="..\example.DataAccess\Ecommerce-Book.DataAccess.csproj" />
+    <ProjectReference Include="..\example.Models\Ecommerce-Book.Models.csproj" />
+    <ProjectReference Include="..\example.Utilitys\Ecommerce-Book.Utility.csproj" />
   </ItemGroup>
 
 </Project>

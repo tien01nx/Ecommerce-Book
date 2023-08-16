@@ -8,7 +8,7 @@
  * You may re-use it at any time to build CKEditor again.
  *
  * If you would like to build CKEditor online again
- * (for example to upgrade), visit one the following links:
+ * (for Ecommerce-Book to upgrade), visit one the following links:
  *
  * (1) https://ckeditor.com/cke4/builder
  *     Visit online builder to build CKEditor from scratch.

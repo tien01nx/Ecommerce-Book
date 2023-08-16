@@ -1,8 +1,8 @@
-﻿using example.Models.DTO;
+﻿using Ecommerce.Models.DTO;
 using Microsoft.AspNetCore.Mvc.ModelBinding.Validation;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
-namespace example.Models.ViewModel
+namespace Ecommerce.Models.ViewModel
 {
     public class ProductVM
     {

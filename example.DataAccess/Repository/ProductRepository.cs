@@ -1,11 +1,12 @@
-﻿using example.DataAccess.Repository.IRepository;
-using example.Models;
-using example.Models.DTO;
+﻿using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models;
+using Ecommerce.Models;
+using Ecommerce.Models.DTO;
 using example_web_mvc.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using SendGrid.Helpers.Mail;
 
-namespace example.DataAccess.Repository
+
+namespace Ecommerce.DataAccess.Repository
 {
     public class ProductRepository : Repository<Product>, IProductRepository
     {

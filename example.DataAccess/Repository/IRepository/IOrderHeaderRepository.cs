@@ -1,6 +1,6 @@
-﻿using example.Models;
+﻿using Ecommerce.Models;
 
-namespace example.DataAccess.Repository.IRepository
+namespace Ecommerce.DataAccess.Repository.IRepository
 {
     public interface IOrderHeaderRepository : IRepository<OrderHeader>
     {

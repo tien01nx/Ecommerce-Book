@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity.UI.Services;
-using Microsoft.Extensions.Configuration;
+﻿
 using MailKit.Net.Smtp;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.Extensions.Configuration;
 using MimeKit;
 using System.Threading.Tasks;
-namespace example.Utility
+
+namespace Ecommerce.Utility
 {
     public class EmailSender : IEmailSender
     {
@@ -21,7 +23,7 @@ namespace example.Utility
         {
             var emailMessage = new MimeMessage();
 
-            emailMessage.From.Add(new MailboxAddress("BookShop",Email));
+            emailMessage.From.Add(new MailboxAddress("BookShop", Email));
             emailMessage.To.Add(new MailboxAddress("BookShop", toEmail));
             emailMessage.Subject = subject;
             emailMessage.Body = new TextPart("html") { Text = htmlMessage };
@@ -35,6 +37,8 @@ namespace example.Utility
                 await client.DisconnectAsync(true);
             }
         }
+
+
         // sử dụng sendGrild
 
         //public string SendGridSecret { get; set; }

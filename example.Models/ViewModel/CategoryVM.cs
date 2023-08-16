@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace example.Models.ViewModel
+namespace Ecommerce.Models.ViewModel
 {
     public class CategoryVM
     {

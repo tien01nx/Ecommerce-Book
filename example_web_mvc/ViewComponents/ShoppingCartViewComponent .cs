@@ -1,5 +1,5 @@
-﻿using example.DataAccess.Repository.IRepository;
-using example.Utility;
+﻿using Ecommerce-Book.DataAccess.Repository.IRepository;
+using Ecommerce-Book.Utility;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 

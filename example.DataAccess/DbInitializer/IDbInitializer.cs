@@ -1,4 +1,4 @@
-﻿namespace example.DataAccess.DbInitializer
+﻿namespace Ecommerce.DataAccess.DbInitializer
 {
     public interface IDbInitializer
     {

@@ -5,11 +5,11 @@ VisualStudioVersion = 17.7.33711.374
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "example_web_mvc", "example_web_mvc\example_web_mvc.csproj", "{92254764-C5B3-47E2-B9CB-8BD89C1AFCE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "example.DataAccess", "example.DataAccess\example.DataAccess.csproj", "{34DD7D82-DC8B-4A9F-8364-589ECD67DD8A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce-Book.DataAccess", "example.DataAccess\Ecommerce-Book.DataAccess.csproj", "{34DD7D82-DC8B-4A9F-8364-589ECD67DD8A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "example.Models", "example.Models\example.Models.csproj", "{B54CA0A1-5936-43D9-ADA3-FAC9F66F0A91}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce-Book.Models", "example.Models\Ecommerce-Book.Models.csproj", "{B54CA0A1-5936-43D9-ADA3-FAC9F66F0A91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "example.Utility", "example.Utilitys\example.Utility.csproj", "{1605E571-B6F9-4F78-A89E-84F0129A395D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ecommerce-Book.Utility", "example.Utilitys\Ecommerce-Book.Utility.csproj", "{1605E571-B6F9-4F78-A89E-84F0129A395D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,9 +1,9 @@
-﻿using example.DataAccess.Repository;
-using example.DataAccess.Repository.IRepository;
-using example.Models;
-using example.Models.DTO;
-using example.Models.ViewModel;
-using example.Utility;
+﻿using Ecommerce-Book.DataAccess.Repository;
+using Ecommerce-Book.DataAccess.Repository.IRepository;
+using Ecommerce-Book.Models;
+using Ecommerce-Book.Models.DTO;
+using Ecommerce-Book.Models.ViewModel;
+using Ecommerce-Book.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

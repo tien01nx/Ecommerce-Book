@@ -1,7 +1,4 @@
-﻿using example.DataAccess.Repository.IRepository;
-using example.Models;
-using example.Models.ViewModel;
-using example.Utility;
+﻿
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Stripe;
@@ -9,7 +6,12 @@ using Stripe.Checkout;
 using System.Security.Claims;
 using System.Text.Json.Serialization;
 using System.Text.Json;
-using example.Models.DTO;
+using Ecommerce;
+using Ecommerce.Utility;
+using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models.ViewModel;
+using Ecommerce.Models;
+using Ecommerce.Models.DTO;
 
 namespace example_web_mvc.Areas.Admin.Controllers
 {

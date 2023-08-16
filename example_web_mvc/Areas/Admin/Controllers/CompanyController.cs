@@ -1,6 +1,8 @@
-﻿using example.DataAccess.Repository.IRepository;
-using example.Models;
-using example.Utility;
+﻿
+using Ecommerce;
+using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models;
+using Ecommerce.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +15,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
 
     public class CompanyController : Controller
     {
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly Ecommerce.DataAccess.Repository.IRepository.IUnitOfWork _unitOfWork;
 
         public CompanyController(IUnitOfWork unitOfWork)
         {

@@ -1,4 +1,4 @@
-﻿namespace example.Utility
+﻿namespace Ecommerce.Utility
 {
     public static class SD
     {

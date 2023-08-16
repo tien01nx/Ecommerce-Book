@@ -55,7 +55,7 @@ Resources
 * YouTube video “How to Configure CKEditor 4 and SpellCheckAsYouType Plugin”: https://youtu.be/D0ahmVjYBq8
 * Term of Service: https://webspellchecker.com/terms-of-service/
 * CKEditor’s How-Tos for SCAYT: https://ckeditor.com/docs/ckeditor4/latest/guide/dev_howtos_scayt.html
-* CKEditor’s example of SCAYT: https://ckeditor.com/docs/ckeditor4/latest/examples/spellchecker.html
+* CKEditor’s Ecommerce-Book of SCAYT: https://ckeditor.com/docs/ckeditor4/latest/examples/spellchecker.html
 
 Technical support or questions
 -------

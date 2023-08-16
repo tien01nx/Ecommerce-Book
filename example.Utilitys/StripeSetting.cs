@@ -1,4 +1,4 @@
-﻿namespace example.Utility
+﻿namespace Ecommerce.Utility
 {
     public class StripeSetting
     {

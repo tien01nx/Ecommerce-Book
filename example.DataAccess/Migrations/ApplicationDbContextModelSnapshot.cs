@@ -8,7 +8,7 @@ using example_web_mvc.DataAccess.Data;
 
 #nullable disable
 
-namespace example.DataAccess.Migrations
+namespace Ecommerce-Book.DataAccess.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
     partial class ApplicationDbContextModelSnapshot : ModelSnapshot
@@ -229,7 +229,7 @@ namespace example.DataAccess.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("example.Models.Category", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.Category", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -292,7 +292,7 @@ namespace example.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("example.Models.Company", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.Company", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -356,7 +356,7 @@ namespace example.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("example.Models.Coupon", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.Coupon", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -473,7 +473,7 @@ namespace example.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("example.Models.OrderDetail", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.OrderDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -502,7 +502,7 @@ namespace example.DataAccess.Migrations
                     b.ToTable("OrderDetails");
                 });
 
-            modelBuilder.Entity("example.Models.OrderHeader", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.OrderHeader", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -581,7 +581,7 @@ namespace example.DataAccess.Migrations
                     b.ToTable("OrderHeaders");
                 });
 
-            modelBuilder.Entity("example.Models.Product", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.Product", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1056,7 +1056,7 @@ namespace example.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("example.Models.ProductImage", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.ProductImage", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1512,7 +1512,7 @@ namespace example.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("example.Models.ProductReview", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.ProductReview", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1551,7 +1551,7 @@ namespace example.DataAccess.Migrations
                     b.ToTable("ProductReviews");
                 });
 
-            modelBuilder.Entity("example.Models.Seller", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.Seller", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1654,7 +1654,7 @@ namespace example.DataAccess.Migrations
                         });
                 });
 
-            modelBuilder.Entity("example.Models.ShoppingCart", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.ShoppingCart", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -1681,7 +1681,7 @@ namespace example.DataAccess.Migrations
                     b.ToTable("ShoppingCarts");
                 });
 
-            modelBuilder.Entity("example.Models.UserProductView", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.UserProductView", b =>
                 {
                     b.Property<int>("ViewId")
                         .ValueGeneratedOnAdd()
@@ -1708,7 +1708,7 @@ namespace example.DataAccess.Migrations
                     b.ToTable("UserProducts");
                 });
 
-            modelBuilder.Entity("example.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.ApplicationUser", b =>
                 {
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
@@ -1787,15 +1787,15 @@ namespace example.DataAccess.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("example.Models.OrderDetail", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.OrderDetail", b =>
                 {
-                    b.HasOne("example.Models.OrderHeader", "OrderHeader")
+                    b.HasOne("Ecommerce-Book.Models.OrderHeader", "OrderHeader")
                         .WithMany("OrderDetails")
                         .HasForeignKey("OrderHeaderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("example.Models.Product", "Product")
+                    b.HasOne("Ecommerce-Book.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1806,9 +1806,9 @@ namespace example.DataAccess.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("example.Models.OrderHeader", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.OrderHeader", b =>
                 {
-                    b.HasOne("example.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Ecommerce-Book.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1817,15 +1817,15 @@ namespace example.DataAccess.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("example.Models.Product", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.Product", b =>
                 {
-                    b.HasOne("example.Models.Category", "Category")
+                    b.HasOne("Ecommerce-Book.Models.Category", "Category")
                         .WithMany()
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("example.Models.Seller", "Seller")
+                    b.HasOne("Ecommerce-Book.Models.Seller", "Seller")
                         .WithMany("Products")
                         .HasForeignKey("SellerId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -1836,9 +1836,9 @@ namespace example.DataAccess.Migrations
                     b.Navigation("Seller");
                 });
 
-            modelBuilder.Entity("example.Models.ProductImage", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.ProductImage", b =>
                 {
-                    b.HasOne("example.Models.Product", "Product")
+                    b.HasOne("Ecommerce-Book.Models.Product", "Product")
                         .WithMany("ProductImages")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1847,21 +1847,21 @@ namespace example.DataAccess.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("example.Models.ProductReview", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.ProductReview", b =>
                 {
-                    b.HasOne("example.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Ecommerce-Book.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("example.Models.Product", "Product")
+                    b.HasOne("Ecommerce-Book.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("example.Models.Seller", null)
+                    b.HasOne("Ecommerce-Book.Models.Seller", null)
                         .WithMany("Reviews")
                         .HasForeignKey("SellerId");
 
@@ -1870,9 +1870,9 @@ namespace example.DataAccess.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("example.Models.Seller", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.Seller", b =>
                 {
-                    b.HasOne("example.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Ecommerce-Book.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1881,15 +1881,15 @@ namespace example.DataAccess.Migrations
                     b.Navigation("ApplicationUser");
                 });
 
-            modelBuilder.Entity("example.Models.ShoppingCart", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.ShoppingCart", b =>
                 {
-                    b.HasOne("example.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Ecommerce-Book.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("example.Models.Product", "Product")
+                    b.HasOne("Ecommerce-Book.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1900,15 +1900,15 @@ namespace example.DataAccess.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("example.Models.UserProductView", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.UserProductView", b =>
                 {
-                    b.HasOne("example.Models.ApplicationUser", "ApplicationUser")
+                    b.HasOne("Ecommerce-Book.Models.ApplicationUser", "ApplicationUser")
                         .WithMany()
                         .HasForeignKey("ApplicationUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("example.Models.Product", "Product")
+                    b.HasOne("Ecommerce-Book.Models.Product", "Product")
                         .WithMany()
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1919,26 +1919,26 @@ namespace example.DataAccess.Migrations
                     b.Navigation("Product");
                 });
 
-            modelBuilder.Entity("example.Models.ApplicationUser", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.ApplicationUser", b =>
                 {
-                    b.HasOne("example.Models.Company", "Company")
+                    b.HasOne("Ecommerce-Book.Models.Company", "Company")
                         .WithMany()
                         .HasForeignKey("CompanyId");
 
                     b.Navigation("Company");
                 });
 
-            modelBuilder.Entity("example.Models.OrderHeader", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.OrderHeader", b =>
                 {
                     b.Navigation("OrderDetails");
                 });
 
-            modelBuilder.Entity("example.Models.Product", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.Product", b =>
                 {
                     b.Navigation("ProductImages");
                 });
 
-            modelBuilder.Entity("example.Models.Seller", b =>
+            modelBuilder.Entity("Ecommerce-Book.Models.Seller", b =>
                 {
                     b.Navigation("Products");
 

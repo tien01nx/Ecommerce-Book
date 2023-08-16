@@ -1,7 +1,7 @@
-﻿using example.DataAccess.Repository.IRepository;
+﻿using Ecommerce.DataAccess.Repository.IRepository;
 using example_web_mvc.DataAccess.Data;
 
-namespace example.DataAccess.Repository
+namespace Ecommerce.DataAccess.Repository
 {
     public class UnitOfWork : IUnitOfWork
 

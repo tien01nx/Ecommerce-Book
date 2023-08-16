@@ -1,9 +1,12 @@
-﻿using example.DataAccess.Repository.IRepository;
-using example.Models;
+﻿
+
+
+using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models;
 using example_web_mvc.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 
-namespace example.DataAccess.Repository
+namespace Ecommerce.DataAccess.Repository
 {
     public class OrderHeaderRepository : Repository<OrderHeader>, IOrderHeaderRepository
     {

@@ -1,7 +1,7 @@
-﻿using example.Models;
+﻿using Ecommerce.Models;
 using System.Linq.Expressions;
 
-namespace example.DataAccess.Repository.IRepository
+namespace Ecommerce.DataAccess.Repository.IRepository
 {
     public interface ICategoryRepository : IRepository<Category>
     {

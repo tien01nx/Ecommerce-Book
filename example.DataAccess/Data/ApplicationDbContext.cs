@@ -1,4 +1,7 @@
-﻿using example.Models;
+﻿
+
+using Ecommerce;
+using Ecommerce.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;

@@ -1,9 +1,10 @@
-﻿using example.DataAccess.Repository.IRepository;
-using example.Models;
+﻿
+using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models;
 using example_web_mvc.DataAccess.Data;
 using System.Linq.Expressions;
 
-namespace example.DataAccess.Repository
+namespace Ecommerce.DataAccess.Repository
 {
     public class CategoryRepository : Repository<Category>, ICategoryRepository
     {

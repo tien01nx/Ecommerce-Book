@@ -1,4 +1,4 @@
-﻿namespace example.DataAccess.Repository.IRepository
+﻿namespace Ecommerce.DataAccess.Repository.IRepository
 {
     public interface IUnitOfWork
     {

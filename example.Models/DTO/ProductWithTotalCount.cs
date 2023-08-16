@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace example.Models.DTO
+namespace Ecommerce.Models.DTO
 {
     public class ProductWithTotalCount
     {

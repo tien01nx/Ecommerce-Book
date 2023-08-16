@@ -1,7 +1,9 @@
 ﻿
-using example.DataAccess.DbInitializer;
-using example.Models;
-using example.Utility;
+
+using Ecommerce;
+using Ecommerce.DataAccess.DbInitializer;
+using Ecommerce.Models;
+using Ecommerce.Utility;
 using example_web_mvc.DataAccess.Data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;

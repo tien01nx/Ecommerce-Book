@@ -1,9 +1,9 @@
-﻿using example.DataAccess.Repository.IRepository;
+﻿using Ecommerce.DataAccess.Repository.IRepository;
 using example_web_mvc.DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace example.DataAccess.Repository
+namespace Ecommerce.DataAccess.Repository
 {
     public class Repository<T> : IRepository<T> where T : class
     {

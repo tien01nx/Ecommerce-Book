@@ -2,9 +2,9 @@
 // The .NET Foundation licenses this file to you under the MIT license.
 #nullable disable
 
-using example.DataAccess.Repository.IRepository;
-using example.Models;
-using example.Utility;
+using Ecommerce-Book.DataAccess.Repository.IRepository;
+using Ecommerce-Book.Models;
+using Ecommerce-Book.Utility;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;

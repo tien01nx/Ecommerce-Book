@@ -1,6 +1,8 @@
-﻿using example.DataAccess.Repository.IRepository;
-using example.Models;
-using example.Utility;
+﻿
+
+using Ecommerce;
+using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,7 +13,7 @@ namespace example_web_mvc.Areas.Admin.Controllers
     [Area("Admin")]
 
     // cũng có thể cho từng hàm nhỏ 
-    [Authorize(Roles = SD.Role_Admin)]
+    [Authorize(Roles = Ecommerce.Utility.SD.Role_Admin)]
     public class CouponController : Controller
     {
 

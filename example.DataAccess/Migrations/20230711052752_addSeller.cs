@@ -4,7 +4,7 @@
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace example.DataAccess.Migrations
+namespace Ecommerce-Book.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class addSeller : Migration

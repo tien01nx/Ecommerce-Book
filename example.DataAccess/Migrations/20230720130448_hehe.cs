@@ -2,7 +2,7 @@
 
 #nullable disable
 
-namespace example.DataAccess.Migrations
+namespace Ecommerce-Book.DataAccess.Migrations
 {
     /// <inheritdoc />
     public partial class hehe : Migration

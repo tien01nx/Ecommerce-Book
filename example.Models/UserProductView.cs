@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace example.Models
+namespace Ecommerce.Models
 {
     public class UserProductView
     {

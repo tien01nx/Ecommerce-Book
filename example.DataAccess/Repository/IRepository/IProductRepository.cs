@@ -1,7 +1,7 @@
-﻿using example.Models;
-using example.Models.DTO;
+﻿using Ecommerce.Models;
+using Ecommerce.Models.DTO;
 
-namespace example.DataAccess.Repository.IRepository
+namespace Ecommerce.DataAccess.Repository.IRepository
 {
     public interface IProductRepository : IRepository<Product>
     {

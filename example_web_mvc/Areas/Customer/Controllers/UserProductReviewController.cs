@@ -1,6 +1,6 @@
-﻿using example.DataAccess.Repository.IRepository;
-using example.Models;
-using example.Models.ViewModel;
+﻿using Ecommerce-Book.DataAccess.Repository.IRepository;
+using Ecommerce-Book.Models;
+using Ecommerce-Book.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;

@@ -1,4 +1,4 @@
-﻿namespace example.Models.DTO
+﻿namespace Ecommerce.Models.DTO
 {
     public class ProductDTO
     {
