@@ -477,16 +477,16 @@ $.validator.addMethod( "dateFA", function( value, element ) {
 /**
  * Return true, if the value is a valid date, also making this formal check dd/mm/yyyy.
  *
- * @Ecommerce-Book $.validator.methods.date("01/01/1900")
+ * @Ecommerce_Book $.validator.methods.date("01/01/1900")
  * @result true
  *
- * @Ecommerce-Book $.validator.methods.date("01/13/1990")
+ * @Ecommerce_Book $.validator.methods.date("01/13/1990")
  * @result false
  *
- * @Ecommerce-Book $.validator.methods.date("01.01.1900")
+ * @Ecommerce_Book $.validator.methods.date("01.01.1900")
  * @result false
  *
- * @Ecommerce-Book <input name="pippo" class="{dateITA:true}" />
+ * @Ecommerce_Book <input name="pippo" class="{dateITA:true}" />
  * @desc Declares an optional input element whose value must be a valid date.
  *
  * @name $.validator.methods.dateITA
@@ -815,10 +815,10 @@ $.validator.addMethod( "nowhitespace", function( value, element ) {
 /**
 * Return true if the field value matches the given format RegExp
 *
-* @Ecommerce-Book $.validator.methods.pattern("AR1004",element,/^AR\d{4}$/)
+* @Ecommerce_Book $.validator.methods.pattern("AR1004",element,/^AR\d{4}$/)
 * @result true
 *
-* @Ecommerce-Book $.validator.methods.pattern("BR1004",element,/^AR\d{4}$/)
+* @Ecommerce_Book $.validator.methods.pattern("BR1004",element,/^AR\d{4}$/)
 * @result false
 *
 * @name $.validator.methods.pattern
@@ -909,10 +909,10 @@ $.validator.addMethod( "postalcodeBR", function( cep_value, element ) {
 /**
  * Matches a valid Canadian Postal Code
  *
- * @Ecommerce-Book jQuery.validator.methods.postalCodeCA( "H0H 0H0", element )
+ * @Ecommerce_Book jQuery.validator.methods.postalCodeCA( "H0H 0H0", element )
  * @result true
  *
- * @Ecommerce-Book jQuery.validator.methods.postalCodeCA( "H0H0H0", element )
+ * @Ecommerce_Book jQuery.validator.methods.postalCodeCA( "H0H0H0", element )
  * @result false
  *
  * @name jQuery.validator.methods.postalCodeCA
@@ -1097,7 +1097,7 @@ $.validator.addMethod( "url2", function( value, element ) {
  *
  * Works with all kind of text inputs.
  *
- * @Ecommerce-Book <input type="text" size="20" name="VehicleID" class="{required:true,vinUS:true}" />
+ * @Ecommerce_Book <input type="text" size="20" name="VehicleID" class="{required:true,vinUS:true}" />
  * @desc Declares a required input element whose value must be a valid vehicle identification number.
  *
  * @name $.validator.methods.vinUS

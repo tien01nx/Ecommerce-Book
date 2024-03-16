@@ -1,9 +1,11 @@
-﻿using Ecommerce-Book.DataAccess.Repository;
-using Ecommerce-Book.DataAccess.Repository.IRepository;
-using Ecommerce-Book.Models;
-using Ecommerce-Book.Models.DTO;
-using Ecommerce-Book.Models.ViewModel;
-using Ecommerce-Book.Utility;
+﻿using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models.ViewModel;
+using Ecommerce.DataAccess.Repository;
+using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models;
+using Ecommerce.Models.DTO;
+using Ecommerce.Models.ViewModel;
+using Ecommerce.Utility;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -82,10 +84,10 @@ namespace example_web_mvc.Areas.Customer.Controllers
         }
 
         public IActionResult Index()
-        {  
+        {
             dynamic myModel = new ExpandoObject();
 
-       
+
             // lấy ra số thông tin Product có tổng số lượng đã bán
             //myModel.GetProductCountAll1 = _unitOfWork.Product.GetProductCountAll();
 
@@ -97,72 +99,72 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 OrderByDescending(p => p.PublishDate).ToList().Take(6);
 
             //  lấy ra thông tin product mới sản xuất và theo thứ tự hiện thị
-            myModel.Featuredthisweek = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages").OrderByDescending(p => p.PublishDate).ThenBy(p=>p.Category.DisplayOrder).ToList().Take(2);
+            myModel.Featuredthisweek = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages").OrderByDescending(p => p.PublishDate).ThenBy(p => p.Category.DisplayOrder).ToList().Take(2);
             return View(myModel);
         }
 
 
 
-		public IActionResult GetProductOrderInfo()
-		{
-			var list = _unitOfWork.Product.GetAll(includeProperties: "ProductImages,Seller,Category")
-				.Select(product => new ProductOrderDTO
-				{
-					Product = new ProductDTO
-					{
-						Id = product.Id,
-						Title = product.Title,
-						Author = product.Author,
-						ListPrice = product.ListPrice,
-						Price100 = product.Price100,
-						StoreName = product.Seller.StoreName,  // Assuming Name is the property holding the seller's name
-						PublishDate = product.PublishDate,
-						ISBN = product.ISBN,
-						Description = product.Description,
-						CategoryName = product.Category.Name, // Assuming Name is the property holding the category name
-						ImageUrls = product.ProductImages.Select(pi => pi.ImageUrl).ToList(),
-						Price = product.Price,
-						Price50 = product.Price50
-					},
-					TotalOrderedQuantity = _unitOfWork.OrderDetail
-						.GetAll(od => od.ProductId == product.Id)
-						.Sum(od => od.Count)
-				})
-				.ToList();
-			return Json(list);
-		}
-		//public IActionResult Index(string search, int? page)
-		//{
+        public IActionResult GetProductOrderInfo()
+        {
+            var list = _unitOfWork.Product.GetAll(includeProperties: "ProductImages,Seller,Category")
+                .Select(product => new ProductOrderDTO
+                {
+                    Product = new ProductDTO
+                    {
+                        Id = product.Id,
+                        Title = product.Title,
+                        Author = product.Author,
+                        ListPrice = product.ListPrice,
+                        Price100 = product.Price100,
+                        StoreName = product.Seller.StoreName,  // Assuming Name is the property holding the seller's name
+                        PublishDate = product.PublishDate,
+                        ISBN = product.ISBN,
+                        Description = product.Description,
+                        CategoryName = product.Category.Name, // Assuming Name is the property holding the category name
+                        ImageUrls = product.ProductImages.Select(pi => pi.ImageUrl).ToList(),
+                        Price = product.Price,
+                        Price50 = product.Price50
+                    },
+                    TotalOrderedQuantity = _unitOfWork.OrderDetail
+                        .GetAll(od => od.ProductId == product.Id)
+                        .Sum(od => od.Count)
+                })
+                .ToList();
+            return Json(list);
+        }
+        //public IActionResult Index(string search, int? page)
+        //{
 
-		//   var hihi=  _unitOfWork.Product.GetTopOrderedProducts();
-		//    int pageNumber = page ?? 1;
-		//    int pageSize = 8;
+        //   var hihi=  _unitOfWork.Product.GetTopOrderedProducts();
+        //    int pageNumber = page ?? 1;
+        //    int pageSize = 8;
 
-		//    ViewBag.Page = page;
+        //    ViewBag.Page = page;
 
-		//    IEnumerable<Product> productList;
+        //    IEnumerable<Product> productList;
 
-		//    if (!string.IsNullOrEmpty(search))
-		//    {
-		//        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller")
-		//            .Where(p => p.Title.Contains(search, StringComparison.OrdinalIgnoreCase) || p.Seller.StoreName.Contains(search, StringComparison.OrdinalIgnoreCase));
-		//    }
-		//    else
-		//    {
-		//        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller");
-		//    }
+        //    if (!string.IsNullOrEmpty(search))
+        //    {
+        //        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller")
+        //            .Where(p => p.Title.Contains(search, StringComparison.OrdinalIgnoreCase) || p.Seller.StoreName.Contains(search, StringComparison.OrdinalIgnoreCase));
+        //    }
+        //    else
+        //    {
+        //        productList = _unitOfWork.Product.GetAll(includeProperties: "Category,ProductImages,Seller");
+        //    }
 
-		//    var pagedProductList = productList.ToPagedList(pageNumber, pageSize);
+        //    var pagedProductList = productList.ToPagedList(pageNumber, pageSize);
 
-		//    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
-		//    {
-		//        return PartialView("_Products", pagedProductList);
-		//    }
+        //    if (Request.Headers["X-Requested-With"] == "XMLHttpRequest")
+        //    {
+        //        return PartialView("_Products", pagedProductList);
+        //    }
 
-		//    return View(pagedProductList);
-		//}
+        //    return View(pagedProductList);
+        //}
 
-		public IActionResult Details(int productId)
+        public IActionResult Details(int productId)
         {
             var product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "Category,ProductImages,Seller");
             if (product == null)
@@ -194,13 +196,13 @@ namespace example_web_mvc.Areas.Customer.Controllers
 
             };
 
-			productReviewVM.TotalOrderedQuantity = _unitOfWork.OrderDetail
-	           .GetAll(od => od.ProductId == productId)
-	           .Sum(od => od.Count);
+            productReviewVM.TotalOrderedQuantity = _unitOfWork.OrderDetail
+               .GetAll(od => od.ProductId == productId)
+               .Sum(od => od.Count);
 
 
-			// nếu người dùng đã đăng nhập
-			if (User.Identity.IsAuthenticated)
+            // nếu người dùng đã đăng nhập
+            if (User.Identity.IsAuthenticated)
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;

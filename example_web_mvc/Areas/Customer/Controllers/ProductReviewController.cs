@@ -1,6 +1,6 @@
-﻿using Ecommerce-Book.DataAccess.Repository.IRepository;
-using Ecommerce-Book.Models;
-using Ecommerce-Book.Models.ViewModel;
+﻿using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models;
+using Ecommerce.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -72,11 +72,11 @@ namespace example_web_mvc.Areas.Customer.Controllers
                 DateCreated = DateTime.Now,
                 ProductId = productReviewVM.ProductId,
                 ApplicationUserId = productReviewVM.ApplicationUserId,
-                Id= productReviewVM.ProductReview.Id
+                Id = productReviewVM.ProductReview.Id
 
             };
 
-           _unitOfWork.ProductReview.Update(newReview);
+            _unitOfWork.ProductReview.Update(newReview);
             _unitOfWork.Save();
 
             // Nếu không tìm thấy đánh giá hoặc không có quyền chỉnh sửa, chuyển hướng đến trang chi tiết sản phẩm

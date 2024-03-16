@@ -61,7 +61,7 @@ If you have a commercial license for **Export to PDF** plugin, [exportPdf_tokenU
 
 ```js
 CKEDITOR.replace( 'editor', {
-	exportPdf_tokenUrl: 'https://Ecommerce-Book.com/cs-token-endpoint'
+	exportPdf_tokenUrl: 'https://Ecommerce_Book.com/cs-token-endpoint'
 } );
 ```
 

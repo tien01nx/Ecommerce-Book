@@ -1,6 +1,6 @@
-﻿using Ecommerce-Book.DataAccess.Repository.IRepository;
-using Ecommerce-Book.Models;
-using Ecommerce-Book.Models.DTO;
+﻿using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models;
+using Ecommerce.Models.DTO;
 using Microsoft.AspNetCore.Mvc;
 using System.Dynamic;
 
@@ -28,7 +28,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
         }
 
 
-  
+
 
         [HttpGet]
         public IActionResult GetCategoryProduct(int startAt = 0, string categoryNames = "", string authors = "", string orderBy = "")
@@ -129,10 +129,10 @@ namespace example_web_mvc.Areas.Customer.Controllers
         public IActionResult GetProductMon()
         {
             var GetMonth = _unitOfWork.Product.GetSoldProductsInLastMonth();
-            return Json (GetMonth);
+            return Json(GetMonth);
         }
 
-       
+
 
     }
 }

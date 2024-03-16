@@ -1,5 +1,5 @@
 ﻿@page "/Register"
-@using Ecommerce-Book.Utility;
+@using Ecommerce.Utility;
 @model RegisterModel
 @{
     ViewData["Title"] = "Register";
@@ -29,7 +29,7 @@
                 <div class="input-box ">
                     <div class="single-input-fields">
                         <label>Email</label>
-                        <input asp-for="Input.Email" autocomplete="username" aria-required="true" placeholder="name@Ecommerce-Book.com" />
+                        <input asp-for="Input.Email" autocomplete="username" aria-required="true" placeholder="name@Ecommerce.com" />
                         <span asp-validation-for="Input.Email" class="text-danger"></span>
                     </div>
 

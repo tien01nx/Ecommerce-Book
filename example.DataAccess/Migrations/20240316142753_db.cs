@@ -1,13 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
 #pragma warning disable CA1814 // Prefer jagged arrays over multidimensional
 
-namespace Ecommerce-Book.DataAccess.Migrations
+namespace Ecommerce_Book.DataAccess.Migrations
 {
     /// <inheritdoc />
-    public partial class addSeller : Migration
+    public partial class db : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -33,7 +34,8 @@ namespace Ecommerce-Book.DataAccess.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: false),
-                    DisplayOrder = table.Column<int>(type: "int", nullable: false)
+                    DisplayOrder = table.Column<int>(type: "int", nullable: false),
+                    MoTa = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false)
                 },
                 constraints: table =>
                 {
@@ -297,6 +299,7 @@ namespace Ecommerce-Book.DataAccess.Migrations
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ISBN = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Author = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    PublishDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false),
                     ListPrice = table.Column<double>(type: "float", nullable: false),
                     Price = table.Column<double>(type: "float", nullable: false),
@@ -432,16 +435,43 @@ namespace Ecommerce-Book.DataAccess.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "UserProducts",
+                columns: table => new
+                {
+                    ViewId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ApplicationUserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    ProductId = table.Column<int>(type: "int", nullable: false),
+                    ViewTime = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_UserProducts", x => x.ViewId);
+                    table.ForeignKey(
+                        name: "FK_UserProducts_AspNetUsers_ApplicationUserId",
+                        column: x => x.ApplicationUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_UserProducts_Products_ProductId",
+                        column: x => x.ProductId,
+                        principalTable: "Products",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "DisplayOrder", "Name" },
+                columns: new[] { "Id", "DisplayOrder", "MoTa", "Name" },
                 values: new object[,]
                 {
-                    { 1, 2, "Tien" },
-                    { 2, 9, "Diu" },
-                    { 3, 5, "Manh" },
-                    { 4, 5, "Dang" },
-                    { 5, 5, "Tu" }
+                    { 1, 2, "123", "Tien" },
+                    { 2, 9, "123", "Diu" },
+                    { 3, 5, "123", "Manh" },
+                    { 4, 5, "123", "Dang" },
+                    { 5, 5, "123", "Tu" }
                 });
 
             migrationBuilder.InsertData(
@@ -569,6 +599,16 @@ namespace Ecommerce-Book.DataAccess.Migrations
                 name: "IX_ShoppingCarts_ProductId",
                 table: "ShoppingCarts",
                 column: "ProductId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProducts_ApplicationUserId",
+                table: "UserProducts",
+                column: "ApplicationUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_UserProducts_ProductId",
+                table: "UserProducts",
+                column: "ProductId");
         }
 
         /// <inheritdoc />
@@ -603,6 +643,9 @@ namespace Ecommerce-Book.DataAccess.Migrations
 
             migrationBuilder.DropTable(
                 name: "ShoppingCarts");
+
+            migrationBuilder.DropTable(
+                name: "UserProducts");
 
             migrationBuilder.DropTable(
                 name: "AspNetRoles");

@@ -1,6 +1,6 @@
-﻿using Ecommerce-Book.DataAccess.Repository.IRepository;
-using Ecommerce-Book.Models;
-using Ecommerce-Book.Models.ViewModel;
+﻿using Ecommerce.DataAccess.Repository.IRepository;
+using Ecommerce.Models;
+using Ecommerce.Models.ViewModel;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -29,7 +29,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
             {
                 var claimsIdentity = (ClaimsIdentity)User.Identity;
                 var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-                var userViews = _unitOfWork.UserProductView.GetAll(u => u.ApplicationUserId == userId,includeProperties: "ProductImages");
+                var userViews = _unitOfWork.UserProductView.GetAll(u => u.ApplicationUserId == userId, includeProperties: "ProductImages");
 
                 foreach (var view in userViews)
                 {
@@ -48,7 +48,7 @@ namespace example_web_mvc.Areas.Customer.Controllers
                     if (cookie.Key.StartsWith("ViewedProduct_"))
                     {
                         var productId = int.Parse(cookie.Key.Substring("ViewedProduct_".Length));
-                        var product = _unitOfWork.Product.Get(u => u.Id == productId,includeProperties: "ProductImages");
+                        var product = _unitOfWork.Product.Get(u => u.Id == productId, includeProperties: "ProductImages");
                         if (product != null)
                         {
                             products.Add(product);

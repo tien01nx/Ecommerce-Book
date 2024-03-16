@@ -34,6 +34,6 @@ To test your installation, just call the following page at your website:
 
 	http://<your site>/<CKEditor installation path>/samples/index.html
 
-For Ecommerce-Book:
+For Ecommerce_Book:
 
-	http://www.Ecommerce-Book.com/ckeditor/samples/index.html
+	http://www.Ecommerce_Book.com/ckeditor/samples/index.html
